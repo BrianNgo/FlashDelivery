@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_footer_menu" >
+
+    <TextView
+        android:id="@+id/textViewGeneral"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="@string/title_activity_display_menu"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/btnBackMerchant"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textViewGeneral"
+        android:layout_alignBottom="@+id/textViewGeneral"
+        android:layout_alignParentLeft="true"
+        android:background="@drawable/backbox"
+        android:minWidth="70dp"
+        android:text="Back"
+        android:textColor="@color/white" />
+
+</RelativeLayout>

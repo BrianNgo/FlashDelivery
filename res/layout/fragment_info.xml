@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/bground1">
+  
+	<!-- Name -->
+  <TextView android:id="@+id/a_label"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textSize="25dip"
+            android:textStyle="bold"
+            android:paddingLeft="10dp"
+            android:paddingTop="10dip"
+            android:paddingBottom="2dip"
+            android:textColor="@color/lightblue1"
+            android:text="Name"/>
+  
+  <!-- Address -->
+  <TextView android:id="@+id/b_label"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/a_label"
+            android:textSize="20dip"
+            android:textStyle="bold"
+            android:paddingLeft="10dp"
+            android:paddingBottom="2dip"
+            android:textColor="@color/lightblue1"
+            android:text="Address"/>
+  
+  <!-- Phone -->  
+  <TextView android:id="@+id/c_label"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"            
+        	android:layout_below="@+id/b_label"
+            android:paddingLeft="10dp"         
+            android:paddingBottom="15dip"
+            android:textColor="#acacac"
+            android:text="Phone"/>
+  
+  <!-- Description -->
+  <TextView android:id="@+id/d_label"
+      		android:layout_width="fill_parent"
+      		android:layout_height="wrap_content"      		
+        	android:layout_below="@+id/c_label"
+            android:paddingLeft="10dp"
+      		android:textStyle="bold"
+      		android:text="Description"/>
+  
+ 	<!-- Special offers -->
+  <TextView android:id="@+id/e_label"
+      		android:layout_width="fill_parent"
+      		android:layout_height="wrap_content"
+        	android:layout_below="@+id/d_label"
+            android:paddingLeft="10dp"
+      		android:textStyle="bold"
+      		android:textColor="#acacac"
+            android:paddingBottom="3dip"
+      		android:text="Special offers"/>
+  
+  
+ 	<!-- URL -->
+  <TextView android:id="@+id/f_label"
+      		android:layout_width="fill_parent"
+      		android:layout_height="wrap_content"
+        	android:layout_below="@+id/e_label"
+            android:paddingLeft="10dp"
+            android:layout_marginBottom="20dp"
+      		android:textStyle="bold"
+      		android:textColor="#acacac"
+      		android:autoLink="all"
+      		android:text="URL"/>   
+</RelativeLayout>
