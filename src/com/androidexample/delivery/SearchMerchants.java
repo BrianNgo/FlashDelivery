@@ -108,7 +108,7 @@ public class SearchMerchants {
 			// variables that hold infor. for a merchant
 			String name, cuisine;
 			boolean status;
-			int id;
+			int id, rating;
 			double distance;
 			// create array of merchants
 			for (int i = 0; i < mArray.length(); i++)
@@ -117,6 +117,7 @@ public class SearchMerchants {
 					cuisine = "";
 					name = mArray.getJSONObject(i).getJSONObject("summary").getString("name");
 					id = mArray.getJSONObject(i).getInt("id");
+					rating = mArray.getJSONObject(i).getJSONObject("summary").getInt("overall_rating");
 					status = mArray.getJSONObject(i).getJSONObject("ordering").getBoolean("is_open");
 					try {
 						JSONArray cui = mArray.getJSONObject(i).getJSONObject("summary")
@@ -131,15 +132,13 @@ public class SearchMerchants {
 						cuisine = "No tags";
 					}
 					distance = mArray.getJSONObject(i).getJSONObject("location").getDouble("distance");
-					m.add(new Merchant(name, id, status, cuisine, distance));		
+					m.add(new Merchant(name, id, rating, status, cuisine, distance));		
 				}
 			}	
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		// sort by distance
-		Collections.sort(m);
 		return m;
 	}
 }

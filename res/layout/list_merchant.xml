@@ -47,25 +47,21 @@
 		    android:text="Status" />
 
 		<RatingBar
-		    android:id="@+id/rtbProductRating"
+		    android:id="@+id/rtbMerchantRating"
 		    style="@style/foodRatingBar"
 		    android:layout_width="wrap_content"
 		    android:layout_height="wrap_content"
 		    android:layout_alignLeft="@+id/cuisine"
 		    android:layout_below="@+id/cuisine"
 		    android:layout_marginTop="14dp"
-		    android:isIndicator="false"
-		    android:numStars="5"
-		    android:rating="3.5" 
-		    android:focusable="false"
-		    android:focusableInTouchMode="false"/>
+		    android:isIndicator="true" />
 
 		<TextView
 		    android:id="@+id/distance"
 		    android:layout_width="wrap_content"
 		    android:layout_height="wrap_content"
 		    android:layout_alignParentRight="true"
-		    android:layout_alignTop="@+id/rtbProductRating"
+		    android:layout_alignTop="@+id/rtbMerchantRating"
 		    android:paddingLeft="15dp"
 		    android:text="Distance" 
 		    android:textSize="10sp" />

@@ -6,6 +6,7 @@ public class Merchant implements Comparable {
 
 	String name;
 	int id;
+	int rating;
 	boolean status;
 	String cuisine;
 	double distance;
@@ -27,11 +28,15 @@ public class Merchant implements Comparable {
 	public String getDistance() {
 		DecimalFormat df1 = new DecimalFormat("#.#");
 		return Double.valueOf(df1.format(distance)) + "mi away";
-		}
+	}
 	
-	public Merchant(String n, int i, boolean s, String c, double d) {
+	public void setRating(int r) {rating = r;}
+	public int getRating() {return rating;}
+	
+	public Merchant(String n, int i, int r, boolean s, String c, double d) {
 		name = n;
 		id = i;
+		rating = r;
 		status = s;
 	    cuisine = c;
 	    distance = d;

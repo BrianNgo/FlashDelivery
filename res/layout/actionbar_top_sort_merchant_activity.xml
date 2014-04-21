@@ -4,21 +4,6 @@
     android:layout_height="match_parent"
     android:background="@drawable/background_footer_menu" >
 
-    <TextView
-        android:id="@+id/textMerchantName"
-        android:layout_width="240dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:gravity="center"
-        android:text="Sort Merchants By"
-        android:textColor="@color/white"
-        android:textSize="20sp"
-        android:textStyle="bold" />
-
-"
-
     <Button
         android:id="@+id/btnBackSortMerchant"
         android:layout_width="wrap_content"

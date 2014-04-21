@@ -19,6 +19,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,7 +46,6 @@ public class MerchantCustomAdapter extends ArrayAdapter<Merchant> {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View row = convertView;
 		MerchantHolder holder = null;
-		final int pos = position;
 		
 		if (row == null) {
 			LayoutInflater inflater = ((Activity) context).getLayoutInflater();
@@ -57,6 +57,7 @@ public class MerchantCustomAdapter extends ArrayAdapter<Merchant> {
 			holder.textCuisine = (TextView) row.findViewById(R.id.cuisine);
 			holder.textStatus = (TextView) row.findViewById(R.id.status);
 			holder.textDistance = (TextView) row.findViewById(R.id.distance);
+			holder.rating = (RatingBar) row.findViewById(R.id.rtbMerchantRating);
 			
 //			holder.btnRate = (Button) row.findViewById(R.id.button2);
 			row.setTag(holder);
@@ -70,7 +71,10 @@ public class MerchantCustomAdapter extends ArrayAdapter<Merchant> {
 		holder.textCuisine.setText(m.getCuisine());
 		holder.textStatus.setText("Now " + (m.getStatus()?"Open":"Closed"));
 		holder.textDistance.setText(m.getDistance());	
-
+		holder.rating.setMax(5);
+		holder.rating.setNumStars(5);
+		holder.rating.setStepSize((float)0.1);
+		holder.rating.setRating((float)(m.getRating()) / 100 * 5);
 //		holder.btnRate.setOnClickListener(new OnClickListener() {
 //			@Override
 //			public void onClick(View v) {
@@ -88,6 +92,7 @@ public class MerchantCustomAdapter extends ArrayAdapter<Merchant> {
 		TextView textCuisine;
 		TextView textStatus;
 		TextView textDistance;
+		RatingBar rating;
 //		Button btnRate;
 	}
 }
