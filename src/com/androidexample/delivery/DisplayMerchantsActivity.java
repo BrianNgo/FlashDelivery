@@ -10,6 +10,7 @@ import com.androidexample.delivery.HomeActivity.MerchantData;
 
 import android.app.ActionBar;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -17,6 +18,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -100,7 +102,8 @@ public class DisplayMerchantsActivity extends BaseActivity {
 	}		
 	
 	private class GetMenu extends AsyncTask<Integer, Void, Void> {
-	    private ProgressDialog pDialog;
+		// custom dialog
+		final Dialog dialog = new Dialog(DisplayMerchantsActivity.this);
 	    private boolean found = false;
 		/**
 		 * The onPreExecute method display the waiting message
@@ -109,11 +112,12 @@ public class DisplayMerchantsActivity extends BaseActivity {
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
-			// Showing progress dialog
-			pDialog = new ProgressDialog(DisplayMerchantsActivity.this);
-			pDialog.setMessage("Please wait...");
-			pDialog.setCancelable(false);
-			pDialog.show();
+			// custom dialog
+			dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+			dialog.setContentView(R.layout.custom_progress_dialog);
+			dialog.setCancelable(false);
+			dialog.show();
+			//showLoading();
 		}
 
 		/**
@@ -155,8 +159,8 @@ public class DisplayMerchantsActivity extends BaseActivity {
 		protected void onPostExecute(Void result) {
 			super.onPostExecute(result);
 			// Dismiss the progress dialog
-			if (pDialog.isShowing())
-				pDialog.dismiss();
+			dialog.hide();
+			//hideLoading();
 
 			if (found) {
 				Intent in = new Intent(getApplicationContext(), DisplayMenuActivity.class); 
