@@ -39,7 +39,7 @@ public class DisplayMerchantsActivity extends BaseActivity {
 	
 	private String merchantID;	
 	// arraylist of merchants
-	private static ArrayList<Merchant> merchantArray = MerchantData.getMerchantList();
+	private static ArrayList<Merchant> merchantArray = new ArrayList<Merchant>();
 	private static MerchantCustomAdapter adapter = null;
 
 	/**
@@ -78,11 +78,10 @@ public class DisplayMerchantsActivity extends BaseActivity {
 		});
 
 	    // Get the search result
-//		merchantArray = MerchantData.getMerchantList();
-//		adapter = new MerchantCustomAdapter(this, R.layout.list_merchant,
-//				 merchantArray);
+	    merchantArray = MerchantData.getMerchantList();
 	    adapter = new MerchantCustomAdapter(this, R.layout.list_merchant,
 				 merchantArray);
+
 		ListView mList = (ListView) findViewById(R.id.listView);
 		
 		mList.setItemsCanFocus(false);
@@ -100,7 +99,7 @@ public class DisplayMerchantsActivity extends BaseActivity {
 			}
 		});
 	}		
-	
+		
 	private class GetMenu extends AsyncTask<Integer, Void, Void> {
 		// custom dialog
 		final Dialog dialog = new Dialog(DisplayMerchantsActivity.this);
@@ -175,15 +174,15 @@ public class DisplayMerchantsActivity extends BaseActivity {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				AlertDialog.Builder adb = new AlertDialog.Builder(DisplayMerchantsActivity.this);
-				adb.setTitle("Error");
-				adb.setMessage(msg);
-				adb.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+				AlertDialog.Builder alert = new AlertDialog.Builder(DisplayMerchantsActivity.this);
+				alert.setTitle("Error");
+				alert.setMessage(msg);
+				alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
 						dialog.cancel();
 					}      
 				});
-				adb.show();
+				alert.show();
 			}
 		}
 	}

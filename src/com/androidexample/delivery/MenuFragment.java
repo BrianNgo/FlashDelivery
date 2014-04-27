@@ -4,37 +4,48 @@ import java.util.ArrayList;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.AlertDialog;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.ListFragment;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Point;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.util.Log;
+import android.view.Display;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ListView;
+import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.ExpandableListView;
+import android.widget.ExpandableListView.OnChildClickListener;
+
 import com.androidexample.delivery.DisplayMerchantsActivity.MenuData;;
 
-public class MenuFragment extends ListFragment {
-    boolean mDualPane;
-    int mCurCheckPosition = 0;
-	final ArrayList<String> list = new ArrayList<String>();
-	
+public class MenuFragment extends Fragment {
+	final ArrayList<String> menuList = new ArrayList<String>();
+	MenuCustomAdapter adapter;
+    ExpandableListView expanLV;
+    
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+            Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
+        View rootView = inflater.inflate(R.layout.fragment_menu, container, false);
+        
         // Populate list 	
 	    try {
 		    JSONArray itemList = MenuData.getResult().getJSONArray("menu");
 		    for (int i = 0; i < itemList.length(); i++) {
-		    	list.add(itemList.getString(i));
+		    	menuList.add(itemList.getString(i));
 		    }
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	    if (list.isEmpty()) {
+	    if (menuList.isEmpty()) {
 			AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
 			alert.setTitle("Error");
 			alert.setMessage("This restaurant has no menu!");
@@ -45,79 +56,53 @@ public class MenuFragment extends ListFragment {
 			});
 			alert.show();
 	    }
-
-		MenuCustomAdapter adapter = new MenuCustomAdapter(
-					getActivity(), R.layout.list_menu, list);
-        setListAdapter(adapter);
-
-        // Check to see if we have a frame in which to embed the details
-        // fragment directly in the containing UI.
-        View detailMenuFrame = getActivity().findViewById(R.id.detailMenu);
-        mDualPane = detailMenuFrame != null && detailMenuFrame.getVisibility() == View.VISIBLE;
-
-        if (savedInstanceState != null) {
-            // Restore last state for checked position.
-            mCurCheckPosition = savedInstanceState.getInt("curChoice", 0);
-        }
-
-        if (mDualPane) {
-        	// In dual-pane mode, the list view highlights the selected item.
-        	getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-        	// Make sure our UI is in the correct state.
-        	showDetails(mCurCheckPosition);
-        }
+	    expanLV = (ExpandableListView) rootView.findViewById(R.id.lvExp);
+		adapter = new MenuCustomAdapter(getActivity(),
+				R.layout.list_menu, R.layout.list_child_menu, menuList);
+        expanLV.setAdapter(adapter);
+        WindowManager wm = (WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        expanLV.setIndicatorBounds(size.x - 35, size.x - 40);    
+        expanLV.setOnChildClickListener(new OnChildClickListener()
+        {
+        	@Override
+        	public boolean onChildClick(ExpandableListView parent, View v,
+        			int groupPosition, int childPosition, long id) {
+        		Intent intent = new Intent(getActivity(), SingleMenuActivity.class);
+        		String singleMenu = "";
+    			try {
+					JSONObject itemGroup = new JSONObject(menuList.get(groupPosition));
+					JSONArray itemArray = itemGroup.getJSONArray("children");
+					singleMenu = itemArray.getString(childPosition);
+					if (itemArray.length() != 0 && itemArray != null) {
+						intent.putExtra("menu", singleMenu);
+						startActivity(intent);  
+					}
+					else {
+						AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+						alert.setTitle("Error");
+						alert.setMessage("This menu has no detailed information!");
+						alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int id) {
+								dialog.cancel();
+							}      
+						});
+						alert.show();
+					}
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}     		
+        		return false;
+        	}
+        });
+        return rootView;
     }
+  
 
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putInt("curChoice", mCurCheckPosition);
-    }
-
-    @Override
-    public void onListItemClick(ListView l, View v, int position, long id) {
-        showDetails(position);
-    }
-
-    /**
-     * Helper function to show the details of a selected item, either by
-     * displaying a fragment in-place in the current UI, or starting a
-     * whole new activity in which it is displayed.
-     */
-    void showDetails(int index) {
-        mCurCheckPosition = index;
-
-        if (mDualPane) {
-            // We can display everything in-place with fragments, so update
-            // the list to highlight the selected item and show the data.
-            getListView().setItemChecked(index, true);
-
-            // Check what fragment is currently shown, replace if needed.
-            DetailMenuFragment details = (DetailMenuFragment)
-            		getFragmentManager().findFragmentById(R.id.detailMenu);
-            if (details == null || details.getShownIndex() != index) {
-                // Make new fragment to show this selection.
-                details = DetailMenuFragment.newInstance(index);
-
-                // Execute a transaction, replacing any existing fragment
-                // with this one inside the frame.
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
-                if (index == 0) {
-                    ft.replace(R.id.detailMenu, details);
-                } else {
-                    ft.replace(R.id.detailMenu, details);
-                }
-                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-                ft.commit();
-            }
-
-        } else {
-            // Otherwise we need to launch a new activity to display
-            // the dialog fragment with selected text.
-            Intent intent = new Intent();
-            intent.setClass(getActivity(), SingleMenuActivity.class);
-            intent.putExtra("index", index);
-            startActivity(intent);
-        }
-    }
+//        Intent intent = new Intent(getActivity(), SingleMenuActivity.class);
+//        intent.putExtra("menu", menuList.get(position));
+//        startActivity(intent);             
 }

@@ -4,7 +4,7 @@
     <string name="app_name">Delivery</string>
     <string name="menu_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
-    <string name="buildNumber">Build #1.0.7</string>
+    <string name="buildNumber">Build #1.0.8</string>
 
     <!-- Colors -->
     <color name="white">#F2F2F2</color>
@@ -37,6 +37,6 @@
     <string name="splash_desc">Splash Screen</string>
     <string name="title_activity_display_menu">Menu and Info</string>
     <string name="title_activity_single_menu">Current Menu</string>
-    <string name="title_activity_sort_merchants">SortMerchantsActivity</string>
+    <string name="title_activity_sort_merchants">Sort Restaurants</string>
 
 </resources>

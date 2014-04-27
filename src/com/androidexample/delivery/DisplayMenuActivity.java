@@ -29,8 +29,12 @@ public class DisplayMenuActivity extends FragmentActivity {
 		// top bar
         actionBar = getActionBar(); 
 	    actionBar.setCustomView(R.layout.actionbar_top_display_menu_activity);
-	    actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-
+	    actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM|ActionBar.DISPLAY_SHOW_HOME);
+	    
+	    // fix flipping tabs and action bar
+        View homeIcon = findViewById(android.R.id.home);
+        ((View) homeIcon.getParent()).setVisibility(View.GONE);
+        
 		// set actionbar to navigation mode to add tabs  
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         

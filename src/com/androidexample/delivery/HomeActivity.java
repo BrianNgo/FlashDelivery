@@ -179,7 +179,7 @@ public class HomeActivity extends BaseActivity {
 		try {
 			if (searchResult.getJSONArray("merchants").length() != 0) {
 				Intent i = new Intent(this, DisplayMerchantsActivity.class); 
-				startActivity(i, true);	
+				startActivity(i);	
 			}
 			else {
 
