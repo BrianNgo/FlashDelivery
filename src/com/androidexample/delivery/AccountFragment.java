@@ -24,7 +24,7 @@ import android.widget.Toast;
 public class AccountFragment extends BaseFragment {
 	
 	public AccountFragment() {
-		super("Orders", R.layout.account_fragment,R.layout.actionbar_top_account, 1); // 0 is index of tab, next tabs will be 1 and 2
+		super("Orders", R.layout.account_fragment,R.layout.actionbar_top_account, 2); // 0 is index of tab, next tabs will be 1 and 2
 		fragment = this;
 	}
 	
