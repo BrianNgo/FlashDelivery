@@ -4,15 +4,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.androidexample.delivery.DisplayMerchantsActivity.MenuData;
-
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.androidexample.delivery.DisplayMerchantsActivity.MenuData;
 
 public class InfoFragment extends Fragment {
      @Override

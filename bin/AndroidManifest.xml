@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.androidexample.delivery"
     android:versionCode="1"
-    android:versionName="1.0.8" >
+    android:versionName="1.0.9" >
 
     <uses-sdk
         android:minSdkVersion="16"
@@ -31,7 +31,7 @@
         <activity
             android:name="com.androidexample.delivery.DisplayMerchantsActivity"
             android:label="@string/title_activity_display_merchants"
-            android:parentActivityName="com.androidexample.delivery.HomeActivity" 
+            android:parentActivityName="com.androidexample.delivery.SearchFragment" 
             android:uiOptions="splitActionBarWhenNarrow">                     
         	<meta-data 	android:name="android.support.UI_OPTIONS"
                    		android:value="splitActionBarWhenNarrow" />

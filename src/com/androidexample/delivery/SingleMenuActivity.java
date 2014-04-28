@@ -2,20 +2,8 @@ package com.androidexample.delivery;
 
 import java.util.ArrayList;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import com.androidexample.delivery.DisplayMerchantsActivity.MenuData;
-
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 public class SingleMenuActivity extends BaseActivity {

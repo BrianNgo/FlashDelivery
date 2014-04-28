@@ -10,11 +10,7 @@ import android.os.IBinder;
 import android.support.v4.app.FragmentActivity;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.view.animation.Interpolator;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ImageView;
 
 public class BaseActivity extends FragmentActivity {
 

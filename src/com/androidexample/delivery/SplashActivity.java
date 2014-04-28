@@ -1,7 +1,6 @@
 package com.androidexample.delivery;
 
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -14,7 +13,7 @@ import android.widget.TextView;
  *
  */
 
-public class SplashActivity extends Activity {
+public class SplashActivity extends BaseActivity {
 	
 	// Store the welcome text
 	TextView versionNumber;
@@ -60,7 +59,7 @@ public class SplashActivity extends Activity {
 	    SharedPreferences settings = getSharedPreferences("prefs", 0);
 	    boolean firstRun = settings.getBoolean("firstRun", true);
 	    if (!firstRun) {
-	        Intent intent = new Intent(this, HomeActivity.class);
+	        Intent intent = new Intent(this, SearchFragment.class);
 	            startActivity(intent);
 	        Log.d("TAG1", "firstRun(false): " + Boolean.valueOf(firstRun).toString());
 	    } else {

@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-import com.androidexample.delivery.DisplayMerchantsActivity.MenuData;
-import com.androidexample.delivery.HomeActivity.MerchantData;
-
 import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -16,6 +13,9 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.androidexample.delivery.DisplayMerchantsActivity.MenuData;
+import com.androidexample.delivery.SearchFragment.MerchantData;
 
 public class SortMerchantsActivity extends BaseActivity {
 	private String[] itemsCuisines = {"All", "American","Indian","Chinese"};	

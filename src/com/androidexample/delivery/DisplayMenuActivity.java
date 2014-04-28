@@ -2,8 +2,6 @@ package com.androidexample.delivery;
 
 import java.util.ArrayList;
 
-import com.androidexample.delivery.DisplayMerchantsActivity.MenuData;
-
 import android.app.ActionBar;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -11,6 +9,8 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+
+import com.androidexample.delivery.DisplayMerchantsActivity.MenuData;
 
 public class DisplayMenuActivity extends FragmentActivity {
 

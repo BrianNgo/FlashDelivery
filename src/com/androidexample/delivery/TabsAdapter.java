@@ -1,8 +1,5 @@
 package com.androidexample.delivery;
 
-import com.androidexample.delivery.InfoFragment;
-import com.androidexample.delivery.MenuFragment;
-
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.ActionBar.TabListener;
