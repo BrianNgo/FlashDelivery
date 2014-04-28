@@ -33,7 +33,7 @@ import android.widget.ListView;
  */
 public class DisplayMerchantsActivity extends BaseActivity {
 	
-	Button btnBack, btnFilter;
+	Button btnBack, btnFilter, btnCart, btnAccount;
 	private String[] sortTypes = {"Distance", "Name", "Ratings"};
 	public static final int FILTER_MERCHANTS = 5;
 	
@@ -53,13 +53,16 @@ public class DisplayMerchantsActivity extends BaseActivity {
 		setContentView(R.layout.activity_display_merchants);
 		
 		// top bar
-		ActionBar actionbar = getActionBar();
-	    actionbar.setCustomView(R.layout.actionbar_top_display_merchants_activity);
-	    actionbar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+		ActionBar actionBarTop = getActionBar();
+	    actionBarTop.setCustomView(R.layout.actionbar_top_display_merchants_activity);
+	    actionBarTop.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+	    
 	    
 	    // buttons in this activity
 	    btnBack = (Button) findViewById(R.id.btnBack);
 	    btnFilter = (Button) findViewById(R.id.btnFilterMerchants);
+
+
 	    
 	    // handle events for buttons
 	    btnBack.setOnClickListener(new OnClickListener(){
@@ -115,7 +118,7 @@ public class DisplayMerchantsActivity extends BaseActivity {
 			dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 			dialog.setContentView(R.layout.custom_progress_dialog);
 			dialog.setCancelable(false);
-			dialog.show();
+			dialog.show(); 
 			//showLoading();
 		}
 
@@ -125,23 +128,22 @@ public class DisplayMerchantsActivity extends BaseActivity {
 		 */
 		@Override
 		protected Void doInBackground(Integer... arg) {
-			// SearchMerchants search = new SearchMerchants("input here");
 			MenuData.setResult(SearchMerchants.search(merchantID, 1));
 			try {
 				JSONArray mArray = MerchantData.getResult().getJSONArray("merchants");
-				if (MenuData.getResult().has("menu") || !merchantArray.isEmpty()) {
+				if (MenuData.getResult().has("menu") || mArray.length() != 0) {
 					String merchantInfo = "";
-					found = true;
-					if (!(merchantArray.size() == 0))
+					found = false;
+					for (int i = 0; i < mArray.length(); i++)
 					{
-						for (int i = 0; i < merchantArray.size(); i++)
-						{
-							int temp = merchantArray.get(i).getID();
-							if (Integer.parseInt(merchantID)== temp)
-								merchantInfo = mArray.getJSONObject(i).toString();
+						int temp = mArray.getJSONObject(i).getInt("id");
+						if (Integer.parseInt(merchantID) == temp) {
+							merchantInfo = mArray.getJSONObject(i).toString();
+							found = true;
+							break;
 						}
-						MenuData.setInfo(merchantInfo);
 					}
+					MenuData.setInfo(merchantInfo);
 				}
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block

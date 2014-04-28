@@ -138,7 +138,7 @@
         android:layout_alignRight="@+id/relativeLayout1"
         android:layout_below="@+id/relativeLayout1"
         android:layout_marginTop="24dp"
-        android:text="Button" />
+        android:text="Login" />
 
     <Button
         android:id="@+id/button2"
@@ -147,7 +147,7 @@
         android:layout_alignLeft="@+id/button1"
         android:layout_alignRight="@+id/button1"
         android:layout_below="@+id/button1"
-        android:text="Button" />
+        android:text="Signup" />
 
     <TextView
         android:id="@+id/app_version"
@@ -160,5 +160,13 @@
         android:textColor="@color/darkgray"
         android:textSize="14sp"
         android:textStyle="italic" />
+
+    <include
+        android:id="@+id/navbar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        layout="@layout/footer_menu" />
 
 </RelativeLayout>

@@ -53,8 +53,9 @@ public class SearchMerchants {
 		if (type == 0)
 			// The url to connect
 			url = "https://api.delivery.com/merchant/search/delivery?client_id=ZjkxODFiNWRkMTYzOWNhMzEzZTk4ZTZjNTU4MDM2ZjJj&address=1330%201st%20Ave,%2010021";
-		else
-			url = "https://api.delivery.com/merchant/835/menu";
+		else 
+			url = "https://api.delivery.com/merchant/" + input + "/menu";
+		
 		// The input stream to hold data from server
 		InputStream is = null;
 	    

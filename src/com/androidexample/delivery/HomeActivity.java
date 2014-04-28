@@ -26,6 +26,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 import android.widget.ImageView;
+import android.widget.ToggleButton;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 
@@ -40,6 +41,9 @@ public class HomeActivity extends BaseActivity {
 	// Hold the user's input
     final static String SEARCH_ADDRESS = "1330 1st Ave, 10021";
 	private String address = "";
+	
+	// nav bar
+	private ToggleButton navBtnMap[];
     
 	// Search button
     private Button btnSearch;	
@@ -269,6 +273,13 @@ public class HomeActivity extends BaseActivity {
 		}
 
 	}
+	
+    private void initNavToggleToggleButtons() {
+        navBtnMap = new ToggleButton[5];
+        navBtnMap[0] = (ToggleButton) findViewById(R.id.tab_search);
+        navBtnMap[1] = (ToggleButton) findViewById(R.id.tab_orders);
+        navBtnMap[2] = (ToggleButton) findViewById(R.id.tab_account);
+    }
 	
 //	@Override
 //	public void onBackPressed() {

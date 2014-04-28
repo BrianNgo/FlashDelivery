@@ -18,7 +18,7 @@
         android:theme="@style/MyTheme">
         <activity
             android:name="com.androidexample.delivery.SplashActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name" >          
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -31,19 +31,28 @@
         <activity
             android:name="com.androidexample.delivery.DisplayMerchantsActivity"
             android:label="@string/title_activity_display_merchants"
-            android:parentActivityName="com.androidexample.delivery.HomeActivity" >
+            android:parentActivityName="com.androidexample.delivery.HomeActivity" 
+            android:uiOptions="splitActionBarWhenNarrow">                     
+        	<meta-data 	android:name="android.support.UI_OPTIONS"
+                   		android:value="splitActionBarWhenNarrow" />
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.androidexample.delivery.FirstScreen" />
         </activity>
         <activity
             android:name="com.androidexample.delivery.SingleMerchantActivity"
-            android:label="@string/title_activity_single_merchant" >
+            android:label="@string/title_activity_single_merchant" 
+            android:uiOptions="splitActionBarWhenNarrow" >                     
+        	<meta-data 	android:name="android.support.UI_OPTIONS"
+                   		android:value="splitActionBarWhenNarrow" />
         </activity>
         <activity
             android:name="com.androidexample.delivery.DisplayMenuActivity"
             android:label="@string/title_activity_display_menu"
-            android:parentActivityName="com.androidexample.delivery.DisplayMerchantsActivity" >
+            android:parentActivityName="com.androidexample.delivery.DisplayMerchantsActivity" 
+            android:uiOptions="splitActionBarWhenNarrow" >                     
+        	<meta-data 	android:name="android.support.UI_OPTIONS"
+                   		android:value="splitActionBarWhenNarrow" />
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.androidexample.delivery.DisplayMerchantsActivity" />
@@ -51,14 +60,20 @@
         <activity
             android:name="com.androidexample.delivery.SortMerchantsActivity"
             android:label="@string/title_activity_sort_merchants"
-            android:parentActivityName="com.androidexample.delivery.DisplayMerchantsActivity" >
+            android:parentActivityName="com.androidexample.delivery.DisplayMerchantsActivity" 
+            android:uiOptions="splitActionBarWhenNarrow" >                     
+        	<meta-data 	android:name="android.support.UI_OPTIONS"
+                   		android:value="splitActionBarWhenNarrow" />
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.androidexample.delivery.DisplayMerchantsActivity" />
         </activity>
         <activity
             android:name="com.androidexample.delivery.SingleMenuActivity"
-            android:label="@string/title_activity_single_menu" >
+            android:label="@string/title_activity_single_menu" 
+            android:uiOptions="splitActionBarWhenNarrow" >                     
+        	<meta-data 	android:name="android.support.UI_OPTIONS"
+                   		android:value="splitActionBarWhenNarrow" />
         </activity>
     </application>
 
