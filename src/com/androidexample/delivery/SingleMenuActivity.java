@@ -2,12 +2,17 @@ package com.androidexample.delivery;
 
 import java.util.ArrayList;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 
 public class SingleMenuActivity extends BaseActivity {
 	
+	String output;
 	final ArrayList<String> list = new ArrayList<String>();
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +25,7 @@ public class SingleMenuActivity extends BaseActivity {
 //		Need another listview for single menu
 	    TextView textView = (TextView) findViewById(R.id.name);
 	    textView.setTextSize(12);
+	    
 	    textView.setText(menu);
 	    
 //	    try {

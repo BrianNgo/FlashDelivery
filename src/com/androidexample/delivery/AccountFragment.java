@@ -37,7 +37,7 @@ public class AccountFragment extends BaseFragment {
 	public void init(View view) {	
 		
 		// buttons
-		logIn = (Button)view.findViewById(R.id.btn_login);		
+		logIn = (Button)view.findViewById(R.id.btnLogin);		
 		logIn.setOnClickListener(new OnClickListener() {
 			// Calling the event
 			@Override
@@ -47,7 +47,7 @@ public class AccountFragment extends BaseFragment {
 		});
 		
 
-		signUp = (Button)view.findViewById(R.id.btn_signup);
+		signUp = (Button)view.findViewById(R.id.btnSignup);
 		signUp.setOnClickListener(new OnClickListener() {
 			// Calling the event
 			@Override
