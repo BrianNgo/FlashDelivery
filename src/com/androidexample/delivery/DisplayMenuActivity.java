@@ -15,7 +15,6 @@ import com.androidexample.delivery.DisplayMerchantsActivity.MenuData;
 public class DisplayMenuActivity extends FragmentActivity {
 
 	Button btnBack, btnFilter;
-	final ArrayList<String> list = new ArrayList<String>();
     private ViewPager viewPager;
     private TabsAdapter mAdapter;
     private ActionBar actionBar;

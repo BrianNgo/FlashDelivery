@@ -75,7 +75,7 @@ public class MenuCustomAdapter extends BaseExpandableListAdapter {
 			child = inflater.inflate(childLayout, parent, false);
 			holder = new ChildHolder();
 			holder.childName = (TextView) child.findViewById(R.id.name);
-			holder.childDesc = (TextView) child.findViewById(R.id.description);
+//			holder.childDesc = (TextView) child.findViewById(R.id.description);
 //			holder.textExtra1 = (TextView) row.findViewById(R.id.field3);
 //			holder.textExtra2 = (TextView) row.findViewById(R.id.field4);
 			child.setTag(holder);
@@ -85,13 +85,17 @@ public class MenuCustomAdapter extends BaseExpandableListAdapter {
 		try {
 			JSONObject item = new JSONObject(data.get(groupPosition));
 			JSONArray itemArray = item.getJSONArray("children");
-			if (!itemArray.getJSONObject(childPosition).getString("name").equals("")) {
-				holder.childName.setText(itemArray.getJSONObject(childPosition).getString("name"));
-				String desc = itemArray.getJSONObject(childPosition).getString("description");
-				holder.childDesc.setText(desc.equals("")?
-						"No description":desc);
-		//		holder.textExtra1.setText("text");
-		//		holder.textExtra2.setText("text");
+			if (itemArray.getJSONObject(childPosition).getString("type").equals("menu")) {
+				if (!itemArray.getJSONObject(childPosition).getString("name").equals("")) {
+					holder.childName.setText(itemArray.getJSONObject(childPosition).getString("name"));
+					//		String desc = itemArray.getJSONObject(childPosition).getString("description");
+					//		holder.childDesc.setText(desc.equals("")?"No description":desc);
+					//		holder.textExtra1.setText("text");
+					//		holder.textExtra2.setText("text");
+				}
+			}
+			else {
+				holder.childName.setText(item.getString("name"));
 			}
 		}
 		catch (JSONException e) {
@@ -106,7 +110,10 @@ public class MenuCustomAdapter extends BaseExpandableListAdapter {
 		try {
 			JSONObject item = new JSONObject(data.get(groupPosition));
 			JSONArray itemArray = item.getJSONArray("children");
-			return itemArray.length();
+			if (itemArray.getJSONObject(1).getString("type").equals("menu"))
+				return itemArray.length();
+			else
+				return 1;
 		} catch (JSONException e) {
 			e.printStackTrace();
 			return 0;
@@ -143,7 +150,7 @@ public class MenuCustomAdapter extends BaseExpandableListAdapter {
 			group = inflater.inflate(parentLayout, parent, false);
 			holder = new MenuHolder();
 			holder.parentName = (TextView) group.findViewById(R.id.name);
-			holder.parentDesc = (TextView) group.findViewById(R.id.description);
+//			holder.parentDesc = (TextView) group.findViewById(R.id.description);
 //			holder.textExtra1 = (TextView) row.findViewById(R.id.field3);
 //			holder.textExtra2 = (TextView) row.findViewById(R.id.field4);
 			group.setTag(holder);
@@ -154,8 +161,8 @@ public class MenuCustomAdapter extends BaseExpandableListAdapter {
 			JSONObject item = new JSONObject(data.get(groupPosition));
 			if (!item.getString("name").equals("")) {
 				holder.parentName.setText(item.getString("name"));
-				holder.parentDesc.setText((item.getString("description")
-						.equals(""))?"No description":item.getString("description"));
+		//		String desc = item.getString("description");
+		//		holder.parentDesc.setText(desc.equals(""))?"No description":desc);
 		//		holder.textExtra1.setText("text");
 		//		holder.textExtra2.setText("text");
 			}
@@ -165,11 +172,11 @@ public class MenuCustomAdapter extends BaseExpandableListAdapter {
 		}
 		if (isExpanded) {
 			ImageView icon=(ImageView)group.findViewById(R.id.indicator);
-			icon.setImageResource(R.drawable.arrow_up);
+			icon.setImageResource(R.drawable.arrow_down);
 		}
 		else {
 			ImageView icon=(ImageView)group.findViewById(R.id.indicator);
-			icon.setImageResource(R.drawable.arrow_down);
+			icon.setImageResource(R.drawable.arrow_right);
 		}
 		return group;
 	}

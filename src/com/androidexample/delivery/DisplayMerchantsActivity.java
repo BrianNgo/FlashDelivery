@@ -200,7 +200,7 @@ public class DisplayMerchantsActivity extends BaseActivity {
 		
 		public static void setInfo(String s) {merchantInfo = s;}
 		public static String getInfo() {return merchantInfo;}
-		
+
 	    public static void changeList(ArrayList<Merchant> newOne) {
 	    	merchantArray = newOne;
 	    	adapter.notifyDataSetChanged();

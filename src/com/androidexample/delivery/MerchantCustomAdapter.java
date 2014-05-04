@@ -40,8 +40,6 @@ public class MerchantCustomAdapter extends ArrayAdapter<Merchant> {
 			row = inflater.inflate(layoutResourceId, parent, false);
 			holder = new MerchantHolder();
 			holder.textName = (TextView) row.findViewById(R.id.name);
-			holder.textName.setSelected(true);
-			holder.textName.requestFocus();
 			holder.textCuisine = (TextView) row.findViewById(R.id.cuisine);
 			holder.textStatus = (TextView) row.findViewById(R.id.status);
 			holder.textDistance = (TextView) row.findViewById(R.id.distance);

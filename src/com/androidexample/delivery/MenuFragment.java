@@ -24,7 +24,7 @@ import android.widget.ExpandableListView.OnChildClickListener;
 import com.androidexample.delivery.DisplayMerchantsActivity.MenuData;
 
 public class MenuFragment extends Fragment {
-	final ArrayList<String> menuList = new ArrayList<String>();
+	private ArrayList<String> menuList = new ArrayList<String>();
 	MenuCustomAdapter adapter;
     ExpandableListView expanLV;
     
@@ -70,13 +70,24 @@ public class MenuFragment extends Fragment {
         	public boolean onChildClick(ExpandableListView parent, View v,
         			int groupPosition, int childPosition, long id) {
         		Intent intent = new Intent(getActivity(), SingleMenuActivity.class);
-        		String singleMenu = "";
+        		String singleMenu = "", name;	
     			try {
 					JSONObject itemGroup = new JSONObject(menuList.get(groupPosition));
 					JSONArray itemArray = itemGroup.getJSONArray("children");
-					singleMenu = itemArray.getString(childPosition);
-					if (itemArray.length() != 0 && itemArray != null) {
+					if (itemArray.getJSONObject(childPosition).getString("type").equals("menu")) {
+						singleMenu = itemArray.getJSONObject(childPosition).getString("children");
+						name = itemArray.getJSONObject(childPosition).getString("name");
+						if (itemArray.length() != 0 && itemArray != null) {
+							intent.putExtra("menu", singleMenu);
+							intent.putExtra("name", name);
+							startActivity(intent);  
+						}
+					}
+					else if (itemArray.getJSONObject(childPosition).getString("type").equals("item")) {
+						singleMenu = itemGroup.getString("children");
+						name = itemGroup.getString("name");
 						intent.putExtra("menu", singleMenu);
+						intent.putExtra("name", name);
 						startActivity(intent);  
 					}
 					else {
