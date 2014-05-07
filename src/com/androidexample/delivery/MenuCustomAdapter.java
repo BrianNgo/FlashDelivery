@@ -110,14 +110,14 @@ public class MenuCustomAdapter extends BaseExpandableListAdapter {
 		try {
 			JSONObject item = new JSONObject(data.get(groupPosition));
 			JSONArray itemArray = item.getJSONArray("children");
-			if (itemArray.getJSONObject(1).getString("type").equals("menu"))
-				return itemArray.length();
-			else
-				return 1;
+			if (itemArray.length() != 0) {
+				if (itemArray.getJSONObject(0).getString("type").equals("menu"))
+					return itemArray.length();
+			}
 		} catch (JSONException e) {
 			e.printStackTrace();
-			return 0;
 		}
+		return 1;
 	}
 
 	@Override

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/bground1">
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="5dip"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="3dp"
+        android:text="Item Name"
+        android:textColor="@color/lightblue1"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="18sp" />  
+    
+    <TextView
+        android:id="@+id/desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/name"
+        android:layout_marginLeft="5dip"
+        android:layout_marginBottom="2dp"
+        android:text="Description"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="16sp" />    
+        
+    <TextView
+        android:id="@+id/price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/desc"
+        android:layout_marginLeft="5dp"
+        android:layout_marginBottom="10dp"
+        android:text="Price"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="14sp" />
+    
+    <TextView
+        android:id="@+id/totalPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/price"
+        android:layout_marginLeft="5dp"
+        android:layout_marginBottom="2dp"
+        android:text="Total price"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="16sp" />   
+    
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/totalPrice"
+        android:layout_marginTop="5dp" />
+
+  	<include
+        android:id="@+id/loading_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        layout="@layout/loading"                        
+    	android:visibility="gone"/>
+    
+</RelativeLayout>
+

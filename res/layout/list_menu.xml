@@ -20,7 +20,7 @@
        	android:scrollHorizontally="true"
         android:marqueeRepeatLimit="marquee_forever"
         android:text="Menu Name"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:textSize="18sp" />
  
    <ImageView
         android:id="@+id/indicator"

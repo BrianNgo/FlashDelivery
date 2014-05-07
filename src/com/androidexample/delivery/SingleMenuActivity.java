@@ -22,7 +22,7 @@ public class SingleMenuActivity extends BaseActivity {
 	Button btnBack;
 	private SingleMenuAdapter adapter = null;
 	private ArrayList<JSONObject> menuList = new ArrayList<JSONObject>();
-	JSONArray singleMenu;
+	JSONArray singleMenu = null;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -46,10 +46,10 @@ public class SingleMenuActivity extends BaseActivity {
 	    
 		Intent in = getIntent();
 		String menu = in.getStringExtra("menu");
-		String name = in.getStringExtra("name");
+		String menuName = in.getStringExtra("name");
 		
 	    TextView textView = (TextView) findViewById(R.id.menuName);
-	    textView.setText(name);
+	    textView.setText(menuName);
 		try
 		{
 			singleMenu = new JSONArray(menu);
@@ -69,18 +69,34 @@ public class SingleMenuActivity extends BaseActivity {
 				 menuList);
 		ListView mList = (ListView) findViewById(R.id.listView);
 		mList.setAdapter(adapter);	
+		
 		mList.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				// need spinner to select options from option group
+				String option = "", desc = "", price = "", itemName = "", 
+						maxQty = "", minQty = "";
 				try {
-					String child = menuList.get(position).getString("children");
+					option = menuList.get(position).getString("children");
+					desc = menuList.get(position).getString("description");
+					price = menuList.get(position).getString("price");
+					itemName = menuList.get(position).getString("name");
+					maxQty = menuList.get(position).getString("max_qty");
+					minQty = menuList.get(position).getString("min_qty");
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				Intent intent = new Intent(getApplicationContext(), ItemOptionActivity.class);
+				intent.putExtra("name", itemName);
+				intent.putExtra("option", option);
+				intent.putExtra("desc", desc);
+				intent.putExtra("price", price);
+				intent.putExtra("maxQty", maxQty);
+				intent.putExtra("minQty", minQty);
+				startActivity(intent);
 			}
 		});
+		
 	}
 }
