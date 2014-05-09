@@ -19,6 +19,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ExpandableListView;
+import android.widget.ExpandableListView.OnGroupClickListener;
+import android.widget.ImageView;
 import android.widget.ExpandableListView.OnChildClickListener;
 
 import com.androidexample.delivery.DisplayMerchantsActivity.MenuData;
@@ -63,9 +65,35 @@ public class MenuFragment extends Fragment {
         Display display = wm.getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
-        expanLV.setIndicatorBounds(size.x - 35, size.x - 40);    
-        expanLV.setOnChildClickListener(new OnChildClickListener()
-        {
+        expanLV.setIndicatorBounds(size.x - 35, size.x - 40);  
+        
+        expanLV.setOnGroupClickListener(new OnGroupClickListener () {
+			@Override
+			public boolean onGroupClick(ExpandableListView parent, View v,
+					int groupPosition, long id) {
+				if (adapter.getChildrenCount(groupPosition) == 0) {
+	        		String singleMenu = "", name = "";	
+	        		
+					JSONObject itemGroup;       		
+					try {
+						itemGroup = new JSONObject(menuList.get(groupPosition));
+						singleMenu = itemGroup.getString("children");
+						name = itemGroup.getString("name");
+					} catch (JSONException e) {e.printStackTrace();}
+					
+					ImageView icon=(ImageView) v.findViewById(R.id.indicator);
+					icon.setImageResource(R.drawable.arrow_right);
+					
+	        		Intent intent = new Intent(getActivity(), SingleMenuActivity.class);
+					intent.putExtra("menu", singleMenu);
+					intent.putExtra("name", name);
+					startActivity(intent);
+				}
+				return false;
+			}
+        });
+        
+        expanLV.setOnChildClickListener(new OnChildClickListener() {
         	@Override
         	public boolean onChildClick(ExpandableListView parent, View v,
         			int groupPosition, int childPosition, long id) {
@@ -82,13 +110,6 @@ public class MenuFragment extends Fragment {
 							intent.putExtra("name", name);
 							startActivity(intent);  
 						}
-					}
-					else if (itemArray.getJSONObject(childPosition).getString("type").equals("item")) {
-						singleMenu = itemGroup.getString("children");
-						name = itemGroup.getString("name");
-						intent.putExtra("menu", singleMenu);
-						intent.putExtra("name", name);
-						startActivity(intent);  
 					}
 					else {
 						AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
@@ -109,10 +130,5 @@ public class MenuFragment extends Fragment {
         	}
         });
         return rootView;
-    }
-  
-
-//        Intent intent = new Intent(getActivity(), SingleMenuActivity.class);
-//        intent.putExtra("menu", menuList.get(position));
-//        startActivity(intent);             
+    }          
 }

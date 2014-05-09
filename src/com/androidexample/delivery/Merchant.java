@@ -2,7 +2,7 @@ package com.androidexample.delivery;
 
 import java.text.DecimalFormat;
 
-public class Merchant implements Comparable {
+public class Merchant implements Comparable<Merchant> {
 
 	String name;
 	int id;
@@ -42,9 +42,7 @@ public class Merchant implements Comparable {
 	    distance = d;
 	}
 	
-	public int compareTo(Object o) {
-		// TODO Auto-generated method stub
-		Merchant m = (Merchant) o;
-		return Double.compare(this.distance, m.distance);
+	public int compareTo(Merchant o) {
+		return Double.compare(this.distance, o.distance);
 	}
 }

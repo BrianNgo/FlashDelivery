@@ -33,9 +33,6 @@ public class MenuCustomAdapter extends BaseExpandableListAdapter {
 
 	static class MenuHolder {
 		TextView parentName;
-		TextView parentDesc;
-//		TextView textExtra1;
-//		TextView textExtra2;
 	}
 	
 	static class ChildHolder {
@@ -45,7 +42,6 @@ public class MenuCustomAdapter extends BaseExpandableListAdapter {
 	
 	@Override
 	public JSONObject getChild(int groupPosition, int childPosition) {
-		// TODO Auto-generated method stub
 		JSONObject child = null;
 		try {
 			JSONObject item = new JSONObject(data.get(groupPosition));
@@ -59,14 +55,12 @@ public class MenuCustomAdapter extends BaseExpandableListAdapter {
 
 	@Override
 	public long getChildId(int groupPosition, int childPosition) {
-		// TODO Auto-generated method stub
 		return childPosition;
 	}
 
 	@Override
 	public View getChildView(int groupPosition, int childPosition,
 			boolean isLastChild, View convertView, ViewGroup parent) {
-		// TODO Auto-generated method stub
 		View child = convertView;
 		ChildHolder holder = null;
 		
@@ -106,7 +100,6 @@ public class MenuCustomAdapter extends BaseExpandableListAdapter {
 
 	@Override
 	public int getChildrenCount(int groupPosition) {
-		// TODO Auto-generated method stub
 		try {
 			JSONObject item = new JSONObject(data.get(groupPosition));
 			JSONArray itemArray = item.getJSONArray("children");
@@ -117,31 +110,30 @@ public class MenuCustomAdapter extends BaseExpandableListAdapter {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		return 1;
+		return 0;
 	}
 
 	@Override
-	public Object getGroup(int groupPosition) {
-		// TODO Auto-generated method stub
+	public JSONObject getGroup(int groupPosition) {
+		try {
+			return new JSONObject(data.get(groupPosition));
+		} catch (JSONException e) {e.printStackTrace();}
 		return null;
 	}
 
 	@Override
 	public int getGroupCount() {
-		// TODO Auto-generated method stub
 		return data.size();
 	}
 
 	@Override
 	public long getGroupId(int groupPosition) {
-		// TODO Auto-generated method stub
 		return groupPosition;
 	}
 
 	@Override
 	public View getGroupView(int groupPosition, boolean isExpanded,
 			View convertView, ViewGroup parent) {
-		// TODO Auto-generated method stub
 		View group = convertView;
 		MenuHolder holder = null;
 		
@@ -150,29 +142,22 @@ public class MenuCustomAdapter extends BaseExpandableListAdapter {
 			group = inflater.inflate(parentLayout, parent, false);
 			holder = new MenuHolder();
 			holder.parentName = (TextView) group.findViewById(R.id.name);
-//			holder.parentDesc = (TextView) group.findViewById(R.id.description);
-//			holder.textExtra1 = (TextView) row.findViewById(R.id.field3);
-//			holder.textExtra2 = (TextView) row.findViewById(R.id.field4);
 			group.setTag(holder);
 		} else {
 			holder = (MenuHolder) group.getTag();
 		}
 		try {
 			JSONObject item = new JSONObject(data.get(groupPosition));
-			if (!item.getString("name").equals("")) {
+			if (!item.getString("name").equals(""))
 				holder.parentName.setText(item.getString("name"));
-		//		String desc = item.getString("description");
-		//		holder.parentDesc.setText(desc.equals(""))?"No description":desc);
-		//		holder.textExtra1.setText("text");
-		//		holder.textExtra2.setText("text");
-			}
 		}
 		catch (JSONException e) {
 			e.printStackTrace();
 		}
 		if (isExpanded) {
 			ImageView icon=(ImageView)group.findViewById(R.id.indicator);
-			icon.setImageResource(R.drawable.arrow_down);
+			if (this.getChildrenCount(groupPosition) != 0)
+				icon.setImageResource(R.drawable.arrow_down);
 		}
 		else {
 			ImageView icon=(ImageView)group.findViewById(R.id.indicator);
@@ -183,13 +168,11 @@ public class MenuCustomAdapter extends BaseExpandableListAdapter {
 
 	@Override
 	public boolean hasStableIds() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean isChildSelectable(int groupPosition, int childPosition) {
-		// TODO Auto-generated method stub
 		return true;
 	}
 }
