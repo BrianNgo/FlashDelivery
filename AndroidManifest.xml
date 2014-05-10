@@ -74,6 +74,7 @@
         </activity>
         <activity
             android:name="com.androidexample.delivery.SingleMenuActivity"
+            android:parentActivityName="com.androidexample.delivery.DisplayMenuActivity"
             android:label="@string/title_activity_single_menu"
             android:uiOptions="splitActionBarWhenNarrow" >
             <meta-data
@@ -82,6 +83,7 @@
         </activity>
         <activity
             android:name="com.androidexample.delivery.ItemOptionActivity"
+            android:parentActivityName="com.androidexample.delivery.SingleMenuActivity"
             android:label="@string/title_activity_item_option" >
         </activity>
     </application>

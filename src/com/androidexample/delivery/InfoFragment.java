@@ -31,7 +31,6 @@ public class InfoFragment extends Fragment {
             return null;
         }
 
-		Log.i("the freak ", MenuData.getInfo());
 		TextView lbl1 = (TextView) rootView.findViewById(R.id.a_label);
 		TextView lbl2 = (TextView) rootView.findViewById(R.id.b_label);
 		TextView lbl3 = (TextView) rootView.findViewById(R.id.c_label);

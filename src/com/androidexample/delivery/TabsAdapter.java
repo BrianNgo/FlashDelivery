@@ -17,27 +17,37 @@ public class TabsAdapter extends FragmentPagerAdapter
 	private final Context mContext;
     private final ActionBar mActionBar;
     private final ViewPager mViewPager;
+    private final int which;
     
-    public TabsAdapter(FragmentManager fm, Activity activity, ViewPager pager) {
+    public TabsAdapter(FragmentManager fm, Activity activity, ViewPager pager, int which) {
         super(fm);
         mContext = activity;
         mActionBar = activity.getActionBar();
         mViewPager = pager;
+        this.which = which;
         mViewPager.setOnPageChangeListener(this);
         mViewPager.setAdapter(this);
     }
-
  
-    @Override
     public Fragment getItem(int index) {
-        switch (index) {
-        case 0:
-            // Info fragment activity
-            return Fragment.instantiate(mContext, InfoFragment.class.getName(), null);
-        case 1:
-            // Menu fragment activity
-            return Fragment.instantiate(mContext, MenuFragment.class.getName(), null);
-        }
+    	if (which == 0)
+    		switch (index) {
+    		case 0:
+    			// Info fragment activity
+    			return Fragment.instantiate(mContext, InfoFragment.class.getName(), null);
+    		case 1:
+    			// Menu fragment activity
+    			return Fragment.instantiate(mContext, MenuFragment.class.getName(), null);
+    	}
+    	else if (which == 1)
+       		switch (index) {
+    		case 0:
+    			// Info fragment activity
+    			return Fragment.instantiate(mContext, ItemFragment.class.getName(), null);
+    		case 1:
+    			// Menu fragment activity
+    			return Fragment.instantiate(mContext, OptionFragment.class.getName(), null);
+    	}
         return null;
     }
     

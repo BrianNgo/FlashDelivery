@@ -36,7 +36,7 @@ public class DisplayMenuActivity extends FragmentActivity {
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         
         viewPager = (ViewPager) findViewById(R.id.pager);
-        mAdapter = new TabsAdapter(getSupportFragmentManager(), this, viewPager);       
+        mAdapter = new TabsAdapter(getSupportFragmentManager(), this, viewPager, 0);       
         for (String tab_name : tabs) {
         	mAdapter.addTab(tab_name);
         }

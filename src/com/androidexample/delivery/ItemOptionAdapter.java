@@ -42,18 +42,31 @@ public class ItemOptionAdapter extends ArrayAdapter<JSONObject> {
 				view = inflater.inflate(layoutResourceId, parent, false);
 				holder = new OptionHolder();
 				holder.optionName = (TextView) view.findViewById(R.id.name);
-				TextView choice = (TextView) view.findViewById(R.id.choice);
+				holder.choice = (TextView) view.findViewById(R.id.choice);
 				if (data.get(position).getInt("min_selection") == 1 &&
 						data.get(position).getInt("max_selection") <= 1) {
-					choice.setText("Default: "
+					int p = temp.getJSONObject(0).getInt("price");
+					holder.choice.setText("Default: "
 							+ temp.getJSONObject(0).getString("name")
-							+ "\t Price: $" + temp.getJSONObject(0).getInt("price"));
+							+ ((p == 0)?"":"\t Price: $" + p));	
 				}
 				view.setTag(holder);
 			} else
 				holder = (OptionHolder) view.getTag();
-								
+			if (!holder.optionName.getText().toString().equals(data.get(position).getString("name"))) {
+				if (data.get(position).getInt("min_selection") == 1 &&
+						data.get(position).getInt("max_selection") <= 1) {
+					int p = temp.getJSONObject(0).getInt("price");
+					holder.choice.setText("Default: "
+							+ temp.getJSONObject(0).getString("name")
+							+ ((p == 0)?"":"\t Price: $" + p));		
+				}
+				else
+					holder.choice.setText("");
+			}
+				
 			holder.optionName.setText(data.get(position).getString("name"));
+			
 			if (temp.length() == 0) return null;
 		} catch (JSONException e) {e.printStackTrace();}
 		return view;
@@ -61,6 +74,7 @@ public class ItemOptionAdapter extends ArrayAdapter<JSONObject> {
 	
 	static class OptionHolder {
 		TextView optionName;
+		TextView choice;
 	}
 
 	@Override

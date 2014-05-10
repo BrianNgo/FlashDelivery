@@ -1,6 +1,7 @@
 package com.androidexample.delivery;
 
 import android.app.ActionBar;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -32,7 +33,7 @@ public class HomeActivity extends BaseActivity{
  
             @Override
             public void onPageSelected(int position) {
-                setSelectedTab(position);
+            		setSelectedTab(position);
             }
  
             @Override
@@ -67,9 +68,7 @@ public class HomeActivity extends BaseActivity{
         
 
         initNavToggleToggleButtons();
-        setSelectedTab(0);
-	    
-	    
+        setSelectedTab(0);   
     }
     
     public void changeTab(View view) {
@@ -95,6 +94,12 @@ public class HomeActivity extends BaseActivity{
     @Override
     protected void onResume() {
         super.onResume();
+        try {
+        	Intent in = getIntent();
+        	int order = Integer.parseInt(in.getStringExtra("order"));
+        	if (order == 1)
+        		viewPager.setCurrentItem(1, true);
+        } catch (NumberFormatException e) {}
     }
     
     private Fragment getTabFragment(int position) {
