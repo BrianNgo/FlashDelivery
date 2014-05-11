@@ -1,6 +1,8 @@
 package com.androidexample.delivery;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -32,7 +34,7 @@ import com.androidexample.delivery.SearchFragment.MerchantData;
 public class DisplayMerchantsActivity extends BaseActivity {
 	
 	Button btnBack, btnFilter, btnCart, btnAccount;
-	private String[] sortTypes = {"Distance", "Name", "Ratings"};
+	private String[] sort = {"Closest Distance", "The Best Ratings", "Now Open", "Name, A-z", "Name, Z-a"};
 	public static final int FILTER_MERCHANTS = 5;
 	
 	private String merchantID;	
@@ -74,7 +76,17 @@ public class DisplayMerchantsActivity extends BaseActivity {
 	    btnFilter.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View v) {
-				filterMerchants();
+		        AlertDialog.Builder alert = new AlertDialog.Builder(DisplayMerchantsActivity.this);
+		        alert.setTitle("Sort By ");
+		        alert.setSingleChoiceItems(sort, -1,
+		                new DialogInterface.OnClickListener() {
+		            @Override
+		            public void onClick(DialogInterface dialog, int which) {
+	            		sortMerchants(which);
+	            		dialog.cancel();
+		            }
+		        });
+		        alert.show();
 			}
 		});
 
@@ -200,30 +212,45 @@ public class DisplayMerchantsActivity extends BaseActivity {
 		
 		public static void setInfo(String s) {merchantInfo = s;}
 		public static String getInfo() {return merchantInfo;}
-
-	    public static void changeList(ArrayList<Merchant> newOne) {
-	    	merchantArray = newOne;
-	    	adapter.notifyDataSetChanged();
-	    }
 	}
 	
-    // filter button
-    private void filterMerchants() {
-//		AlertDialog.Builder builder = new AlertDialog.Builder(DisplayMerchantsActivity.this)
-//		.setTitle("Sort merchants by:")
-//		.setSingleChoiceItems(sortTypes, -1, new DialogInterface.OnClickListener() {
-//			@Override
-//			public void onClick(DialogInterface dialog, int which) {
-////				txtMaxDistance.setText(itemsMaxDistance[which]); // text to show current choice
-////				selectedMaxDistance = itemsMaxDistance[which].equals("All")? 10000: Integer.parseInt(itemsMaxDistance[which].replace(",", "").split(" ")[0]);
-//				dialog.dismiss();
-//			}
-//		});
-//		AlertDialog alert = builder.create();   
-//		alert.show();
-    	
-    	Intent i = new Intent(getApplicationContext(), SortMerchantsActivity.class);
-        startActivityForResult(i, FILTER_MERCHANTS, true);
-	
-    }
+	private void sortMerchants(int selection) {
+		switch (selection) {
+			case 0:	Collections.sort(merchantArray);
+					break;
+			case 1:	Collections.sort(merchantArray, new Comparator<Merchant>() {
+						@Override
+						public int compare(Merchant  m1, Merchant  m2) {
+							return  m2.rating - m1.rating;
+						}
+					});
+					break;
+			case 2: Collections.sort(merchantArray, new Comparator<Merchant>() {
+						@Override
+						public int compare(Merchant  m1, Merchant  m2) {
+							if (m1.status && m2.status) return 0;
+							else if (m1.status) return -1;
+							else if (m2.status) return 1;
+							else return 0;
+						}
+					});
+					break;
+			case 3:	Collections.sort(merchantArray, new Comparator<Merchant>() {
+						@Override
+						public int compare(Merchant  m1, Merchant  m2) {
+							return  m1.name.toLowerCase().compareTo(m2.name.toLowerCase());
+						}
+    				});
+					break;
+			case 4: Collections.sort(merchantArray, new Comparator<Merchant>() {
+						@Override
+						public int compare(Merchant  m1, Merchant  m2) {
+							return  m2.name.toLowerCase().compareTo(m1.name.toLowerCase());
+						}
+					});
+					break;
+			default: break;
+		}
+		adapter.notifyDataSetChanged();
+	}
 }

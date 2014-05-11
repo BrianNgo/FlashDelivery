@@ -60,7 +60,9 @@ public class ItemOptionActivity extends FragmentActivity {
         btnAddCart.setOnClickListener(new OnClickListener(){
             @Override
             public void onClick(View v) {
-            	// add special instruction
+            	// add special instruction and quantity
+            	TextView text1 = (TextView) findViewById(R.id.quantity);
+            	Item.setQuantity(Integer.parseInt(text1.getText().toString()));
                 EditText instr = (EditText) findViewById(R.id.instr);
                 Item.setInstr(instr.getText().toString());
                 // call fragment order
@@ -121,6 +123,7 @@ public class ItemOptionActivity extends FragmentActivity {
     public static class Item {
         private static ArrayList<String> item = new ArrayList<String>();
         private static double basePrice = 0;
+        private static int quantity;
         private static Context con;
         private static String option, itemName, desc, instr;
 
@@ -132,6 +135,9 @@ public class ItemOptionActivity extends FragmentActivity {
 
         public static void setPrice(double p) {basePrice = p;}
         public static double getPrice() {return basePrice;}
+        
+        public static void setQuantity(int p) {quantity = p;}
+        public static int getQuantity() {return quantity;}
         
         public static void setContext(Context c) {con = c;}
         public static Context getContext() {return con;}

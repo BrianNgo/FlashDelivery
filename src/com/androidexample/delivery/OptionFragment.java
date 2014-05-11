@@ -25,7 +25,7 @@ import com.androidexample.delivery.ItemOptionActivity.Item;
 
 public class OptionFragment extends Fragment {
     private ItemOptionAdapter adapter = null;
-    public ArrayList<JSONObject> optionList;
+    private ArrayList<JSONObject> optionList;
     private JSONArray itemOption = null;
     private int originalSize, totalSize;
 	private ArrayList<Integer> selectedOptions;
@@ -34,6 +34,7 @@ public class OptionFragment extends Fragment {
 	private Context c = Item.getContext();
 	private View rootView;
 	private ListView list;
+	
      @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
@@ -49,7 +50,7 @@ public class OptionFragment extends Fragment {
             return null;
         }
      
-        try    {
+        try {
             itemOption = new JSONArray(Item.getOption());
             originalSize = itemOption.length();
             for (int i = 0; i < itemOption.length(); i++)

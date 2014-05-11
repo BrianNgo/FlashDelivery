@@ -4,16 +4,38 @@
     android:layout_height="match_parent"
     android:background="@drawable/background_footer_menu" >
 
+    <Button
+        android:id="@+id/btnCheckOut"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:background="@drawable/normbox"
+        android:text="Check Out"
+        android:textColor="@color/white" />
+
     <TextView
-        android:id="@+id/order_top_txt"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:id="@+id/textTop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
- 		android:gravity="center"
-        android:text="Orders"
+        android:text="Cart"
         android:textColor="@color/white"
         android:textSize="20sp"
         android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/btnBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textTop"
+        android:layout_alignBottom="@+id/textTop"
+        android:layout_alignParentLeft="true"
+        android:background="@drawable/backbox"
+        android:minWidth="70dp"
+        android:text="Back"
+        android:textColor="@color/white" />
+
 
 </RelativeLayout>

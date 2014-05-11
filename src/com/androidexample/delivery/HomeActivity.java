@@ -1,10 +1,12 @@
 package com.androidexample.delivery;
 
 import android.app.ActionBar;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
@@ -13,18 +15,20 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.Interpolator;
 import android.widget.ToggleButton;
 
-public class HomeActivity extends BaseActivity{
+public class HomeActivity extends FragmentActivity implements OrderFragment.Home {
 	
 	// nav bar stuffs
     private ViewPager viewPager;
 	private ToggleButton navBtnMap[];
 	private TabPagerAdapter tabAdapter;
+	private Context c = this;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         
+        HomeContext.setHomeContext(c);
         
         tabAdapter = new TabPagerAdapter(getSupportFragmentManager());
 	    viewPager = (ViewPager) findViewById(R.id.pager);
@@ -79,7 +83,7 @@ public class HomeActivity extends BaseActivity{
         viewPager.setCurrentItem(position, true);
         setSelectedTab(position);
     }
- 
+     
     public void setSelectedTab(int position) {
         BaseFragment currentTab = (BaseFragment) getTabFragment(position);
         if (currentTab != null) {
@@ -127,4 +131,16 @@ public class HomeActivity extends BaseActivity{
         getActionBar().setCustomView(view);
         getActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
     }
+
+	@Override
+	public void onBackPressedHome() {
+		viewPager.setCurrentItem(0);	
+	}
+
+	public static class HomeContext{
+		private static Context con;
+		
+		public static void setHomeContext(Context c) {con = c;}
+		public static Context getHomeContext() {return con;}
+	}
 }

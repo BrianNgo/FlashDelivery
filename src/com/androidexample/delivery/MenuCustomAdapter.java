@@ -18,7 +18,7 @@ import android.widget.TextView;
 public class MenuCustomAdapter extends BaseExpandableListAdapter {
 	Context context;
 	int parentLayout, childLayout;
-	ArrayList<String> data = new ArrayList<String>();
+	ArrayList<String> data;
 	
 	/**
 	 * Constructor of the class with 3 arguments

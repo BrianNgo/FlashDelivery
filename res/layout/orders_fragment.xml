@@ -16,7 +16,7 @@
         android:src="@drawable/banner_com" />
 
     <TextView
-        android:id="@+id/order"
+        android:id="@+id/cart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/imageView1"
@@ -24,5 +24,12 @@
         android:layout_marginBottom="121dp"
         android:text="See Your Orders"
         android:textAppearance="?android:attr/textAppearanceLarge" />
+    
+   <ListView
+        android:id="@+id/listView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@+id/cart"
+        android:layout_marginTop="5dp" />
 
 </RelativeLayout>

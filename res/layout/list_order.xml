@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp"
+    tools:context=".MainActivity" >
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:background="@color/lightblue2"
+        android:gravity="center"
+        android:paddingBottom="2dp"
+        android:paddingTop="2dp"
+        android:text="Item Name"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/white"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/opt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@+id/price"
+        android:layout_below="@+id/name"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="5dp"
+        android:text="Option: "
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="16sp" />    
+    
+    <TextView
+        android:id="@+id/option"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@+id/btnRemove"
+        android:layout_below="@+id/opt"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
+        android:text="Option"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="16sp" />
+    
+   <TextView
+        android:id="@+id/price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/name"
+        android:layout_marginTop="5dp"
+      	android:layout_marginRight="10dp"
+        android:text="Price"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="16sp" />
+   
+	<Button
+        android:id="@+id/btnRemove"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignBaseline="@+id/option"
+        android:layout_alignBottom="@+id/option"
+        android:background="#FFFFFF"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:text="Remove"
+        android:textColor="@color/lightblue2" />
+
+</RelativeLayout>

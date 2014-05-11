@@ -37,5 +37,5 @@
         android:minWidth="70dp"
         android:text="Back"
         android:textColor="@color/white" />
-
+    
 </RelativeLayout>

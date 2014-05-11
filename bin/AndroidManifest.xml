@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.androidexample.delivery"
     android:versionCode="1"
-    android:versionName="1.1.1" >
+    android:versionName="1.1.3" >
 
     <uses-sdk
         android:minSdkVersion="16"
@@ -27,7 +27,7 @@
         </activity>
         <activity android:name="com.androidexample.delivery.HomeActivity" >
         </activity>
-        FirstScreen
+        FirstScreen
         <activity
             android:name="com.androidexample.delivery.DisplayMerchantsActivity"
             android:label="@string/title_activity_display_merchants"
@@ -74,8 +74,8 @@
         </activity>
         <activity
             android:name="com.androidexample.delivery.SingleMenuActivity"
-            android:parentActivityName="com.androidexample.delivery.DisplayMenuActivity"
             android:label="@string/title_activity_single_menu"
+            android:parentActivityName="com.androidexample.delivery.DisplayMenuActivity"
             android:uiOptions="splitActionBarWhenNarrow" >
             <meta-data
                 android:name="android.support.UI_OPTIONS"
@@ -83,8 +83,16 @@
         </activity>
         <activity
             android:name="com.androidexample.delivery.ItemOptionActivity"
-            android:parentActivityName="com.androidexample.delivery.SingleMenuActivity"
-            android:label="@string/title_activity_item_option" >
+            android:label="@string/title_activity_item_option"
+            android:parentActivityName="com.androidexample.delivery.SingleMenuActivity" >
+        </activity>
+        <activity
+            android:name="com.androidexample.delivery.CheckOutActivity"
+            android:label="@string/title_activity_check_out" >
+        </activity>
+        <activity
+            android:name="com.androidexample.delivery.DisplayLoginActivity"
+            android:label="@string/title_activity_display_login" >
         </activity>
     </application>
 
