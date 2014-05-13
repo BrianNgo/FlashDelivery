@@ -1,0 +1,87 @@
+package com.androidexample.delivery;
+
+import java.util.ArrayList;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.app.Activity;
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.TextView;
+
+public class OptionAdapter extends ArrayAdapter<JSONObject> {
+	Context context;
+	int layoutResourceId;
+	ArrayList<JSONObject> data = null;
+	
+	/**
+	 * Constructor of the class with 3 arguments
+	 */
+	public OptionAdapter(Context cont, int layout,
+			ArrayList<JSONObject> d) {
+		super(cont, layout, d);
+		context = cont;
+		layoutResourceId = layout;
+		data = d;
+	}
+	
+	@Override
+	public View getView(int position, View convertView, ViewGroup parent) {
+		View view = convertView;
+		OptionHolder holder = null;
+		try {
+			JSONArray temp = data.get(position).getJSONArray("children");
+			
+			if (view == null) {
+				LayoutInflater inflater = ((Activity) context).getLayoutInflater();
+				view = inflater.inflate(layoutResourceId, parent, false);
+				holder = new OptionHolder();
+				holder.optionName = (TextView) view.findViewById(R.id.name);
+				holder.choice = (TextView) view.findViewById(R.id.choice);
+				int min = data.get(position).getInt("min_selection");
+				int max = data.get(position).getInt("max_selection");
+				if (min == 1 && max >= min) {
+					for (int i = 0; i < min; i++) {
+						int p = temp.getJSONObject(i).getInt("price");
+						holder.choice.setText("Default: "
+								+ temp.getJSONObject(i).getString("name")
+								+ ((p == 0)?"":"\t Price: $" + p));	
+					}
+				}
+				view.setTag(holder);
+			} else
+				holder = (OptionHolder) view.getTag();
+			if (!holder.optionName.getText().toString().equals(data.get(position).getString("name"))) {
+				if (data.get(position).getInt("min_selection") == 1 &&
+						data.get(position).getInt("max_selection") <= 1) {
+					int p = temp.getJSONObject(0).getInt("price");
+					holder.choice.setText("Default: "
+							+ temp.getJSONObject(0).getString("name")
+							+ ((p == 0)?"":"\t Price: $" + p));		
+				}
+				else
+					holder.choice.setText("");
+			}
+				
+			holder.optionName.setText(data.get(position).getString("name"));
+			
+			if (temp.length() == 0) return null;
+		} catch (JSONException e) {e.printStackTrace();}
+		return view;
+	}
+	
+	static class OptionHolder {
+		TextView optionName;
+		TextView choice;
+	}
+
+	@Override
+	public int getCount() {
+		return data.size();
+	}
+}

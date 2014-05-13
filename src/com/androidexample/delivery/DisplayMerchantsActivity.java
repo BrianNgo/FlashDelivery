@@ -108,6 +108,7 @@ public class DisplayMerchantsActivity extends BaseActivity {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				merchantID = merchantArray.get(position).getID() + "";
+				MenuData.setMerchantId(merchantID);
 				new GetMenu().execute();
 			}
 		});
@@ -138,7 +139,7 @@ public class DisplayMerchantsActivity extends BaseActivity {
 		 */
 		@Override
 		protected Void doInBackground(Integer... arg) {
-			MenuData.setResult(SearchMerchants.search(merchantID, 1));
+			MenuData.setResult(ServerInteract.search(merchantID, 1));
 			try {
 				JSONArray mArray = MerchantData.getResult().getJSONArray("merchants");
 				if (MenuData.getResult().has("menu") || mArray.length() != 0) {
@@ -202,6 +203,7 @@ public class DisplayMerchantsActivity extends BaseActivity {
 	public static class MenuData {
 		private static JSONObject result;
 		private static String merchantInfo;
+		private static String merchantId;
 		
 		public static void setResult(String s) {
 			try {
@@ -212,6 +214,9 @@ public class DisplayMerchantsActivity extends BaseActivity {
 		
 		public static void setInfo(String s) {merchantInfo = s;}
 		public static String getInfo() {return merchantInfo;}
+		
+		public static void setMerchantId(String s) {merchantId = s;}
+		public static String getMerchantId() {return merchantId;}
 	}
 	
 	private void sortMerchants(int selection) {

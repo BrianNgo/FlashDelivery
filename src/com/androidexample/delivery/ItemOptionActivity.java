@@ -110,7 +110,8 @@ public class ItemOptionActivity extends FragmentActivity {
         Item.setContext(c); 
         Item.setPrice(Double.parseDouble(in.getStringExtra("price")));
         Item.setName(in.getStringExtra("name"));
-        Item.setOption(in.getStringExtra("option"));
+        Item.setOpt(in.getStringExtra("option"));
+        Item.setItemId(in.getStringExtra("id"));
         Item.setDesc(in.getStringExtra("desc"));
     }
 
@@ -121,17 +122,17 @@ public class ItemOptionActivity extends FragmentActivity {
     }    
     
     public static class Item {
-        private static ArrayList<String> item = new ArrayList<String>();
+        private static ArrayList<String> option = new ArrayList<String>();
         private static double basePrice = 0;
         private static int quantity;
         private static Context con;
-        private static String option, itemName, desc, instr;
+        private static String id, opt, itemName, desc, instr;
 
-        public static void addOption(String s) {item.add(s);}
-        public static void removeOption(int index) {item.remove(index);}
-        public static void setOption(int index, String s) {item.set(index, s);}
-        public static void resetOption() {item = new ArrayList<String>();}
-        public static ArrayList<String> getItem() {return item;}
+        public static void addOption(String s) {option.add(s);}
+        public static void removeOption(int index) {option.remove(index);}
+        public static void setOption(int index, String s) {option.set(index, s);}
+        public static void resetOption() {option = new ArrayList<String>();}
+        public static ArrayList<String> getOption() {return option;}
 
         public static void setPrice(double p) {basePrice = p;}
         public static double getPrice() {return basePrice;}
@@ -141,9 +142,12 @@ public class ItemOptionActivity extends FragmentActivity {
         
         public static void setContext(Context c) {con = c;}
         public static Context getContext() {return con;}
+        
+        public static void setItemId(String s) {id = s;}
+        public static String getItemId() {return id;}
 
-        public static void setOption(String s) {option = s;}
-        public static String getOption() {return option;}
+        public static void setOpt(String s) {opt = s;}
+        public static String getOpt() {return opt;}
         
         public static void setName(String s) {itemName = s;}
         public static String getName() {return itemName;}

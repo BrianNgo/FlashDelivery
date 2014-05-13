@@ -1,13 +1,5 @@
 package com.androidexample.delivery;
 
-
-import java.util.ArrayList;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import com.androidexample.delivery.SearchFragment.MerchantData;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -19,8 +11,6 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.TextView;
 import android.widget.Toast;
 
 public class AccountFragment extends BaseFragment {
@@ -116,7 +106,7 @@ public class AccountFragment extends BaseFragment {
              */
             @Override
             protected Void doInBackground(Void... arg0) {
-                message = SearchMerchants.userLogin(username, password);
+                message = ServerInteract.userLogin(username, password);
                 return null;
             }
 

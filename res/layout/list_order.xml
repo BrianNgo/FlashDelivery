@@ -22,7 +22,7 @@
         android:textSize="18sp" />
 
     <TextView
-        android:id="@+id/opt"
+        android:id="@+id/quantity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -30,7 +30,7 @@
         android:layout_below="@+id/name"
         android:layout_marginRight="20dp"
         android:layout_marginTop="5dp"
-        android:text="Option: "
+        android:text="Quantity"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textSize="16sp" />    
     
@@ -40,7 +40,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_toLeftOf="@+id/btnRemove"
-        android:layout_below="@+id/opt"
+        android:layout_below="@+id/quantity"
         android:layout_marginRight="10dp"
         android:layout_marginTop="5dp"
         android:text="Option"
@@ -54,6 +54,7 @@
         android:layout_alignParentRight="true"
         android:layout_below="@+id/name"
         android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
       	android:layout_marginRight="10dp"
         android:text="Price"
         android:textAppearance="?android:attr/textAppearanceLarge"
@@ -64,8 +65,9 @@
         android:layout_width="wrap_content"
         android:layout_height="30dp"
         android:layout_alignParentRight="true"
-        android:layout_alignBaseline="@+id/option"
-        android:layout_alignBottom="@+id/option"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/price"
+        android:gravity="center"
         android:background="#FFFFFF"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"

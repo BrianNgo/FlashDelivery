@@ -3,18 +3,24 @@ package com.androidexample.delivery;
 
 import java.util.ArrayList;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.androidexample.delivery.HomeActivity.HomeContext;
+import com.androidexample.delivery.HomeActivity.Home;
 import com.androidexample.delivery.ItemOptionActivity.Item;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -25,21 +31,21 @@ public class OrderFragment extends BaseFragment {
 	private TextView txt;
     Button btnBack, btnCheckOut;
     private ActionBar actionBar;
-    private Home listener;
-    private static ArrayList<JSONObject> orderList = new ArrayList<JSONObject>();;
+    private HomeActivity listener;
+    private static ArrayList<JSONObject> orderList = new ArrayList<JSONObject>();
     private static OrderAdapter adapter;
     private ListView list;
-	private Context c = HomeContext.getHomeContext();
+	private Context c = Home.getHomeContext();
     
 	public OrderFragment() {
-		super("Orders", R.layout.orders_fragment,R.layout.actionbar_top_orders, 1); // 0 is index of tab, next tabs will be 1 and 2
+		super("Orders", R.layout.fragment_order,R.layout.actionbar_top_orders, 1); // 0 is index of tab, next tabs will be 1 and 2
 		fragment = this;
         adapter = new OrderAdapter(c, R.layout.list_order, orderList);
 	}
 	
 	public static OrderFragment fragment;
 	
-    public interface Home {
+    public interface HomeActivity {
         public void onBackPressedHome();
     }
 	
@@ -47,7 +53,7 @@ public class OrderFragment extends BaseFragment {
     public void onAttach(Activity activity) {
     	super.onAttach(activity);
         try {
-            listener = (Home) activity;
+            listener = (HomeActivity) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString() + " must implement Home");
         }
@@ -83,52 +89,133 @@ public class OrderFragment extends BaseFragment {
                 startActivity(in);
             }
         });
-        if (Item.getName() != null) {
-        	ArrayList<String> item = Item.getItem();
-        	String name = Item.getName(); 
-        	double totalPrice = Item.getPrice();
-        	
-        	String option = "";
-        	for (int i = 0; i < item.size(); i++)
-        		if (!item.get(i).equals(""))
-        			option += item.get(i);
-        	String[] result = option.split("\\$");
-        	for (int i = 1; i < result.length; i++) {
-        		if (result[i].indexOf(" ") != -1)
-        			totalPrice += Double.parseDouble(result[i]
-        					.substring(0, result[i].indexOf("-")));		
-        		else
-        			totalPrice += Double.parseDouble(result[i]);		
-        	}
-        	
-        	totalPrice *= Item.getQuantity();
-        	name = "{\"name\":\"" + name + "\",\"price\":" + totalPrice
-        			+ ",\"option\":\"" + option + "\"}";
-        	try {
-        		JSONObject temp = new JSONObject(name);
-        		orderList.add(temp);
-        		Log.i("Success adding order", "*****");
-        	} catch (JSONException e) {e.printStackTrace();}
-        }
-        
-		txt = (TextView) this.fragmentView.findViewById(R.id.cart);
-	    ImageView v = (ImageView) this.fragmentView.findViewById(R.id.imageView1);
-		if (orderList.size() != 0) {				
-		    v.setVisibility(View.GONE);
-			txt.setVisibility(View.GONE);
-			adapter.notifyDataSetChanged();
-		}
-		else {
-		    v.setVisibility(View.VISIBLE);
-			txt.setVisibility(View.VISIBLE);
-			txt.setText("No Orders");
-		}
+        if (Item.getName() != null)
+        	new AddToCart().execute();
 	}
 	
-	public static class EditList {
+	@Override
+	public void onPause() {
+		super.onPause();
+	}
+	
+	public static class EditOrder {
+		private static String guestToken = "";
+		
+		public static void setGuestToken(String t) {guestToken = t;}
+		public static String getGuestToken() {return guestToken;}
+		
 		public static void removeOrder(int position) {
 			orderList.remove(position);
 			adapter.notifyDataSetChanged();
+		}
+	}
+	
+	private class AddToCart extends AsyncTask<Void, Void, Void> {
+		
+		// custom dialog
+		final Dialog dialog = new Dialog(c);
+		private JSONObject message, cart;
+		private JSONArray msg, cartArray;
+		
+		/**
+		 * The onPreExecute method display the waiting message
+		 * while the program is executing add to cart function
+		 */
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			// Showing custom progress view (background not disabled)
+			//showLoading();
+			
+			// custom dialog
+			dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+			dialog.setContentView(R.layout.custom_progress_dialog);
+			dialog.setCancelable(false);
+			dialog.show();
+		}
+
+		/**
+		 * The doInBackGround method interacts with the server to
+		 * add to customer's cart their orders
+		 */
+		@Override
+		protected Void doInBackground(Void... arg0) {
+	        if (Item.getName() != null) {       
+	        	try {
+	        		orderList.removeAll(orderList);
+	        		if (EditOrder.getGuestToken().equals(""))
+	        			EditOrder.setGuestToken(ServerInteract.getGuestToken(""));
+	        		String temp = ServerInteract.addToCart(EditOrder.getGuestToken());
+	        		message = new JSONObject(temp);
+        			Log.i("Message" + message.toString(), "*******");
+	        		msg = message.getJSONArray("message");
+	        		
+	        		cart = new JSONObject(ServerInteract.viewCart(EditOrder.getGuestToken(),""));
+	        		if (cart.getJSONArray("message").length() == 0) {
+	        			cartArray = cart.getJSONArray("cart");
+	        			for (int i = 0; i < cartArray.length(); i++) {
+	        				JSONObject item = new JSONObject();
+	        				double totalPrice = message.getDouble("subtotal")
+	        						+ message.getDouble("tax");
+	        				item.put("price", totalPrice);
+	        				item.put("item", cartArray.getJSONObject(i));
+	        				orderList.add(item);
+	        			}
+	        		}
+	        	} catch (Exception e) {e.printStackTrace();}
+	        }
+			return null;
+		}
+
+		/**
+		 * Display successed order in customer's cart
+		 *
+		 */
+		@Override
+		protected void onPostExecute(Void result) {
+			super.onPostExecute(result);
+			// Showing custom progress view (background not disabled)
+			// hideLoading();
+			// custom dialog
+			dialog.dismiss();
+			try {
+				if (msg.length() != 0) {
+					AlertDialog.Builder alert = new AlertDialog.Builder(c);
+					alert.setTitle("Error");
+					alert.setMessage(msg.getJSONObject(0).getString("user_msg"));
+					alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int id) {
+							dialog.cancel();
+						}      
+					});
+					alert.show();
+				}
+				if (cart.getJSONArray("message").length() != 0) {
+					AlertDialog.Builder alert = new AlertDialog.Builder(c);
+					alert.setTitle("Error");
+					alert.setMessage(cart.getJSONArray("message").getJSONObject(0).getString("user_msg"));
+					alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int id) {
+							dialog.cancel();
+						}      
+					});
+					alert.show();
+				}
+			} catch (JSONException e) {e.printStackTrace();}
+			
+			txt = (TextView) fragment.fragmentView.findViewById(R.id.cart);
+		    ImageView v = (ImageView) fragment.fragmentView.findViewById(R.id.imageView1);
+			if (orderList.size() != 0) {				
+			    v.setVisibility(View.GONE);
+				txt.setVisibility(View.GONE);
+				adapter.notifyDataSetChanged();
+			}
+			else {
+			    v.setVisibility(View.VISIBLE);
+				txt.setVisibility(View.VISIBLE);
+				txt.setText("No Orders");
+			}
+			Item.resetOption();
 		}
 	}
 }

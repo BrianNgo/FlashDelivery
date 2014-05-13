@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Html;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,7 +41,7 @@ public class MenuFragment extends Fragment {
 	    try {
 		    JSONArray itemList = MenuData.getResult().getJSONArray("menu");
 		    for (int i = 0; i < itemList.length(); i++) {
-		    	menuList.add(itemList.getString(i));
+		    	menuList.add(Html.fromHtml(itemList.getString(i)).toString());
 		    }
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block

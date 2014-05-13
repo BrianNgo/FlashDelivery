@@ -15,7 +15,7 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.Interpolator;
 import android.widget.ToggleButton;
 
-public class HomeActivity extends FragmentActivity implements OrderFragment.Home {
+public class HomeActivity extends FragmentActivity implements OrderFragment.HomeActivity {
 	
 	// nav bar stuffs
     private ViewPager viewPager;
@@ -28,7 +28,7 @@ public class HomeActivity extends FragmentActivity implements OrderFragment.Home
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         
-        HomeContext.setHomeContext(c);
+        Home.setHomeContext(c);
         
         tabAdapter = new TabPagerAdapter(getSupportFragmentManager());
 	    viewPager = (ViewPager) findViewById(R.id.pager);
@@ -137,7 +137,7 @@ public class HomeActivity extends FragmentActivity implements OrderFragment.Home
 		viewPager.setCurrentItem(0);	
 	}
 
-	public static class HomeContext{
+	public static class Home{
 		private static Context con;
 		
 		public static void setHomeContext(Context c) {con = c;}

@@ -29,7 +29,7 @@ import android.widget.Toast;
 public class SearchFragment extends BaseFragment {
 	
 	public SearchFragment() {
-		super("Search", R.layout.search_fragment,R.layout.actionbar_top_search, 0); // 0 is index of tab, next tabs will be 1 and 2
+		super("Search", R.layout.fragment_search,R.layout.actionbar_top_search, 0); // 0 is index of tab, next tabs will be 1 and 2
 		fragment = this;
 	}
 	
@@ -177,6 +177,7 @@ public class SearchFragment extends BaseFragment {
 	public static class MerchantData {
 		private static JSONObject searchResult;
 		private static ArrayList<Merchant> merchants;
+		private static JSONObject geoCodedLocation;
 
 		public static void setResult(String s) {
 			try {
@@ -190,6 +191,13 @@ public class SearchFragment extends BaseFragment {
 		
 		public static void setMerchantList(ArrayList<Merchant> m) {merchants = m;}
 		public static ArrayList<Merchant> getMerchantList() {return merchants;}
+		
+		public static void setAddress() {
+			try {
+				geoCodedLocation = searchResult.getJSONObject("search_address");
+			} catch (JSONException e) {e.printStackTrace();}
+		}
+		public static JSONObject getAddress() {return geoCodedLocation;}
 	}
 	
 	/**
@@ -267,8 +275,9 @@ public class SearchFragment extends BaseFragment {
 		protected Void doInBackground(Void... arg0) {
 			
 			// SearchMerchants search = new SearchMerchants("input here");
-			MerchantData.setResult(SearchMerchants.search(SEARCH_ADDRESS, 0));
-			MerchantData.setMerchantList(SearchMerchants.createMerList(MerchantData.getResult()));
+			MerchantData.setResult(ServerInteract.search(SEARCH_ADDRESS, 0));
+			MerchantData.setMerchantList(ServerInteract.createMerList(MerchantData.getResult()));
+			MerchantData.setAddress();
 			return null;
 		}
 

@@ -2,10 +2,11 @@ package com.androidexample.delivery;
 
 import java.util.ArrayList;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.androidexample.delivery.OrderFragment.EditList;
+import com.androidexample.delivery.OrderFragment.EditOrder;
 
 import android.app.Activity;
 import android.content.Context;
@@ -38,72 +39,56 @@ public class OrderAdapter extends ArrayAdapter<JSONObject> {
 		final int pos = position;
 		View view = convertView;
 		OrderHolder holder = null;
-		try {			
-			if (view == null) {
-				LayoutInflater inflater = ((Activity) context).getLayoutInflater();
-				view = inflater.inflate(layoutResourceId, parent, false);
-				holder = new OrderHolder();
-				holder.itemName = (TextView) view.findViewById(R.id.name);
-				holder.option = (TextView) view.findViewById(R.id.option);
-				holder.price = (TextView) view.findViewById(R.id.price);
-				holder.btnRemove = (Button) view.findViewById(R.id.btnRemove);
-				
-				holder.itemName.setText(data.get(position).getString("name"));
-				holder.price.setText("Total price: $" + data.get(position).getDouble("price"));
-
-				String[] opt = data.get(position).getString("option").split("- ");
-				String finalOption = "- ";
-				for (int i = 0; i < opt.length; i++) {
-					String temp;
-					if (opt[i].indexOf("Price") != -1)
-						temp = opt[i].substring(0, opt[i].indexOf("Price"));
-					else
-						temp = opt[i];
-					if (i != opt.length-1)
-						finalOption += temp + ", ";
-					else
-						finalOption += temp;
-				}
-				holder.option.setText(finalOption);
-				
-				holder.btnRemove.setOnClickListener(new OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						EditList.removeOrder(pos);
-					}
-				});
-				view.setTag(holder);
-			} else
-				holder = (OrderHolder) view.getTag();
-				
-			holder.itemName.setText(data.get(position).getString("name"));
+		String finalOption = "";
+		JSONArray topOpt = null;
+		if (view == null) {
+			LayoutInflater inflater = ((Activity) context).getLayoutInflater();
+			view = inflater.inflate(layoutResourceId, parent, false);
+			holder = new OrderHolder();
+			holder.itemName = (TextView) view.findViewById(R.id.name);
+			holder.quantity = (TextView) view.findViewById(R.id.quantity);
+			holder.option = (TextView) view.findViewById(R.id.option);
+			holder.price = (TextView) view.findViewById(R.id.price);
+			holder.btnRemove = (Button) view.findViewById(R.id.btnRemove);
+			view.setTag(holder);
+		} else
+			holder = (OrderHolder) view.getTag();
+		
+		try {
+			holder.itemName.setText(data.get(position).getJSONObject("item").getString("name"));
+			holder.quantity.setText("Quantity: " + data.get(position).getJSONObject("item").getInt("quantity"));
 			holder.price.setText("Price: $" + data.get(position).getDouble("price"));
 
-			String[] opt = data.get(position).getString("option").split("- ");
-			String finalOption = "- ";
-			for (int i = 0; i < opt.length; i++) {
-				String temp;
-				if (opt[i].indexOf("Price") != -1)
-					temp = opt[i].substring(0, opt[i].indexOf("Price"));
-				else if (opt[i].indexOf("\n") != -1)
-					temp = opt[i].substring(0, opt[i].indexOf("\n"));
-				else
-					temp = opt[i];
-				if (!temp.equals("")) {
-					if (i != opt.length-1)
-						finalOption += temp + ", ";
-					else
-						finalOption += temp;
+			topOpt = data.get(position).getJSONObject("item").getJSONArray("options");
+			for (int i = 0; i < topOpt.length(); i++) {
+				try {
+					JSONArray botOpt = topOpt.getJSONObject(i).getJSONArray("options");
+					for (int j = 0; j < botOpt.length(); j++)
+						finalOption += botOpt.getJSONObject(j).getString("name") + ". ";
+				} catch (JSONException e) {}
+			}
+		} catch (JSONException e) {}
+		holder.option.setText(finalOption);
+		
+		holder.btnRemove.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (data.size() != 0) {
+					EditOrder.removeOrder(pos);
+					int key;
+					try {
+						key = data.get(pos).getJSONObject("item").getInt("item_key");
+						ServerInteract.removeOrder(key, EditOrder.getGuestToken());
+					} catch (JSONException e) {e.printStackTrace();}
 				}
 			}
-			holder.option.setText(finalOption);
-			
-		} catch (JSONException e) {e.printStackTrace();}
+		});
 		return view;
 	}
 	
 	static class OrderHolder {
 		TextView itemName;
+		TextView quantity;
 		TextView option;
 		TextView price;
 		Button btnRemove;

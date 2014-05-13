@@ -74,10 +74,11 @@ public class SingleMenuActivity extends BaseActivity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				String option = "", desc = "", price = "", itemName = "", 
+				String option = "", itemId = "", desc = "", price = "", itemName = "", 
 						maxQty = "", minQty = "";
 				try {
 					option = menuList.get(position).getString("children");
+					itemId = menuList.get(position).getString("id");
 					desc = menuList.get(position).getString("description");
 					price = menuList.get(position).getString("price");
 					itemName = menuList.get(position).getString("name");
@@ -90,6 +91,7 @@ public class SingleMenuActivity extends BaseActivity {
 				Intent intent = new Intent(getApplicationContext(), ItemOptionActivity.class);
 				intent.putExtra("name", itemName);
 				intent.putExtra("option", option);
+				intent.putExtra("id", itemId);
 				intent.putExtra("desc", desc);
 				intent.putExtra("price", price);
 				intent.putExtra("maxQty", maxQty);
