@@ -175,10 +175,15 @@ public class SearchFragment extends BaseFragment {
 	 * @param 
 	 */
 	public static class MerchantData {
+		private static String orderType = "delivery";
 		private static JSONObject searchResult;
 		private static ArrayList<Merchant> merchants;
 		private static JSONObject geoCodedLocation;
 
+
+		public static void setOrderType(String s) {orderType = s;}
+		public static String getOrderType() {return orderType;}
+		
 		public static void setResult(String s) {
 			try {
 				searchResult = new JSONObject(s);

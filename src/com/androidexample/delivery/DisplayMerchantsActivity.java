@@ -139,10 +139,10 @@ public class DisplayMerchantsActivity extends BaseActivity {
 		 */
 		@Override
 		protected Void doInBackground(Integer... arg) {
-			MenuData.setResult(ServerInteract.search(merchantID, 1));
+			MenuData.setMenu(ServerInteract.search(merchantID, 1));
 			try {
 				JSONArray mArray = MerchantData.getResult().getJSONArray("merchants");
-				if (MenuData.getResult().has("menu") || mArray.length() != 0) {
+				if (MenuData.getMenu().has("menu") || mArray.length() != 0) {
 					String merchantInfo = "";
 					found = false;
 					for (int i = 0; i < mArray.length(); i++)
@@ -182,7 +182,7 @@ public class DisplayMerchantsActivity extends BaseActivity {
 			else { // Display error message, need to get merchant error message too
 				String msg = "";
 				try {
-					msg = MenuData.getResult().getJSONObject("message").getJSONObject("user_msg").toString();
+					msg = MenuData.getMenu().getJSONObject("message").getJSONObject("user_msg").toString();
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -201,16 +201,24 @@ public class DisplayMerchantsActivity extends BaseActivity {
 	}
 	
 	public static class MenuData {
-		private static JSONObject result;
+		private static JSONObject menu, subMenu;
+		private static JSONArray dishes;
 		private static String merchantInfo;
 		private static String merchantId;
 		
-		public static void setResult(String s) {
+		public static void setMenu(String s) {
 			try {
-				result = new JSONObject(s);
+				menu = new JSONObject(s);
 			} catch (JSONException e) {e.printStackTrace();}
 		}
-		public static JSONObject getResult() {return result;}
+		public static JSONObject getMenu() {return menu;}
+		
+
+		public static void setSubMenu(JSONObject s) {subMenu = s;}
+		public static JSONObject getSubMenu() {return subMenu;}
+		
+		public static void setDishes(JSONArray s) {dishes = s;}
+		public static JSONArray getDishes() {return dishes;}
 		
 		public static void setInfo(String s) {merchantInfo = s;}
 		public static String getInfo() {return merchantInfo;}

@@ -56,6 +56,7 @@ public class ServerInteract {
     final static String ADDRESS_APT = "Apt 123";
     final static String CLIENT_ID = "MzMxMjA4N2FjOWM0YjQ1YmIyYzgwMTI1MmIzMjA1MDYz";
     final static String ORDER_TYPE = "delivery";
+    final static int SEARCH_MERCHANT = 0, SEARCH_MENU = 1;
 
     /**
      * The search method create a http call to delivery server
@@ -65,7 +66,7 @@ public class ServerInteract {
      */
     public static String search(String input, int type) {
         String url = "";
-        if (type == 0)
+        if (type == SEARCH_MERCHANT)
             // The url to connect
             url = "https://api.delivery.com/merchant/search/delivery?client_id=ZjkxODFiNWRkMTYzOWNhMzEzZTk4ZTZjNTU4MDM2ZjJj&address=1330%201st%20Ave,%2010021";
         else

@@ -11,9 +11,12 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.util.SparseArray;
+import android.view.ViewGroup;
  
 public class TabsAdapter extends FragmentPagerAdapter 
 		implements OnPageChangeListener, TabListener {
+	private SparseArray<Fragment> fragments = new SparseArray<Fragment>();   
 	private final Context mContext;
     private final ActionBar mActionBar;
     private final ViewPager mViewPager;
@@ -42,10 +45,19 @@ public class TabsAdapter extends FragmentPagerAdapter
     	else if (which == 1)
        		switch (index) {
     		case 0:
-    			// Info fragment activity
+    			Fragment f1 = Fragment.instantiate(mContext, SubMenuFragment.class.getName(), null);
+    			fragments.put(index, f1);
+    			return f1;
+    		case 1:
+    			Fragment f2 = Fragment.instantiate(mContext, DishFragment.class.getName(), null);
+    			fragments.put(index, f2);
+    			return f2;
+    	}
+    	else if (which == 2)
+       		switch (index) {
+    		case 0:
     			return Fragment.instantiate(mContext, ItemFragment.class.getName(), null);
     		case 1:
-    			// Menu fragment activity
     			return Fragment.instantiate(mContext, OptionFragment.class.getName(), null);
     	}
         return null;
@@ -89,6 +101,10 @@ public class TabsAdapter extends FragmentPagerAdapter
     }
 
     public void onTabReselected(Tab tab, FragmentTransaction ft) {
+    }
+    
+    public Fragment getFragment(int position) {
+        return fragments.get(position);
     }
 
 }

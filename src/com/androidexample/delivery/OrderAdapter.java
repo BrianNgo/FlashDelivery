@@ -74,12 +74,11 @@ public class OrderAdapter extends ArrayAdapter<JSONObject> {
 			@Override
 			public void onClick(View v) {
 				if (data.size() != 0) {
-					EditOrder.removeOrder(pos);
-					int key;
+					int key = pos;
 					try {
 						key = data.get(pos).getJSONObject("item").getInt("item_key");
-						ServerInteract.removeOrder(key, EditOrder.getGuestToken());
 					} catch (JSONException e) {e.printStackTrace();}
+					EditOrder.removeOrder(pos, key);
 				}
 			}
 		});

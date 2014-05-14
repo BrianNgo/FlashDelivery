@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.androidexample.delivery"
     android:versionCode="1"
-    android:versionName="1.1.4" >
+    android:versionName="1.1.5" >
 
     <uses-sdk
         android:minSdkVersion="16"
@@ -73,7 +73,7 @@
                 android:value="com.androidexample.delivery.DisplayMerchantsActivity" />
         </activity>
         <activity
-            android:name="com.androidexample.delivery.SingleMenuActivity"
+            android:name="com.androidexample.delivery.SubMenuActivity"
             android:label="@string/title_activity_single_menu"
             android:parentActivityName="com.androidexample.delivery.DisplayMenuActivity"
             android:uiOptions="splitActionBarWhenNarrow" >
@@ -84,7 +84,7 @@
         <activity
             android:name="com.androidexample.delivery.ItemOptionActivity"
             android:label="@string/title_activity_item_option"
-            android:parentActivityName="com.androidexample.delivery.SingleMenuActivity" >
+            android:parentActivityName="com.androidexample.delivery.SubMenuActivity" >
         </activity>
         <activity
             android:name="com.androidexample.delivery.CheckOutActivity"

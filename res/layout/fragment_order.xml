@@ -5,6 +5,30 @@
     android:background="@drawable/bground1"
     tools:context=".SplashActivity" >
 
+    <TextView
+        android:id="@+id/subTotal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/btnClear"
+        android:layout_marginTop="5dp"
+        android:text="Sub-total"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+    
+    <Button
+        android:id="@+id/btnClear"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:gravity="center"
+        android:background="#FFFFFF"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:text="Clear All"
+        android:textColor="@color/lightblue2" />
+    
     <ImageView
         android:id="@+id/imageView1"
         android:layout_width="wrap_content"
@@ -22,13 +46,14 @@
         android:layout_above="@+id/imageView1"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="121dp"
-        android:text="See Your Orders"
+        android:text="No Items in Cart"
         android:textAppearance="?android:attr/textAppearanceLarge" />
     
    <ListView
         android:id="@+id/listView"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:layout_below="@+id/subTotal"
         android:layout_above="@+id/cart"
         android:layout_marginTop="5dp" />
 

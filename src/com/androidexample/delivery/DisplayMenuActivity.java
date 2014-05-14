@@ -53,7 +53,7 @@ public class DisplayMenuActivity extends FragmentActivity {
 			}
 		});
 	    
-	    if (MenuData.getResult().has("menu") || !MenuData.getInfo().equals(""))
+	    if (MenuData.getMenu().has("menu") || !MenuData.getInfo().equals(""))
 	    	if (!MenuData.getInfo().equals(""))
 	    		actionBar.setSelectedNavigationItem(0);
 	    	else

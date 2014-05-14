@@ -94,7 +94,7 @@ public class ItemOptionActivity extends FragmentActivity {
         
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         viewPager = (ViewPager) findViewById(R.id.pager1);
-        mAdapter = new TabsAdapter(getSupportFragmentManager(), this, viewPager, 1);       
+        mAdapter = new TabsAdapter(getSupportFragmentManager(), this, viewPager, 2);       
         for (String tab_name : tabs) {
         	mAdapter.addTab(tab_name);
         }

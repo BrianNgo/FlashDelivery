@@ -26,11 +26,9 @@ import com.androidexample.delivery.ItemOptionActivity.Item;
 public class OptionFragment extends Fragment {
     private OptionAdapter adapter = null;
     private ArrayList<JSONObject> optionList;
-    private JSONArray itemOption = null;
     private int originalSize, totalSize;
-	private ArrayList<Integer> selectedOptions;
 	private SparseIntArray posToSel, posToOpt;
-	private ArrayList<ArrayList<Integer>> nestedOptions;
+	private ArrayList<ArrayList<Integer>> allOptions;
 	private Context c = Item.getContext();
 	private View rootView;
 	private ListView list;
@@ -41,8 +39,8 @@ public class OptionFragment extends Fragment {
     	posToSel = new SparseIntArray();
     	posToOpt = new SparseIntArray();
     	optionList = new ArrayList<JSONObject>();
-    	nestedOptions = new ArrayList<ArrayList<Integer>>();
-    	Item.resetOption();
+    	allOptions = new ArrayList<ArrayList<Integer>>();
+		Item.resetOption();
         rootView = inflater.inflate(R.layout.fragment_option, container, false);
         adapter = new OptionAdapter(c, R.layout.list_option, optionList);
         list = (ListView) rootView.findViewById(R.id.listView);
@@ -52,20 +50,22 @@ public class OptionFragment extends Fragment {
         }
      
         try {
-            itemOption = new JSONArray(Item.getOpt());
+            JSONArray itemOption = new JSONArray(Item.getOpt());
             originalSize = itemOption.length();
             for (int i = 0; i < itemOption.length(); i++)
                 optionList.add(itemOption.getJSONObject(i));
             
             for (int i = 0; i < optionList.size(); i++) {
+        		int min = optionList.get(i).getInt("min_selection");
+        		int max = optionList.get(i).getInt("max_selection");
             	JSONArray temp = optionList.get(i).getJSONArray("children");
             	posToOpt.put(i, i);
             	if (temp.length() != 0) {
-            		int min = optionList.get(i).getInt("min_selection");
-            		int max = optionList.get(i).getInt("max_selection");
-            		if (min == 1 && max >= min) {
+            		if (min >= 1 && max >= min) {
+            			String strId = "";
             			for (int j = 0; j < min; j++)
-            				Item.addOption("ID:" + temp.getJSONObject(j).getString("id") + "\":" + 1);
+            				strId += "ID:" + temp.getJSONObject(j).getString("id") + "\":" + 1;
+            			Item.addOption(strId);
             		}
             		else
             			Item.addOption("");
@@ -75,19 +75,18 @@ public class OptionFragment extends Fragment {
             }
         }
         catch (JSONException e) {e.printStackTrace();}
-        
         return rootView;
      }
 
      @Override
      public void onResume() {
     	 super.onResume();
-    	 
         if (!optionList.isEmpty()) {
             list.setOnItemClickListener(new OnItemClickListener() {
 
-                int singleSelection;
-                int min, max;
+            	ArrayList<Integer> selectedOptions = new ArrayList<Integer>();
+                int singleSelection = -1;
+                int min = 0, max = 0;
                 ArrayList<String> option, optionId;
 				boolean nestedGroup = false;
                 JSONArray oList;
@@ -107,8 +106,7 @@ public class OptionFragment extends Fragment {
                         for (int i = 0; i < oList.length(); i++) {
                         	double price = oList.getJSONObject(i).getDouble("price");
                             option.add(oList.getJSONObject(i).getString("name")
-                                    + ((price==0)?"":(" Price: $" + price )));
-//                                    + oList.getJSONObject(i).getString("id"));
+                                    + ((price==0)?"":(" - Price: $" + price )));
                             optionId.add(oList.getJSONObject(i).getString("id"));
                         }
 
@@ -116,8 +114,7 @@ public class OptionFragment extends Fragment {
                         alert.setTitle("Select | Min: " + min + " | Max: " + max);
 
                         String myList[] = option.toArray(new String[option.size()]);                       
-                        if (max > 1) {
-                            selectedOptions = new ArrayList<Integer>();
+                        if (min > 1) {
                             alert.setMultiChoiceItems(myList, null,
                                     new DialogInterface.OnMultiChoiceClickListener() {
                                 @Override
@@ -143,6 +140,7 @@ public class OptionFragment extends Fragment {
                                         singleSelection = which;
                                     }
                                 });
+                                selectedOptions.add(singleSelection);
                             }
                             else {
                                 alert.setSingleChoiceItems(myList, -1,
@@ -159,15 +157,15 @@ public class OptionFragment extends Fragment {
                             public void onClick(DialogInterface dialog, int id) {
                             	
             					if (posToSel.get(pos, -1) != -1) {
-            						ArrayList<Integer> temp = nestedOptions.get(posToSel.get(pos));
+            						ArrayList<Integer> temp = allOptions.get(posToSel.get(pos));
             						if (temp.size() != 0) {
             							totalSize = 0;
             							for (int i = 0; i < posToSel.get(pos); i++) {
-            								for (int j = 0; j < nestedOptions.get(i).size(); j++) {
+            								for (int j = 0; j < allOptions.get(i).size(); j++) {
             									try {
-            										if(oList.getJSONObject(nestedOptions.get(i).get(j))
+            										if(oList.getJSONObject(allOptions.get(i).get(j))
             												.getJSONArray("children").length() != 0) {
-            											totalSize += nestedOptions.get(i).size();
+            											totalSize += allOptions.get(i).size();
             										}
             									} catch (JSONException e) {}
             								}
@@ -182,18 +180,17 @@ public class OptionFragment extends Fragment {
             								} catch (JSONException e) {correctSize--;}
             							}
             							
-            							Log.i("Correct: " + correctSize + " Nest : " + nestedOptions.size()
+            							Log.i("Correct: " + correctSize + " Nest : " + allOptions.size()
             									+ "sel: " + temp.size() + "total" + totalSize, "***");
             							
-            							for (int i = correctSize - 1; i >= 0; i--) {
+            							for (int i = correctSize - 1; i >= 0; i--)
             								optionList.remove(originalSize + totalSize + i);
-                                    		Item.removeOption(pos);
-            							}
             						}
             					}
                             	
                                 String tempId = "", temp = "";
-                                if (max > 1) {
+                                // have multiple options
+                                if (min > 1) {
 									if (selectedOptions.size() < min) {
 										AlertDialog.Builder diag = new AlertDialog.Builder(c);
 										diag.setTitle("Error");
@@ -207,11 +204,11 @@ public class OptionFragment extends Fragment {
 									}
 									else {
 										if (posToSel.get(pos, -1) == -1) {
-											posToSel.put(pos, nestedOptions.size());
-											nestedOptions.add(selectedOptions);
+											posToSel.put(pos, allOptions.size());
+											allOptions.add(selectedOptions);
 										}
 										else 
-											nestedOptions.set(posToSel.get(pos), selectedOptions);
+											allOptions.set(posToSel.get(pos), selectedOptions);
 										
 										for (int i = 0; i < selectedOptions.size(); i++) {
 											temp += "- " + option.get(selectedOptions.get(i))
@@ -226,14 +223,13 @@ public class OptionFragment extends Fragment {
 															.getJSONArray("children");
 													for (int j = 0; j < tempList.length(); j++) {
 														optionList.add(tempList.getJSONObject(j));
-														posToOpt.put(originalSize + i + j, Item.getOption().size());
-//														String name = tempList.getJSONObject(j).getJSONArray("children")
-//																.getJSONObject(0).getString("name");
-//														double price = tempList.getJSONObject(j).getJSONArray("children")
-//																.getJSONObject(0).getDouble("price");
-//														String o = "- " + name + ((price == 0)?"":" Price: $" + price);
-														String tempID = "ID:" + tempList.getJSONObject(j).getJSONArray("children")
-																.getJSONObject(0).getString("id") + "\":" + 1;
+														posToOpt.put(optionList.size() + j, Item.getOption().size());
+	                                        			int subMin = tempList.getJSONObject(j).getInt("min_selection");
+	                                        			String tempID = "";
+	                                        			for (int k = 0; k < subMin; k++) {
+	                                        				tempID = "ID:" + tempList.getJSONObject(j).getJSONArray("children")
+																.getJSONObject(k).getString("id") + "\":" + 1;
+	                                        			}
 														Item.addOption(tempID);
 													}
 												}
@@ -241,6 +237,7 @@ public class OptionFragment extends Fragment {
 										}
 									}
                                 }
+                                // single option
                                 else {
                                 	if (singleSelection != -1) {
                                     	temp = "- " + option.get(singleSelection);
@@ -252,34 +249,32 @@ public class OptionFragment extends Fragment {
                                         	if (nestedGroup) {
                                         		JSONArray tempList = oList.getJSONObject(singleSelection)
                                         				.getJSONArray("children");
+                                        		// add sweeter, salter, spicer
                                         		for (int j = 0; j < tempList.length(); j++) {
                                         			optionList.add(tempList.getJSONObject(j));
                                         			posToOpt.put(originalSize + j, Item.getOption().size());
-//                                        			String name = tempList.getJSONObject(j).getJSONArray("children")
-//                                                			.getJSONObject(0).getString("name");
-//                                        			double price = tempList.getJSONObject(j).getJSONArray("children")
-//                                                			.getJSONObject(0).getDouble("price");
-//                                        			String o = "- " + name + ((price == 0)?"":" Price: $" + price);
-													String tempID = "ID:" + tempList.getJSONObject(j).getJSONArray("children")
-															.getJSONObject(0).getString("id") + "\":" + 1;
+                                        			int subMin = tempList.getJSONObject(j).getInt("min_selection");
+                                        			String tempID = "";
+                                        			for (int k = 0; k < subMin; k++) {
+                                        				tempID = "ID:" + tempList.getJSONObject(j).getJSONArray("children")
+															.getJSONObject(k).getString("id") + "\":" + 1;
+                                        			}
                                             		Item.addOption(tempID);
                                         		}
                                         	}
                                         } catch (JSONException e) {e.printStackTrace();}                                       
                                     }
-                                    else if (min > 0) {
-                                    	singleSelection = 0;
-                                    	temp = "- " + option.get(singleSelection);
-                                    	tempId = "ID:" + optionId.get(singleSelection) + "\":" + 1;
-                                    }
+//                                    else if (min == 1) {
+//                                    	singleSelection = 0;
+//                                    	temp = "- " + option.get(singleSelection);
+//                                    	tempId = "ID:" + optionId.get(singleSelection) + "\":" + 1;
+//                                    }
                             		if (posToSel.get(pos, -1) == -1) {
-                            			selectedOptions = new ArrayList<Integer>();
-                            			selectedOptions.add(singleSelection);
-                            			posToSel.put(pos, nestedOptions.size());
-                            			nestedOptions.add(selectedOptions);
+                            			posToSel.put(pos, allOptions.size());
+                            			allOptions.add(selectedOptions);
                             		}
                             		else 
-                            			nestedOptions.set(posToSel.get(pos), selectedOptions);
+                            			allOptions.set(posToSel.get(pos), selectedOptions);
                                 }
 
                                 TextView textView5 = (TextView) v.findViewById(R.id.choice);

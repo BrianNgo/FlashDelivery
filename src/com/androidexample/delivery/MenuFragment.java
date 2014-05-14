@@ -7,29 +7,24 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.ExpandableListView;
-import android.widget.ExpandableListView.OnGroupClickListener;
-import android.widget.ImageView;
-import android.widget.ExpandableListView.OnChildClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ListView;
 
 import com.androidexample.delivery.DisplayMerchantsActivity.MenuData;
 
 public class MenuFragment extends Fragment {
-	private ArrayList<String> menuList = new ArrayList<String>();
-	MenuCustomAdapter adapter;
-    ExpandableListView expanLV;
+	private ArrayList<JSONObject> menuList = new ArrayList<JSONObject>();
+	MenuAdapter adapter;
+    ListView list;
     
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -39,14 +34,12 @@ public class MenuFragment extends Fragment {
         
         // Populate list 	
 	    try {
-		    JSONArray itemList = MenuData.getResult().getJSONArray("menu");
+		    JSONArray itemList = MenuData.getMenu().getJSONArray("menu");
 		    for (int i = 0; i < itemList.length(); i++) {
-		    	menuList.add(Html.fromHtml(itemList.getString(i)).toString());
+		    	menuList.add(new JSONObject(Html.fromHtml(itemList.getString(i)).toString()));
 		    }
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		} catch (JSONException e) {e.printStackTrace();}
+	    
 	    if (menuList.isEmpty()) {
 			AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
 			alert.setTitle("Error");
@@ -58,77 +51,18 @@ public class MenuFragment extends Fragment {
 			});
 			alert.show();
 	    }
-	    expanLV = (ExpandableListView) rootView.findViewById(R.id.lvExp);
-		adapter = new MenuCustomAdapter(getActivity(),
-				R.layout.list_menu, R.layout.list_child_menu, menuList);
-        expanLV.setAdapter(adapter);
-        WindowManager wm = (WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE);
-        Display display = wm.getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        expanLV.setIndicatorBounds(size.x - 35, size.x - 40);  
-        
-        expanLV.setOnGroupClickListener(new OnGroupClickListener () {
+	    list = (ListView) rootView.findViewById(R.id.listView);
+		adapter = new MenuAdapter(getActivity(), R.layout.list_menu, menuList);
+        list.setAdapter(adapter);
+
+        list.setOnItemClickListener(new OnItemClickListener() {
 			@Override
-			public boolean onGroupClick(ExpandableListView parent, View v,
-					int groupPosition, long id) {
-				if (adapter.getChildrenCount(groupPosition) == 0) {
-	        		String singleMenu = "", name = "";	
-	        		
-					JSONObject itemGroup;       		
-					try {
-						itemGroup = new JSONObject(menuList.get(groupPosition));
-						singleMenu = itemGroup.getString("children");
-						name = itemGroup.getString("name");
-					} catch (JSONException e) {e.printStackTrace();}
-					
-					ImageView icon=(ImageView) v.findViewById(R.id.indicator);
-					icon.setImageResource(R.drawable.arrow_right);
-					
-	        		Intent intent = new Intent(getActivity(), SingleMenuActivity.class);
-					intent.putExtra("menu", singleMenu);
-					intent.putExtra("name", name);
-					startActivity(intent);
-				}
-				return false;
+			public void onItemClick(AdapterView<?> parent, View v,
+                    int position, long id) {
+				MenuData.setSubMenu(menuList.get(position));
+				Intent intent = new Intent(getActivity(), SubMenuActivity.class);
+				startActivity(intent);
 			}
-        });
-        
-        expanLV.setOnChildClickListener(new OnChildClickListener() {
-        	@Override
-        	public boolean onChildClick(ExpandableListView parent, View v,
-        			int groupPosition, int childPosition, long id) {
-        		Intent intent = new Intent(getActivity(), SingleMenuActivity.class);
-        		String singleMenu = "", name;	
-    			try {
-					JSONObject itemGroup = new JSONObject(menuList.get(groupPosition));
-					JSONArray itemArray = itemGroup.getJSONArray("children");
-					if (itemArray.getJSONObject(childPosition).getString("type").equals("menu")) {
-						singleMenu = itemArray.getJSONObject(childPosition).getString("children");
-						name = itemArray.getJSONObject(childPosition).getString("name");
-						if (itemArray.length() != 0 && itemArray != null) {
-							intent.putExtra("menu", singleMenu);
-							intent.putExtra("name", name);
-							startActivity(intent);  
-						}
-					}
-					else {
-						AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
-						alert.setTitle("Error");
-						alert.setMessage("This menu has no detailed information!");
-						alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog, int id) {
-								dialog.cancel();
-							}      
-						});
-						alert.show();
-					}
-				} catch (JSONException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}     		
-        		return false;
-        	}
         });
         return rootView;
     }          

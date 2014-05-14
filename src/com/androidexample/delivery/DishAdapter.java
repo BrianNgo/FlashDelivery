@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-public class SingleMenuAdapter extends ArrayAdapter<JSONObject> {
+public class DishAdapter extends ArrayAdapter<JSONObject> {
 	Context context;
 	int layoutResourceId;
 	ArrayList<JSONObject> data = null;
@@ -21,7 +21,7 @@ public class SingleMenuAdapter extends ArrayAdapter<JSONObject> {
 	/**
 	 * Constructor of the class with 3 arguments
 	 */
-	public SingleMenuAdapter(Context cont, int layout,
+	public DishAdapter(Context cont, int layout,
 			ArrayList<JSONObject> d) {
 		super(cont, layout, d);
 		context = cont;
@@ -39,21 +39,24 @@ public class SingleMenuAdapter extends ArrayAdapter<JSONObject> {
 			row = inflater.inflate(layoutResourceId, parent, false);
 			holder = new MenuHolder();
 			holder.itemName = (TextView) row.findViewById(R.id.name);
-			holder.itemPrice = (TextView) row.findViewById(R.id.price);
+			holder.basePrice = (TextView) row.findViewById(R.id.price);
+			holder.maxPrice = (TextView) row.findViewById(R.id.maxPrice);
 			row.setTag(holder);
-		} else {
+		} else
 			holder = (MenuHolder) row.getTag();
-		}
+			
 		try {
 			holder.itemName.setText(data.get(position).getString("name"));
-			holder.itemPrice.setText("price: $" + data.get(position).getDouble("price"));
+			holder.basePrice.setText("Base Price: $" + data.get(position).getDouble("price"));
+			holder.maxPrice.setText("Max price: $" + data.get(position).getDouble("max_price"));
 		} catch (JSONException e) {e.printStackTrace();}
 		return row;
 	}
 	
 	static class MenuHolder {
 		TextView itemName;
-		TextView itemPrice;
+		TextView basePrice;
+		TextView maxPrice;
 	}
 
 	@Override

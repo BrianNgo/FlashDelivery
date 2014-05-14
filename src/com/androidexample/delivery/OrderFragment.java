@@ -28,8 +28,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 public class OrderFragment extends BaseFragment {
-	private TextView txt;
-    Button btnBack, btnCheckOut;
+	private TextView cartText, subTotal;
+	private ImageView v;
+    Button btnBack, btnCheckOut, btnClear;
     private ActionBar actionBar;
     private HomeActivity listener;
     private static ArrayList<JSONObject> orderList = new ArrayList<JSONObject>();
@@ -64,12 +65,16 @@ public class OrderFragment extends BaseFragment {
 		super.onResume();		
         list = (ListView) this.fragmentView.findViewById(R.id.listView);
         list.setAdapter(adapter);
+ 		cartText = (TextView) this.fragmentView.findViewById(R.id.cart);
+ 		subTotal = (TextView) this.fragmentView.findViewById(R.id.subTotal);
+	    v = (ImageView) this.fragmentView.findViewById(R.id.imageView1);
         
         actionBar = getActivity().getActionBar();
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         
         btnBack = (Button) this.actionBarView.findViewById(R.id.btnBack);
         btnCheckOut = (Button) this.actionBarView.findViewById(R.id.btnCheckOut);
+        btnClear = (Button) this.fragmentView.findViewById(R.id.btnClear);
         
         btnBack.setOnClickListener(new OnClickListener(){
             @Override
@@ -98,14 +103,19 @@ public class OrderFragment extends BaseFragment {
 		super.onPause();
 	}
 	
+	public void remove() {
+		
+	}
+	
 	public static class EditOrder {
 		private static String guestToken = "";
 		
 		public static void setGuestToken(String t) {guestToken = t;}
 		public static String getGuestToken() {return guestToken;}
 		
-		public static void removeOrder(int position) {
+		public static void removeOrder(int position, int key) {
 			orderList.remove(position);
+			fragment.new RemoveOrder().execute();
 			adapter.notifyDataSetChanged();
 		}
 	}
@@ -139,8 +149,11 @@ public class OrderFragment extends BaseFragment {
 		 * add to customer's cart their orders
 		 */
 		@Override
-		protected Void doInBackground(Void... arg0) {
-	        if (Item.getName() != null) {       
+		protected Void doInBackground(Void... arg0) {	
+		    v.setVisibility(View.GONE);
+			cartText.setVisibility(View.GONE);
+	        if (Item.getName() != null) {     
+	        	double totalPrice = 0;
 	        	try {
 	        		orderList.removeAll(orderList);
 	        		if (EditOrder.getGuestToken().equals(""))
@@ -155,7 +168,7 @@ public class OrderFragment extends BaseFragment {
 	        			cartArray = cart.getJSONArray("cart");
 	        			for (int i = 0; i < cartArray.length(); i++) {
 	        				JSONObject item = new JSONObject();
-	        				double totalPrice = message.getDouble("subtotal")
+	        				totalPrice = message.getDouble("subtotal")
 	        						+ message.getDouble("tax");
 	        				item.put("price", totalPrice);
 	        				item.put("item", cartArray.getJSONObject(i));
@@ -163,6 +176,7 @@ public class OrderFragment extends BaseFragment {
 	        			}
 	        		}
 	        	} catch (Exception e) {e.printStackTrace();}
+	        	subTotal.setText("Sub-total: $" + totalPrice);
 	        }
 			return null;
 		}
@@ -203,19 +217,41 @@ public class OrderFragment extends BaseFragment {
 				}
 			} catch (JSONException e) {e.printStackTrace();}
 			
-			txt = (TextView) fragment.fragmentView.findViewById(R.id.cart);
-		    ImageView v = (ImageView) fragment.fragmentView.findViewById(R.id.imageView1);
 			if (orderList.size() != 0) {				
 			    v.setVisibility(View.GONE);
-				txt.setVisibility(View.GONE);
+				cartText.setVisibility(View.GONE);
 				adapter.notifyDataSetChanged();
 			}
 			else {
 			    v.setVisibility(View.VISIBLE);
-				txt.setVisibility(View.VISIBLE);
-				txt.setText("No Orders");
+				cartText.setVisibility(View.VISIBLE);
+				cartText.setText("No Items in Cart");
 			}
-			Item.resetOption();
+		}
+	}
+		
+	private class RemoveOrder extends AsyncTask<Void, Void, Void> {		
+		final Dialog dialog = new Dialog(c);
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+			dialog.setContentView(R.layout.custom_progress_dialog);
+			dialog.setCancelable(false);
+			dialog.show();
+		}
+
+		@Override
+		protected Void doInBackground(Void... arg0) {
+			int key = 1;
+			ServerInteract.removeOrder(key, EditOrder.getGuestToken());
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Void result) {
+			super.onPostExecute(result);
+			dialog.dismiss();
 		}
 	}
 }

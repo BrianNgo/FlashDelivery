@@ -22,8 +22,7 @@ public class OptionAdapter extends ArrayAdapter<JSONObject> {
 	/**
 	 * Constructor of the class with 3 arguments
 	 */
-	public OptionAdapter(Context cont, int layout,
-			ArrayList<JSONObject> d) {
+	public OptionAdapter(Context cont, int layout, ArrayList<JSONObject> d) {
 		super(cont, layout, d);
 		context = cont;
 		layoutResourceId = layout;
@@ -34,8 +33,11 @@ public class OptionAdapter extends ArrayAdapter<JSONObject> {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View view = convertView;
 		OptionHolder holder = null;
+		int min, max;
+		
 		try {
 			JSONArray temp = data.get(position).getJSONArray("children");
+			if (temp.length() == 0) return null;
 			
 			if (view == null) {
 				LayoutInflater inflater = ((Activity) context).getLayoutInflater();
@@ -43,34 +45,48 @@ public class OptionAdapter extends ArrayAdapter<JSONObject> {
 				holder = new OptionHolder();
 				holder.optionName = (TextView) view.findViewById(R.id.name);
 				holder.choice = (TextView) view.findViewById(R.id.choice);
-				int min = data.get(position).getInt("min_selection");
-				int max = data.get(position).getInt("max_selection");
+				min = data.get(position).getInt("min_selection");
+				max = data.get(position).getInt("max_selection");
 				if (min == 1 && max >= min) {
+					int p = temp.getJSONObject(0).getInt("price");
+					holder.choice.setText("Default: "
+								+ temp.getJSONObject(0).getString("name")
+								+ ((p == 0)?"":"\t Price: $" + p));	
+				}
+				else if (min > 1 && max >= min) {
+					String str = "Default: ";
 					for (int i = 0; i < min; i++) {
 						int p = temp.getJSONObject(i).getInt("price");
-						holder.choice.setText("Default: "
-								+ temp.getJSONObject(i).getString("name")
-								+ ((p == 0)?"":"\t Price: $" + p));	
+						str += "\n " + temp.getJSONObject(i).getString("name")
+								+ ((p == 0)?"":"\t - Price: $" + p);	
 					}
+					holder.choice.setText(str);	
 				}
 				view.setTag(holder);
 			} else
 				holder = (OptionHolder) view.getTag();
 			if (!holder.optionName.getText().toString().equals(data.get(position).getString("name"))) {
-				if (data.get(position).getInt("min_selection") == 1 &&
-						data.get(position).getInt("max_selection") <= 1) {
+				min = data.get(position).getInt("min_selection");
+				max = data.get(position).getInt("min_selection");
+				if (min == 1) {
 					int p = temp.getJSONObject(0).getInt("price");
 					holder.choice.setText("Default: "
 							+ temp.getJSONObject(0).getString("name")
 							+ ((p == 0)?"":"\t Price: $" + p));		
 				}
+				else if (min > 1 && max >= min) {
+					String str = "Default: ";
+					for (int i = 0; i < min; i++) {
+						int p = temp.getJSONObject(i).getInt("price");
+						str += "\n " + temp.getJSONObject(i).getString("name")
+								+ ((p == 0)?"":"\t - Price: $" + p);	
+					}
+					holder.choice.setText(str);	
+				}
 				else
-					holder.choice.setText("");
+					holder.choice.setText("Not select an option yet!");
 			}
-				
 			holder.optionName.setText(data.get(position).getString("name"));
-			
-			if (temp.length() == 0) return null;
 		} catch (JSONException e) {e.printStackTrace();}
 		return view;
 	}
