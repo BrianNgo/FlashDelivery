@@ -77,7 +77,7 @@ public class SubMenuFragment extends Fragment {
             throw new ClassCastException(activity.toString() + " must implement SubMenu");
         }
     }
-	
+    
     public interface SubMenuActivity {
         public void changeTab(int t);
     }

@@ -10,7 +10,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_toLeftOf="@+id/btnClear"
+        android:layout_alignBottom="@+id/btnClear"
         android:layout_marginTop="5dp"
+        android:layout_marginLeft="5dp"
         android:text="Sub-total"
         android:textAppearance="?android:attr/textAppearanceLarge" />
     
@@ -20,6 +22,8 @@
         android:layout_height="30dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="5dp"
         android:gravity="center"
         android:background="#FFFFFF"
         android:paddingLeft="10dp"

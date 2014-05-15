@@ -7,6 +7,7 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Context;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,7 +47,7 @@ public class DishAdapter extends ArrayAdapter<JSONObject> {
 			holder = (MenuHolder) row.getTag();
 			
 		try {
-			holder.itemName.setText(data.get(position).getString("name"));
+			holder.itemName.setText(Html.fromHtml(data.get(position).getString("name")).toString());
 			holder.basePrice.setText("Base Price: $" + data.get(position).getDouble("price"));
 			holder.maxPrice.setText("Max price: $" + data.get(position).getDouble("max_price"));
 		} catch (JSONException e) {e.printStackTrace();}

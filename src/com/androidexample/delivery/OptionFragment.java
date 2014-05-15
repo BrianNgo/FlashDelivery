@@ -106,7 +106,8 @@ public class OptionFragment extends Fragment {
                         for (int i = 0; i < oList.length(); i++) {
                         	double price = oList.getJSONObject(i).getDouble("price");
                             option.add(oList.getJSONObject(i).getString("name")
-                                    + ((price==0)?"":(" - Price: $" + price )));
+                                    + ((price==0)?"":(" - Price: $" + price ))
+                                    + oList.getJSONObject(i).getString("id"));
                             optionId.add(oList.getJSONObject(i).getString("id"));
                         }
 
@@ -249,7 +250,6 @@ public class OptionFragment extends Fragment {
                                         	if (nestedGroup) {
                                         		JSONArray tempList = oList.getJSONObject(singleSelection)
                                         				.getJSONArray("children");
-                                        		// add sweeter, salter, spicer
                                         		for (int j = 0; j < tempList.length(); j++) {
                                         			optionList.add(tempList.getJSONObject(j));
                                         			posToOpt.put(originalSize + j, Item.getOption().size());
@@ -264,11 +264,6 @@ public class OptionFragment extends Fragment {
                                         	}
                                         } catch (JSONException e) {e.printStackTrace();}                                       
                                     }
-//                                    else if (min == 1) {
-//                                    	singleSelection = 0;
-//                                    	temp = "- " + option.get(singleSelection);
-//                                    	tempId = "ID:" + optionId.get(singleSelection) + "\":" + 1;
-//                                    }
                             		if (posToSel.get(pos, -1) == -1) {
                             			posToSel.put(pos, allOptions.size());
                             			allOptions.add(selectedOptions);

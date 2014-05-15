@@ -57,21 +57,10 @@ public class SubMenuActivity extends FragmentActivity implements SubMenuFragment
 		});	   		
 	    
 		JSONObject subMenu = MenuData.getSubMenu();
-		
 		TextView text = (TextView) findViewById(R.id.menuName);
-		
-		boolean hasSub = false;
 		try
 		{
 			text.setText(subMenu.getString("name"));
-			hasSub = subMenu.getJSONArray("children").getJSONObject(0)
-					.getString("type").equals("menu");
-		    if (subMenu != null) {
-		    	if (hasSub)
-		    		actionBar.setSelectedNavigationItem(0);
-		    	else
-		    		actionBar.setSelectedNavigationItem(1);
-		    }
 		}
 		catch (JSONException e) {
 			AlertDialog.Builder alert = new AlertDialog.Builder(this);
@@ -86,7 +75,7 @@ public class SubMenuActivity extends FragmentActivity implements SubMenuFragment
 		}
 	}
 	
-    @Override
+	@Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt("tab", getActionBar().getSelectedNavigationIndex());
@@ -97,6 +86,5 @@ public class SubMenuActivity extends FragmentActivity implements SubMenuFragment
 		DishFragment frag = (DishFragment) mAdapter.getFragment(1);
         frag.updateDish();
 		actionBar.setSelectedNavigationItem(t);
-		
 	}
 }

@@ -11,7 +11,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +35,7 @@ public class MenuFragment extends Fragment {
 	    try {
 		    JSONArray itemList = MenuData.getMenu().getJSONArray("menu");
 		    for (int i = 0; i < itemList.length(); i++) {
-		    	menuList.add(new JSONObject(Html.fromHtml(itemList.getString(i)).toString()));
+		    	menuList.add(new JSONObject(itemList.getString(i)));
 		    }
 		} catch (JSONException e) {e.printStackTrace();}
 	    

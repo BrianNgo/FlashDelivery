@@ -12,7 +12,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.SparseArray;
-import android.view.ViewGroup;
  
 public class TabsAdapter extends FragmentPagerAdapter 
 		implements OnPageChangeListener, TabListener {

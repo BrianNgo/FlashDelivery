@@ -22,13 +22,11 @@ public class ItemFragment extends Fragment {
         TextView textView1 = (TextView) rootView.findViewById(R.id.desc);
         TextView textView2 = (TextView) rootView.findViewById(R.id.price);
         TextView textView3 = (TextView) rootView.findViewById(R.id.name);
-//        TextView textView4 = (TextView) rootView.findViewById(R.id.totalPrice);
 
         String desc = Item.getDesc();
         textView1.setText(desc.equals("")?"No Description":"Description: " + desc);
         textView2.setText("Base price: $" + Item.getPrice());
         textView3.setText(Item.getName());
-//        textView4.setText("Total Price: $" + Item.getPrice());
 
         return rootView;
     }

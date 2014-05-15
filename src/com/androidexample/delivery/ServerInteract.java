@@ -70,8 +70,8 @@ public class ServerInteract {
             // The url to connect
             url = "https://api.delivery.com/merchant/search/delivery?client_id=ZjkxODFiNWRkMTYzOWNhMzEzZTk4ZTZjNTU4MDM2ZjJj&address=1330%201st%20Ave,%2010021";
         else
- //           url = "https://api.delivery.com/merchant/" + input + "/menu";
-            url = host + "merchant/" + 3215 + "/menu";
+           url = "https://api.delivery.com/merchant/" + input + "/menu";
+//            url = host + "merchant/" + 3215 + "/menu";
 //        url = host + SEARCH_URL + "?address=" + SEARCH_ADDRESS + "&client_id=" + CLIENT_ID;
         // The input stream to hold data from server
         InputStream is = null;
@@ -188,7 +188,7 @@ public class ServerInteract {
     
     public static String addToCart(String authToken) {
     	String url = host + CUSTOMER_CART_URL + "/" + MenuData.getMerchantId();
-        url = host + CUSTOMER_CART_URL + "/" + 3215;
+        // url = host + CUSTOMER_CART_URL + "/" + 3215;
 		DefaultHttpClient client = new DefaultHttpClient();
 		HttpPost post = new HttpPost(url);
 		try {

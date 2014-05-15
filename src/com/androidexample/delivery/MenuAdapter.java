@@ -7,6 +7,7 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Context;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,7 +54,7 @@ public class MenuAdapter extends ArrayAdapter<JSONObject> {
 		}
 		try {
 			if (!data.get(position).getString("name").equals(""))
-				holder.menuName.setText(data.get(position).getString("name"));
+				holder.menuName.setText(Html.fromHtml(data.get(position).getString("name")).toString());
 		}
 		catch (JSONException e) {
 			e.printStackTrace();

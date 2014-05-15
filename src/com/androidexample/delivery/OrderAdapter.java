@@ -48,6 +48,7 @@ public class OrderAdapter extends ArrayAdapter<JSONObject> {
 			holder.itemName = (TextView) view.findViewById(R.id.name);
 			holder.quantity = (TextView) view.findViewById(R.id.quantity);
 			holder.option = (TextView) view.findViewById(R.id.option);
+			holder.instr = (TextView) view.findViewById(R.id.instr);
 			holder.price = (TextView) view.findViewById(R.id.price);
 			holder.btnRemove = (Button) view.findViewById(R.id.btnRemove);
 			view.setTag(holder);
@@ -57,26 +58,33 @@ public class OrderAdapter extends ArrayAdapter<JSONObject> {
 		try {
 			holder.itemName.setText(data.get(position).getJSONObject("item").getString("name"));
 			holder.quantity.setText("Quantity: " + data.get(position).getJSONObject("item").getInt("quantity"));
-			holder.price.setText("Price: $" + data.get(position).getDouble("price"));
+			holder.price.setText("Price: $" + data.get(position).getJSONObject("item").getDouble("price"));
+			holder.instr.setText(data.get(position).getString("instruction"));
 
 			topOpt = data.get(position).getJSONObject("item").getJSONArray("options");
 			for (int i = 0; i < topOpt.length(); i++) {
 				try {
 					JSONArray botOpt = topOpt.getJSONObject(i).getJSONArray("options");
-					for (int j = 0; j < botOpt.length(); j++)
-						finalOption += botOpt.getJSONObject(j).getString("name") + ". ";
+					for (int j = 0; j < botOpt.length(); j++) {
+						double p = 0;
+						try {
+							p = botOpt.getJSONObject(j).getDouble("price");
+						} catch (JSONException e) {}
+						finalOption += botOpt.getJSONObject(j).getString("name") 
+								+ ((p==0)?(". "):(" $" + p));
+					}
 				} catch (JSONException e) {}
 			}
-		} catch (JSONException e) {}
+		} catch (JSONException e) {e.printStackTrace();}
+
 		holder.option.setText(finalOption);
-		
 		holder.btnRemove.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				if (data.size() != 0) {
 					int key = pos;
 					try {
-						key = data.get(pos).getJSONObject("item").getInt("item_key");
+						key = data.get(pos).getInt("item_key");
 					} catch (JSONException e) {e.printStackTrace();}
 					EditOrder.removeOrder(pos, key);
 				}
@@ -89,6 +97,7 @@ public class OrderAdapter extends ArrayAdapter<JSONObject> {
 		TextView itemName;
 		TextView quantity;
 		TextView option;
+		TextView instr;
 		TextView price;
 		Button btnRemove;
 	}

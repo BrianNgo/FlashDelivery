@@ -1,3 +1,4 @@
+
 package com.androidexample.delivery;
 
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.text.Html;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -149,7 +151,7 @@ public class ItemOptionActivity extends FragmentActivity {
         public static void setOpt(String s) {opt = s;}
         public static String getOpt() {return opt;}
         
-        public static void setName(String s) {itemName = s;}
+        public static void setName(String s) {itemName = Html.fromHtml(s).toString();}
         public static String getName() {return itemName;}
         
         public static void setDesc(String s) {desc = s;}

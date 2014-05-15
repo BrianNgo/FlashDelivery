@@ -34,8 +34,10 @@ public class OrderFragment extends BaseFragment {
     private ActionBar actionBar;
     private HomeActivity listener;
     private static ArrayList<JSONObject> orderList = new ArrayList<JSONObject>();
+    private static ArrayList<String> instrList = new ArrayList<String>();
     private static OrderAdapter adapter;
     private ListView list;
+    private double totalPrice = 0;
 	private Context c = Home.getHomeContext();
     
 	public OrderFragment() {
@@ -94,6 +96,7 @@ public class OrderFragment extends BaseFragment {
                 startActivity(in);
             }
         });
+        instrList.add(Item.getInstr());
         if (Item.getName() != null)
         	new AddToCart().execute();
 	}
@@ -115,6 +118,7 @@ public class OrderFragment extends BaseFragment {
 		
 		public static void removeOrder(int position, int key) {
 			orderList.remove(position);
+    		instrList.remove(position);
 			fragment.new RemoveOrder().execute();
 			adapter.notifyDataSetChanged();
 		}
@@ -153,7 +157,7 @@ public class OrderFragment extends BaseFragment {
 		    v.setVisibility(View.GONE);
 			cartText.setVisibility(View.GONE);
 	        if (Item.getName() != null) {     
-	        	double totalPrice = 0;
+	        	totalPrice = 0;
 	        	try {
 	        		orderList.removeAll(orderList);
 	        		if (EditOrder.getGuestToken().equals(""))
@@ -166,17 +170,16 @@ public class OrderFragment extends BaseFragment {
 	        		cart = new JSONObject(ServerInteract.viewCart(EditOrder.getGuestToken(),""));
 	        		if (cart.getJSONArray("message").length() == 0) {
 	        			cartArray = cart.getJSONArray("cart");
+	        			Log.i("Instr: " + instrList.size(), "(((())))");
 	        			for (int i = 0; i < cartArray.length(); i++) {
+	        				totalPrice = message.getDouble("subtotal");
 	        				JSONObject item = new JSONObject();
-	        				totalPrice = message.getDouble("subtotal")
-	        						+ message.getDouble("tax");
-	        				item.put("price", totalPrice);
+	        				item.put("instruction", instrList.get(i));
 	        				item.put("item", cartArray.getJSONObject(i));
 	        				orderList.add(item);
 	        			}
 	        		}
 	        	} catch (Exception e) {e.printStackTrace();}
-	        	subTotal.setText("Sub-total: $" + totalPrice);
 	        }
 			return null;
 		}
@@ -191,7 +194,7 @@ public class OrderFragment extends BaseFragment {
 			// Showing custom progress view (background not disabled)
 			// hideLoading();
 			// custom dialog
-			dialog.dismiss();
+        	subTotal.setText("Sub-total: $" + totalPrice);
 			try {
 				if (msg.length() != 0) {
 					AlertDialog.Builder alert = new AlertDialog.Builder(c);
@@ -204,7 +207,7 @@ public class OrderFragment extends BaseFragment {
 					});
 					alert.show();
 				}
-				if (cart.getJSONArray("message").length() != 0) {
+				else if (cart.getJSONArray("message").length() != 0) {
 					AlertDialog.Builder alert = new AlertDialog.Builder(c);
 					alert.setTitle("Error");
 					alert.setMessage(cart.getJSONArray("message").getJSONObject(0).getString("user_msg"));
@@ -227,6 +230,7 @@ public class OrderFragment extends BaseFragment {
 				cartText.setVisibility(View.VISIBLE);
 				cartText.setText("No Items in Cart");
 			}
+			dialog.dismiss();
 		}
 	}
 		
@@ -244,13 +248,18 @@ public class OrderFragment extends BaseFragment {
 		@Override
 		protected Void doInBackground(Void... arg0) {
 			int key = 1;
-			ServerInteract.removeOrder(key, EditOrder.getGuestToken());
+			try {
+				JSONObject temp = new JSONObject(ServerInteract.removeOrder(key, EditOrder.getGuestToken()));
+				totalPrice = temp.getDouble("subtotal");
+			} catch (JSONException e) {e.printStackTrace();}
+			
 			return null;
 		}
 
 		@Override
 		protected void onPostExecute(Void result) {
 			super.onPostExecute(result);
+        	subTotal.setText("Sub-total: $" + totalPrice);
 			dialog.dismiss();
 		}
 	}
