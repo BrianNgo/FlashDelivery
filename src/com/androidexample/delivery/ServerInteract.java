@@ -70,8 +70,8 @@ public class ServerInteract {
             // The url to connect
             url = "https://api.delivery.com/merchant/search/delivery?client_id=ZjkxODFiNWRkMTYzOWNhMzEzZTk4ZTZjNTU4MDM2ZjJj&address=1330%201st%20Ave,%2010021";
         else
-           url = "https://api.delivery.com/merchant/" + input + "/menu";
-//            url = host + "merchant/" + 3215 + "/menu";
+//           url = "https://api.delivery.com/merchant/" + input + "/menu";
+            url = host + "merchant/" + 3215 + "/menu";
 //        url = host + SEARCH_URL + "?address=" + SEARCH_ADDRESS + "&client_id=" + CLIENT_ID;
         // The input stream to hold data from server
         InputStream is = null;
@@ -188,7 +188,7 @@ public class ServerInteract {
     
     public static String addToCart(String authToken) {
     	String url = host + CUSTOMER_CART_URL + "/" + MenuData.getMerchantId();
-        // url = host + CUSTOMER_CART_URL + "/" + 3215;
+        url = host + CUSTOMER_CART_URL + "/" + 3215;
 		DefaultHttpClient client = new DefaultHttpClient();
 		HttpPost post = new HttpPost(url);
 		try {
@@ -276,20 +276,13 @@ public class ServerInteract {
     	String url = host + CUSTOMER_CART_URL + "/" + MenuData.getMerchantId();
     	url = host + CUSTOMER_CART_URL + "/" + 3215;
     	// require for guest token
-    	String temp = "?client_id="	+ CLIENT_ID;
+    	String temp = "?client_id="	+ CLIENT_ID + "&cart_index=" + key;
     	url += temp;
     	
 		DefaultHttpClient client = new DefaultHttpClient();
 		HttpDelete remove = new HttpDelete(url);
-		try {
-			remove.setHeader(GUEST_TOKEN, authToken);			
-			if (key != -1) {
-				JSONObject formData = new JSONObject();
-				formData.put("cart_index", key);
-				StringEntity se = new StringEntity(formData.toString(), "UTF-8");
-				se.setContentType("application/x-www-form-urlencoded; charset=UTF-8");
-			}
-						
+		remove.setHeader(GUEST_TOKEN, authToken);
+		try {		
 			HttpResponse response = client.execute(remove);
 			BufferedReader br = new BufferedReader(
 					new InputStreamReader(response.getEntity().getContent()));
@@ -301,8 +294,7 @@ public class ServerInteract {
 			return result.toString();
 		} catch (ClientProtocolException e) { e.printStackTrace();
 		} catch (UnsupportedEncodingException e1) {e1.printStackTrace();
-		} catch (IOException e) {e.printStackTrace();
-		} catch (JSONException e) {e.printStackTrace();}
+		} catch (IOException e) {e.printStackTrace();}
 		return "";
     }
     

@@ -96,31 +96,32 @@ public class OrderFragment extends BaseFragment {
                 startActivity(in);
             }
         });
-        instrList.add(Item.getInstr());
-        if (Item.getName() != null)
+        if (Home.isOrder()) {
+            instrList.add(Item.getInstr());
+    		Home.setOrder(false);
         	new AddToCart().execute();
+        }
 	}
 	
 	@Override
 	public void onPause() {
 		super.onPause();
 	}
-	
-	public void remove() {
-		
-	}
-	
+
 	public static class EditOrder {
 		private static String guestToken = "";
+		private static int key = 0;
 		
 		public static void setGuestToken(String t) {guestToken = t;}
 		public static String getGuestToken() {return guestToken;}
 		
-		public static void removeOrder(int position, int key) {
+		public static int getKey() {return key;}
+		
+		public static void removeOrder(int position, int k) {
 			orderList.remove(position);
     		instrList.remove(position);
+    		key = k;
 			fragment.new RemoveOrder().execute();
-			adapter.notifyDataSetChanged();
 		}
 	}
 	
@@ -247,7 +248,7 @@ public class OrderFragment extends BaseFragment {
 
 		@Override
 		protected Void doInBackground(Void... arg0) {
-			int key = 1;
+			int key = EditOrder.getKey();
 			try {
 				JSONObject temp = new JSONObject(ServerInteract.removeOrder(key, EditOrder.getGuestToken()));
 				totalPrice = temp.getDouble("subtotal");
@@ -261,6 +262,7 @@ public class OrderFragment extends BaseFragment {
 			super.onPostExecute(result);
         	subTotal.setText("Sub-total: $" + totalPrice);
 			dialog.dismiss();
+			adapter.notifyDataSetChanged();
 		}
 	}
 }

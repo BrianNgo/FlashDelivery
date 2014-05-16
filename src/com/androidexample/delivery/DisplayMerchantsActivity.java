@@ -170,10 +170,7 @@ public class DisplayMerchantsActivity extends BaseActivity {
 		@Override
 		protected void onPostExecute(Void result) {
 			super.onPostExecute(result);
-			// Dismiss the progress dialog
-			dialog.hide();
-			//hideLoading();
-
+			dialog.dismiss();
 			if (found) {
 				Intent in = new Intent(getApplicationContext(), DisplayMenuActivity.class); 
 				startActivity(in);	

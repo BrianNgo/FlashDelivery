@@ -101,8 +101,13 @@ public class HomeActivity extends FragmentActivity implements OrderFragment.Home
         try {
         	Intent in = getIntent();
         	int order = Integer.parseInt(in.getStringExtra("order"));
-        	if (order == 1)
+        	if (order == 1) {
+        		Home.setOrder(true);
         		viewPager.setCurrentItem(1, true);
+        	}
+        	else
+        		Home.setOrder(false);
+        		
         } catch (NumberFormatException e) {}
     }
     
@@ -139,8 +144,12 @@ public class HomeActivity extends FragmentActivity implements OrderFragment.Home
 
 	public static class Home{
 		private static Context con;
+		private static boolean order = false;
 		
 		public static void setHomeContext(Context c) {con = c;}
 		public static Context getHomeContext() {return con;}
+		
+		public static void setOrder(boolean s) {order = s;}
+		public static boolean isOrder() {return order;}
 	}
 }

@@ -62,6 +62,7 @@ public class OrderAdapter extends ArrayAdapter<JSONObject> {
 			holder.instr.setText(data.get(position).getString("instruction"));
 
 			topOpt = data.get(position).getJSONObject("item").getJSONArray("options");
+		
 			for (int i = 0; i < topOpt.length(); i++) {
 				try {
 					JSONArray botOpt = topOpt.getJSONObject(i).getJSONArray("options");
@@ -75,7 +76,7 @@ public class OrderAdapter extends ArrayAdapter<JSONObject> {
 					}
 				} catch (JSONException e) {}
 			}
-		} catch (JSONException e) {e.printStackTrace();}
+		} catch (JSONException e) {}
 
 		holder.option.setText(finalOption);
 		holder.btnRemove.setOnClickListener(new OnClickListener() {
@@ -84,7 +85,7 @@ public class OrderAdapter extends ArrayAdapter<JSONObject> {
 				if (data.size() != 0) {
 					int key = pos;
 					try {
-						key = data.get(pos).getInt("item_key");
+						key = data.get(pos).getJSONObject("item").getInt("item_key");
 					} catch (JSONException e) {e.printStackTrace();}
 					EditOrder.removeOrder(pos, key);
 				}
