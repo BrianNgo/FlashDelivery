@@ -10,26 +10,81 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.os.Build;
 
-public class DisplayLoginActivity extends Activity {
+public class DisplayLoginActivity extends BaseActivity {
 
+	private ActionBar actionBar;
+	private Button btnCC, btnChangePassword, btnFavorite, btnAddress, btnLogout;
+	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_login);
-
+        
+        // Action bar in this activity
+        actionBar = getActionBar();
+        actionBar.setCustomView(R.layout.actionbar_top_login);
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        
+        // Get the string from itent
         Intent i = getIntent();
-        String message = i.getStringExtra(AccountFragment.EXTRA);
-
-        // Create the text view
-        TextView textView = new TextView(this);
-        textView.setTextSize(40);
-        textView.setText(message);
-
-        // Set the text view as the activity layout
-        setContentView(textView);
+        String message = i.getStringExtra(AccountFragment.EXTRA_MESSAGE);
+        
+        // Set the title to the string content
+        TextView abTitle = (TextView) findViewById(R.id.login_top_txt);
+        abTitle.setText(message);
+        
+        // Button in this activity 
+        btnCC = (Button) findViewById(R.id.btnCC);
+        btnChangePassword = (Button) findViewById(R.id.btnChangePassword);
+        btnFavorite = (Button) findViewById(R.id.btnFavorite);
+        btnAddress = (Button) findViewById(R.id.btnAddress);
+        btnLogout = (Button) findViewById(R.id.btnLogout);
+        
+        btnCC.setOnClickListener(new OnClickListener() {
+            // Calling the event
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "CC Button Pressed", Toast.LENGTH_SHORT).show();
+            }
+        });
+        
+        btnFavorite.setOnClickListener(new OnClickListener() {
+            // Calling the event
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "Favorite Button Pressed", Toast.LENGTH_SHORT).show();
+            }
+        });
+        
+        btnChangePassword.setOnClickListener(new OnClickListener() {
+            // Calling the event
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "Change Password Button Pressed", Toast.LENGTH_SHORT).show();
+            }
+        });
+        
+        btnAddress.setOnClickListener(new OnClickListener() {
+            // Calling the event
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "Address Button Pressed", Toast.LENGTH_SHORT).show();
+            }
+        });
+        
+        btnLogout.setOnClickListener(new OnClickListener() {
+            // Calling the event
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "Logout Pressed", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override

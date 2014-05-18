@@ -160,6 +160,7 @@ public class ServerInteract {
         String uri = "http://localhost";
         String url = "https://api.delivery.com/third_party/authorize?client_id=ZjkxODFiNWRkMTYzOWNhMzEzZTk4ZTZjNTU4MDM2ZjJj&scope=global&redirect_uri=" + uri + "&state=good&response_type=code";
         String result = "Not Connected\n";
+        username = "buu1989@yahoo.com";
         password = "13121989";
 
         DefaultHttpClient httpClient = new DefaultHttpClient();
@@ -176,7 +177,7 @@ public class ServerInteract {
             StatusLine status = response.getStatusLine();
 
             if (status.getStatusCode() == HttpStatus.SC_OK) {
-                result = "Successfully Connected\n";
+                result = "Signed in as: " + username;
             }
 
             return result;

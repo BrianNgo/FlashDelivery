@@ -21,10 +21,10 @@ public class AccountFragment extends BaseFragment {
     }
 
     public static AccountFragment fragment;
-    public static String username = "buu1989@yahoo.com";
-    public static String message = "Hello World";
-    final static String password = "13121989";
-    final static String EXTRA = "";
+    private static String username = "";
+    private static String message = "";
+    private static String password = "";
+    final static String EXTRA_MESSAGE = "";
 
     // button here
     private Button logIn, signUp;
@@ -62,19 +62,30 @@ public class AccountFragment extends BaseFragment {
     // Calling async task
 
         username = t1.getText().toString();
-        Log.i("address = " + username, "**********************************");
+        password = t2.getText().toString();
+        Log.i("username = " + username, "**********************************");
         if (username.equals("")) {
             AlertDialog.Builder alert = new AlertDialog.Builder(getHomeActivity());
             alert.setTitle("Error");
-            alert.setMessage("Please enter an address!");
+            alert.setMessage("Please enter a valid username!");
             alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                     dialog.cancel();
                 }
             });
             alert.show();
+        } else if (password.equals("")){
+        	 AlertDialog.Builder alert = new AlertDialog.Builder(getHomeActivity());
+             alert.setTitle("Error");
+             alert.setMessage("Please enter a valid password!");
+             alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                 public void onClick(DialogInterface dialog, int id) {
+                     dialog.cancel();
+                 }
+             });
+            alert.show();          
         } else {
-            new login().execute();
+        	new login().execute();
         }
     }
 
@@ -122,14 +133,25 @@ public class AccountFragment extends BaseFragment {
 
                 // custom dialog
                 dialog.hide();
-                viewResult();
+                if (message.equals("Not Connected\n")) {
+                	AlertDialog.Builder alert = new AlertDialog.Builder(getHomeActivity());
+                    alert.setTitle("Error");
+                    alert.setMessage("Invalid username or password");
+                    alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    });
+                    alert.show();
+                } else
+                	viewResult();
             }
 
         }
 
     public void viewResult() {
         Intent i = new Intent(getApplicationContext(), DisplayLoginActivity.class);
-        i.putExtra(EXTRA, message);
+        i.putExtra(EXTRA_MESSAGE, message);
         startActivity(i);
     }
 
