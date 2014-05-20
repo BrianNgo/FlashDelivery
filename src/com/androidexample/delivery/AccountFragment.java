@@ -118,6 +118,7 @@ public class AccountFragment extends BaseFragment {
             @Override
             protected Void doInBackground(Void... arg0) {
                 message = ServerInteract.userLogin(username, password);
+                //message = ServerInteract.getAccessToken();
                 return null;
             }
 

@@ -8,19 +8,25 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Scanner;
 
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.StatusLine;
 import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -41,7 +47,7 @@ import android.net.Uri;
 public class ServerInteract {
 
     // For server authentication
-    final static String host = "http://sandbox.delivery.com/";
+    final static String host = "https://api.delivery.com/";
     final static String GUEST_TOKEN = "Guest-Token";
     final static String AUTH_TOKEN = "Authorization";
     final static String GUEST_TOKEN_URL = "customer/auth/guest";
@@ -54,10 +60,13 @@ public class ServerInteract {
     final static String SEARCH_URL = "merchant/search/delivery";
     final static String SEARCH_ADDRESS = "1330 1st Ave, 10021";
     final static String ADDRESS_APT = "Apt 123";
-    final static String CLIENT_ID = "MzMxMjA4N2FjOWM0YjQ1YmIyYzgwMTI1MmIzMjA1MDYz";
+    final static String CLIENT_ID = "NzBlNjU4MWNkMzhhYTU4Y2IzOGM5NzU5ZjczN2IzN2I3";
     final static String ORDER_TYPE = "delivery";
+    final static String CLIENT_SECRET = "Yp7uhzncQzyBjaR5bj8f5iYc492hIspLXo3JwyiH";
+    final static String URI = "http://localhost";
     final static int SEARCH_MERCHANT = 0, SEARCH_MENU = 1;
-
+    private static String urlCode = "";
+    
     /**
      * The search method create a http call to delivery server
      * and returns the string output
@@ -157,8 +166,10 @@ public class ServerInteract {
     }
 
     public static String userLogin(String username, String password) {
-        String uri = "http://localhost";
-        String url = "https://api.delivery.com/third_party/authorize?client_id=ZjkxODFiNWRkMTYzOWNhMzEzZTk4ZTZjNTU4MDM2ZjJj&scope=global&redirect_uri=" + uri + "&state=good&response_type=code";
+//        String url = "https://api.delivery.com/third_party/authorize?client_id= + "
+//        		+ CLIENT_ID +"&scope=global&redirect_uri=" 
+//        		+ URLEncoder.encode(URI) + "&state=good&response_type=code";
+    	String url = "https://api.delivery.com/api/third_party/authorize?%2Fapi%2Fthird_party%2Fauthorize%2Flogout=&%2Fthird_party%2Fauthorize=&client_id=NzBlNjU4MWNkMzhhYTU4Y2IzOGM5NzU5ZjczN2IzN2I3&scope=global&redirect_uri=http%3A%2F%2Flocalhost&state=good&response_type=code";
         String result = "Not Connected\n";
         username = "buu1989@yahoo.com";
         password = "13121989";
@@ -173,17 +184,31 @@ public class ServerInteract {
             httpPost.setEntity(new UrlEncodedFormEntity(pairs));
 
             // Execute HTTP Post Request
-            HttpResponse response = httpClient.execute(httpPost);
-            StatusLine status = response.getStatusLine();
-
-            if (status.getStatusCode() == HttpStatus.SC_OK) {
-                result = "Signed in as: " + username;
+//            HttpResponse response = httpClient.execute(httpPost);
+//            StatusLine status = response.getStatusLine();
+            
+            ResponseHandler<String> responseHandler = new BasicResponseHandler();
+            JSONObject responseBody = new JSONObject(httpClient.execute(httpPost, responseHandler));
+            
+            
+            result = responseBody.getString("redirect_uri");
+            if (!result.contains("?error=")) {
+            	urlCode = result.substring(22, result.length() - 11);
+            	result = "Signed in as: " + username;
+            	result = urlCode;
             }
+            
+//            if (status.getStatusCode() == HttpStatus.SC_OK) {
+//                result = "Signed in as: " + username;
+//	            urlCode = response.getFirstHeader("location").toString();
+//                result = urlCode;
+//            }
 
             return result;
         } catch (ClientProtocolException e) {e.printStackTrace();
         } catch (UnsupportedEncodingException e1) {e1.printStackTrace();
-        } catch (IOException e) {e.printStackTrace();}
+        } catch (IOException e) {e.printStackTrace();
+        } catch (JSONException e) {e.printStackTrace();}
         return result;
     }
     
@@ -297,6 +322,42 @@ public class ServerInteract {
 		} catch (UnsupportedEncodingException e1) {e1.printStackTrace();
 		} catch (IOException e) {e.printStackTrace();}
 		return "";
+    }
+    
+    public static String getAccessToken() {
+    	String url = host + "third_party/access_token";
+
+    	DefaultHttpClient client = new DefaultHttpClient();
+    	HttpPost httpPost = new HttpPost(url);
+    	try {
+
+    		JSONObject pairs = new JSONObject();
+    		pairs.put("client_id", CLIENT_ID);
+    		pairs.put("redirect_uri", URI);
+    		pairs.put("grant_type", "authorization_code");
+    		pairs.put("client_secret", CLIENT_SECRET);
+    		pairs.put("code", urlCode);
+
+	    	
+			StringEntity se = new StringEntity(pairs.toString(), "UTF-8");
+			se.setContentType("application/json; charset=UTF-8");
+			httpPost.setEntity(se);
+			HttpResponse response = client.execute(httpPost);
+
+			BufferedReader br = new BufferedReader(
+					new InputStreamReader(response.getEntity().getContent()));
+			StringBuffer result = new StringBuffer();
+			String line = "";
+			while ((line = br.readLine()) != null) {
+				result.append(line);
+			}
+			JSONObject accessToken = new JSONObject(result.toString());
+			return accessToken.getString("access_token");
+        } catch (ClientProtocolException e) { e.printStackTrace();
+        } catch (UnsupportedEncodingException e1) {e1.printStackTrace();
+        } catch (IOException e) {e.printStackTrace(); 
+        } catch (JSONException e) {e.printStackTrace();}
+		return "ERROR";
     }
     
     public static String getGuestToken(String clientId) {

@@ -39,6 +39,11 @@ public class DisplayLoginActivity extends BaseActivity {
         TextView abTitle = (TextView) findViewById(R.id.login_top_txt);
         abTitle.setText(message);
         
+//        TextView textView = new TextView(this);
+//        textView.setTextSize(40);
+//        textView.setText(message);
+//        setContentView(textView);
+        
         // Button in this activity 
         btnCC = (Button) findViewById(R.id.btnCC);
         btnChangePassword = (Button) findViewById(R.id.btnChangePassword);
