@@ -83,9 +83,7 @@ public class ServerInteract {
             // The url to connect
             url = "https://api.delivery.com/merchant/search/delivery?client_id=ZjkxODFiNWRkMTYzOWNhMzEzZTk4ZTZjNTU4MDM2ZjJj&address=1330%201st%20Ave,%2010021";
         else
-//           url = "https://api.delivery.com/merchant/" + input + "/menu";
-            url = host + "merchant/" + 3215 + "/menu";
-//        url = host + SEARCH_URL + "?address=" + SEARCH_ADDRESS + "&client_id=" + CLIENT_ID;
+           url = "https://api.delivery.com/merchant/" + input + "/menu";
         // The input stream to hold data from server
         InputStream is = null;
 
@@ -135,7 +133,7 @@ public class ServerInteract {
             JSONObject searchResult = result;
             JSONArray mArray = searchResult.getJSONArray("merchants");
 
-            // variables that hold infor. for a merchant
+            // variables that hold info. for a merchant
             String name, cuisine;
             boolean status;
             int id, rating;
@@ -243,7 +241,6 @@ public class ServerInteract {
     
     public static String addToCart(String authToken) {
     	String url = host + CUSTOMER_CART_URL + "/" + MenuData.getMerchantId();
-        url = host + CUSTOMER_CART_URL + "/" + 3215;
 		DefaultHttpClient client = new DefaultHttpClient();
 		HttpPost post = new HttpPost(url);
 		try {
@@ -298,7 +295,7 @@ public class ServerInteract {
     	String url = host + CUSTOMER_CART_URL + "/" + MenuData.getMerchantId();
     	JSONObject address = MerchantData.getAddress();
     	try {
-    		url = host + CUSTOMER_CART_URL + "/" + 3215;
+
     		String temp = "?client_id="	+ CLIENT_ID
     				+ "&zip=" + Uri.encode(address.getString("zip_code"))
     				+ "&city=" + Uri.encode(address.getString("city"))
@@ -329,7 +326,7 @@ public class ServerInteract {
     
     public static String removeOrder(int key, String authToken) {
     	String url = host + CUSTOMER_CART_URL + "/" + MenuData.getMerchantId();
-    	url = host + CUSTOMER_CART_URL + "/" + 3215;
+
     	// require for guest token
     	String temp = "?client_id="	+ CLIENT_ID + "&cart_index=" + key;
     	url += temp;
