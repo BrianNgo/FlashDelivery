@@ -193,7 +193,7 @@ public class ServerInteract {
             result = responseBody.getString("redirect_uri");
             if (!result.contains("?error=")) {
             	loginFlag = true;
-            	urlCode = result.substring(22, result.length() - 11);
+            	urlCode = result.substring(22, result.length() - 7);
             	result = "Signed in as: " + username;
             }
             

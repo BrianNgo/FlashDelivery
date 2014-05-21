@@ -4,8 +4,8 @@
     android:layout_height="match_parent"
     android:background="@drawable/bground1"
     tools:context=".SplashActivity" >
-    
-	<ImageView
+
+    <ImageView
         android:id="@+id/imageView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -14,36 +14,8 @@
         android:layout_alignParentTop="true"
         android:layout_marginTop="43dp"
         android:src="@drawable/banner_com" />
-	 <EditText
-       	android:id="@+id/firstname_box"
-        android:layout_width="220dp"
-        android:layout_height="25dp"
-        android:layout_centerInParent="true"
-      	android:layout_below="@+id/imageView1"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="20dp"            
-        android:background="@drawable/edittext_shadow"
-      	android:longClickable="false"
-        android:ems="10"
-        android:hint="First Name" 
-        android:textSize="13dp" />
-	 
-	  <EditText
-       	android:id="@+id/lastname_box"
-        android:layout_width="220dp"
-        android:layout_height="25dp"
-        android:layout_centerInParent="true"
-      	android:layout_below="@+id/firstname_box"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="20dp"            
-        android:background="@drawable/edittext_shadow"
-      	android:longClickable="false"
-        android:ems="10"
-        android:hint="last Name" 
-        android:textSize="13dp" />
-    
     <EditText
-       	android:id="@+id/email_box"
+       	android:id="@+id/firstname_box"
         android:layout_width="220dp"
         android:layout_height="25dp"
         android:layout_centerInParent="true"
@@ -53,7 +25,35 @@
         android:background="@drawable/edittext_shadow"
       	android:longClickable="false"
         android:ems="10"
-        android:hint="Username" 
+        android:hint="First Name" 
+        android:textSize="13dp" />
+    
+    <EditText
+       	android:id="@+id/lastname_box"
+        android:layout_width="220dp"
+        android:layout_height="25dp"
+        android:layout_centerInParent="true"
+      	android:layout_below="@+id/imageView1"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="20dp"            
+        android:background="@drawable/edittext_shadow"
+      	android:longClickable="false"
+        android:ems="10"
+        android:hint="Last Name" 
+        android:textSize="13dp" />
+    
+    <EditText
+       	android:id="@+id/email_box"
+        android:layout_width="220dp"
+        android:layout_height="25dp"
+        android:layout_centerInParent="true"
+      	android:layout_below="@+id/firstname_box"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="20dp"            
+        android:background="@drawable/edittext_shadow"
+      	android:longClickable="false"
+        android:ems="10"
+        android:hint="Email Address" 
         android:textSize="13dp" />
     
       <EditText
@@ -66,6 +66,8 @@
         android:layout_marginTop="20dp"            
         android:background="@drawable/edittext_shadow"
       	android:longClickable="false"
+      	android:inputType="textPassword"
+      	android:password="true"
         android:ems="10"
         android:hint="Password" 
         android:textSize="13dp" />
@@ -74,10 +76,12 @@
         android:id="@+id/btnSignup"
         android:layout_width="220dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp" 
         android:layout_alignLeft="@+id/passwd_box"
+        android:layout_alignRight="@+id/passwd_box"
         android:layout_below="@+id/passwd_box"
-        android:layout_marginTop="20dp"
-        android:gravity="center"
-        android:text="Create account" />
-          
+        android:text="Create Account" />
+
+
+
 </RelativeLayout>
