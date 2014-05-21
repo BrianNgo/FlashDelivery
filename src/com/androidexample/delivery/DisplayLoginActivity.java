@@ -31,7 +31,7 @@ public class DisplayLoginActivity extends BaseActivity {
         actionBar.setCustomView(R.layout.actionbar_top_login);
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         
-        // Get the string from itent
+        // Get the string from intent
         Intent i = getIntent();
         String message = i.getStringExtra(AccountFragment.EXTRA_MESSAGE);
         

@@ -22,6 +22,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -66,6 +67,9 @@ public class ServerInteract {
     final static String URI = "http://localhost";
     final static int SEARCH_MERCHANT = 0, SEARCH_MENU = 1;
     private static String urlCode = "";
+    private static boolean loginFlag = false;
+    
+    public static boolean getLoginFlag() { return loginFlag;}
     
     /**
      * The search method create a http call to delivery server
@@ -165,45 +169,70 @@ public class ServerInteract {
         return m;
     }
 
-    public static String userLogin(String username, String password) {
-//        String url = "https://api.delivery.com/third_party/authorize?client_id= + "
-//        		+ CLIENT_ID +"&scope=global&redirect_uri=" 
-//        		+ URLEncoder.encode(URI) + "&state=good&response_type=code";
-    	String url = "https://api.delivery.com/api/third_party/authorize?%2Fapi%2Fthird_party%2Fauthorize%2Flogout=&%2Fthird_party%2Fauthorize=&client_id=NzBlNjU4MWNkMzhhYTU4Y2IzOGM5NzU5ZjczN2IzN2I3&scope=global&redirect_uri=http%3A%2F%2Flocalhost&state=good&response_type=code";
+    public static String accountCreate(String fName, String lName, String username, String password) {
+    	String url = "https://api.delivery.com/third_party/account/create";
+    	String temp = "?client_id=" + Uri.encode(CLIENT_ID) + 
+        		"&redirect_uri=" + URI + "&response_type=code&scope=global&state=good";
         String result = "Not Connected\n";
-        username = "buu1989@yahoo.com";
-        password = "13121989";
 
         DefaultHttpClient httpClient = new DefaultHttpClient();
-        HttpPost httpPost = new HttpPost(url);
+        HttpPost httpPost = new HttpPost(url + temp);
 
         try {
-            ArrayList<BasicNameValuePair> pairs = new ArrayList<BasicNameValuePair>(2);
-            pairs.add(new BasicNameValuePair("username", username));
+            ArrayList<BasicNameValuePair> pairs = new ArrayList<BasicNameValuePair>();
+            pairs.add(new BasicNameValuePair("email", username));
             pairs.add(new BasicNameValuePair("password", password));
+            pairs.add(new BasicNameValuePair("first_name", fName));
+            pairs.add(new BasicNameValuePair("last_name", lName));
             httpPost.setEntity(new UrlEncodedFormEntity(pairs));
 
-            // Execute HTTP Post Request
-//            HttpResponse response = httpClient.execute(httpPost);
-//            StatusLine status = response.getStatusLine();
-            
             ResponseHandler<String> responseHandler = new BasicResponseHandler();
             JSONObject responseBody = new JSONObject(httpClient.execute(httpPost, responseHandler));
             
             
             result = responseBody.getString("redirect_uri");
             if (!result.contains("?error=")) {
+            	loginFlag = true;
             	urlCode = result.substring(22, result.length() - 11);
             	result = "Signed in as: " + username;
-            	result = urlCode;
             }
             
-//            if (status.getStatusCode() == HttpStatus.SC_OK) {
-//                result = "Signed in as: " + username;
-//	            urlCode = response.getFirstHeader("location").toString();
-//                result = urlCode;
-//            }
+            return result;
+        } catch (ClientProtocolException e) {e.printStackTrace();
+        } catch (UnsupportedEncodingException e1) {e1.printStackTrace();
+        } catch (IOException e) {e.printStackTrace();
+        } catch (JSONException e) {e.printStackTrace();}
+        return result;
+    }
+    
+    public static String userLogin(String username, String password) {
+        String url = "https://api.delivery.com/third_party/authorize";
+        String temp = "?client_id=" + Uri.encode(CLIENT_ID) + 
+        		"&redirect_uri=" + URI + "&response_type=code&scope=global&state=good";
+        String result = "Not Connected\n";
+        username = "buu1989@yahoo.com";
+        password = "13121989";
 
+        DefaultHttpClient httpClient = new DefaultHttpClient();
+        HttpPost httpPost = new HttpPost(url + temp);
+
+        try {
+            ArrayList<BasicNameValuePair> pairs = new ArrayList<BasicNameValuePair>();
+            pairs.add(new BasicNameValuePair("username", username));
+            pairs.add(new BasicNameValuePair("password", password));
+            httpPost.setEntity(new UrlEncodedFormEntity(pairs));
+
+            ResponseHandler<String> responseHandler = new BasicResponseHandler();
+            JSONObject responseBody = new JSONObject(httpClient.execute(httpPost, responseHandler));
+            
+            
+            result = responseBody.getString("redirect_uri");
+            if (!result.contains("?error=")) {
+            	loginFlag = true;
+            	urlCode = result.substring(22, result.length() - 11);
+            	result = "Signed in as: " + username;
+            }
+            
             return result;
         } catch (ClientProtocolException e) {e.printStackTrace();
         } catch (UnsupportedEncodingException e1) {e1.printStackTrace();

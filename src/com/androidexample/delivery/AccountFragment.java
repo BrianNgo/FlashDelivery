@@ -51,10 +51,16 @@ public class AccountFragment extends BaseFragment {
             // Calling the event
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Signup button pressed", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "Signup button pressed", Toast.LENGTH_SHORT).show();
+            	btnSignupPressed();
             }
         });
 
+    }
+    
+    public void btnSignupPressed() {
+        Intent i = new Intent(getApplicationContext(), SignupActivity.class);
+        startActivity(i);
     }
 
     // handle search button

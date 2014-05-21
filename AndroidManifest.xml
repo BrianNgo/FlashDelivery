@@ -94,6 +94,10 @@
             android:name="com.androidexample.delivery.DisplayLoginActivity"
             android:label="@string/title_activity_display_login" >
         </activity>
+        <activity
+            android:name="com.androidexample.delivery.SignupActivity"
+            android:label="@string/title_activity_signup" >
+        </activity>
     </application>
 
 </manifest>

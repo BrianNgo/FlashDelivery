@@ -41,5 +41,6 @@
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_check_out">Check Out</string>
     <string name="title_activity_display_login">Login</string>
+    <string name="title_activity_signup">SignupActivity</string>
 
 </resources>

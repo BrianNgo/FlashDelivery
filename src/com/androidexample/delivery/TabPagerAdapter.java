@@ -17,7 +17,7 @@ public class TabPagerAdapter extends FragmentPagerAdapter {
 			return new SearchFragment();
 		case 1:
 			return new OrderFragment();
-		case 2:
+		case 2: 
 			return new AccountFragment();
 		}
 		return null;
