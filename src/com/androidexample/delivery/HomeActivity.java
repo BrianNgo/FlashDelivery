@@ -1,5 +1,7 @@
 package com.androidexample.delivery;
 
+import java.util.ArrayList;
+
 import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
@@ -22,6 +24,7 @@ public class HomeActivity extends FragmentActivity implements OrderFragment.Home
 	private ToggleButton navBtnMap[];
 	private TabPagerAdapter tabAdapter;
 	private Context c = this;
+	private ArrayList<String> tabName = new ArrayList<String>();
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,8 +33,12 @@ public class HomeActivity extends FragmentActivity implements OrderFragment.Home
         
         Home.setHomeContext(c);
         
-        tabAdapter = new TabPagerAdapter(getSupportFragmentManager());
+        tabName.add("Home");
+        tabName.add("Order");
+        tabName.add("Account");
+        tabAdapter = new TabPagerAdapter(getSupportFragmentManager(), tabName);
 	    viewPager = (ViewPager) findViewById(R.id.pager);
+	    Home.setPager(viewPager);
         viewPager.setAdapter(tabAdapter);
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
  
@@ -75,10 +82,7 @@ public class HomeActivity extends FragmentActivity implements OrderFragment.Home
         setSelectedTab(0);   
     }
     
-    public void changeTab(View view) {
-    	BaseFragment fragment = (BaseFragment)getTabFragment(viewPager.getCurrentItem());
-    	fragment.onHideFragment();
-    	
+    public void changeTab(View view) {  	
         int position = Integer.parseInt(view.getTag().toString());
         viewPager.setCurrentItem(position, true);
         setSelectedTab(position);
@@ -144,12 +148,28 @@ public class HomeActivity extends FragmentActivity implements OrderFragment.Home
 
 	public static class Home{
 		private static Context con;
+		private static boolean login = false;
 		private static boolean order = false;
+		private static String userName = "";
+		private static String pass = "";
+		private static ViewPager v;
 		
 		public static void setHomeContext(Context c) {con = c;}
 		public static Context getHomeContext() {return con;}
 		
+		public static void setLoginTag(boolean b) {login = b;}
+		public static boolean getLoginTag() {return login;}
+		
 		public static void setOrder(boolean s) {order = s;}
 		public static boolean isOrder() {return order;}
+		
+		public static void setUserName(String u) {userName = u;}
+		public static String getUserName() {return userName;}
+		
+		public static void setPass(String p) {pass = p;}
+		public static String getPass() {return pass;}
+		
+		public static void setPager(ViewPager view) {v = view;}
+		public static void updatePager() {v.getAdapter().notifyDataSetChanged();}
 	}
 }

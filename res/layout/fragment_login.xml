@@ -1,0 +1,69 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bground1"
+    tools:context=".SplashActivity" >
+
+    <TextView
+        android:id="@+id/loginAs"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="5dp"
+        android:background="@color/lightblue2"
+        android:gravity="center"
+        android:paddingBottom="4dp"
+        android:paddingTop="4dp"
+        android:text="Log in as"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/white"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/btnFavorite"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/loginAs"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:text="Favorite" />
+
+    <Button
+        android:id="@+id/btnAddress"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btnFavorite"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:text="Address" />
+
+    <Button
+        android:id="@+id/btnCC"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btnAddress"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:text="Credit Card" />
+
+    <Button
+        android:id="@+id/btnChangePass"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btnCC"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:text="Change Password" />
+
+    <Button
+        android:id="@+id/btnLogout"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btnChangePass"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:text="Log Out" />
+
+</RelativeLayout>

@@ -157,10 +157,7 @@ private class createAccount extends AsyncTask<Void, Void, Void> {
     }
 
     public void viewResult() {
-    	Intent i = new Intent(getApplicationContext(), DisplayLoginActivity.class);
-    	i.putExtra(EXTRA_MESSAGE, message);
-    	startActivity(i);
-}
+    }
 
 
 	@Override

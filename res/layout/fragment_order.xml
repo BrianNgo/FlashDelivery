@@ -25,13 +25,11 @@
         android:layout_marginTop="5dp"
         android:layout_marginRight="5dp"
         android:gravity="center"
-        android:background="#FFFFFF"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:focusable="false"
         android:focusableInTouchMode="false"
-        android:text="Clear All"
-        android:textColor="@color/lightblue2" />
+        android:text="Clear All" />
     
     <ImageView
         android:id="@+id/imageView1"

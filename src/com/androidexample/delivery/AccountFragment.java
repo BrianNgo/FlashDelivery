@@ -1,5 +1,7 @@
 package com.androidexample.delivery;
 
+import com.androidexample.delivery.HomeActivity.Home;
+
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -11,16 +13,16 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 public class AccountFragment extends BaseFragment {
 
+    public static AccountFragment fragment;
+	
     public AccountFragment() {
-        super("Orders", R.layout.account_fragment,R.layout.actionbar_top_account, 2); // 0 is index of tab, next tabs will be 1 and 2
+        super("Orders", R.layout.fragment_account,R.layout.actionbar_top_account, 2); // 0 is index of tab, next tabs will be 1 and 2
         fragment = this;
     }
-
-    public static AccountFragment fragment;
+    
     private static String username = "";
     private static String message = "";
     private static String password = "";
@@ -154,9 +156,11 @@ public class AccountFragment extends BaseFragment {
         }
 
     public void viewResult() {
-        Intent i = new Intent(getApplicationContext(), DisplayLoginActivity.class);
-        i.putExtra(EXTRA_MESSAGE, message);
-        startActivity(i);
+    	Home.setLoginTag(true);
+    	Home.updatePager();
+//        Intent i = new Intent(getApplicationContext(), DisplayLoginActivity.class);
+//        i.putExtra(EXTRA_MESSAGE, message);
+//        startActivity(i);
     }
 
 

@@ -27,5 +27,17 @@
         android:minWidth="70dp"
         android:text="Logout"
         android:textColor="@color/white" />
+    
+    <Button
+        android:id="@+id/btnBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/login_top_txt"
+        android:layout_alignBottom="@+id/login_top_txt"
+        android:layout_alignParentLeft="true"
+        android:background="@drawable/backbox"
+        android:minWidth="70dp"
+        android:text="Back"
+        android:textColor="@color/white" />
 
 </RelativeLayout>

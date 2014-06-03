@@ -33,6 +33,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.androidexample.delivery.DisplayMerchantsActivity.MenuData;
+import com.androidexample.delivery.HomeActivity.Home;
 import com.androidexample.delivery.ItemOptionActivity.Item;
 import com.androidexample.delivery.SearchFragment.MerchantData;
 
@@ -228,7 +229,9 @@ public class ServerInteract {
             if (!result.contains("?error=")) {
             	loginFlag = true;
             	urlCode = result.substring(22, result.length() - 11);
-            	result = "Signed in as: " + username;
+            	result = username;
+            	Home.setUserName(username);
+            	Home.setPass(password);
             }
             
             return result;

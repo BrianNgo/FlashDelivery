@@ -81,12 +81,10 @@
         android:layout_alignParentBottom="true"
         android:layout_below="@+id/price"
         android:gravity="center"
-        android:background="#FFFFFF"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:focusable="false"
         android:focusableInTouchMode="false"
-        android:text="Remove"
-        android:textColor="@color/lightblue2" />
+        android:text="Remove" />
 
 </RelativeLayout>
