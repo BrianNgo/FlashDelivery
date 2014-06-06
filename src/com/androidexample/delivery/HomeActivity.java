@@ -124,7 +124,7 @@ public class HomeActivity extends FragmentActivity implements OrderFragment.Home
         return viewPager.getCurrentItem();
     }
 	
-	@Override
+	@Override	 
     protected void onDestroy() {
         super.onDestroy();
     }

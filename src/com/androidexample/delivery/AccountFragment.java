@@ -158,9 +158,6 @@ public class AccountFragment extends BaseFragment {
     public void viewResult() {
     	Home.setLoginTag(true);
     	Home.updatePager();
-//        Intent i = new Intent(getApplicationContext(), DisplayLoginActivity.class);
-//        i.putExtra(EXTRA_MESSAGE, message);
-//        startActivity(i);
     }
 
 

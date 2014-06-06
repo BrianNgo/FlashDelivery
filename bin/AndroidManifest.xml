@@ -25,7 +25,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.androidexample.delivery.HomeActivity" >
+        <activity 
+            android:name="com.androidexample.delivery.HomeActivity" 
+            android:windowSoftInputMode="adjustPan">
         </activity>
         FirstScreen
         <activity
