@@ -1,8 +1,109 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.androidexample.delivery.CheckOutActivity"
-    tools:ignore="MergeRootFrame" />
+    android:background="@drawable/bground1"
+    tools:context=".SplashActivity" >
 
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="43dp"
+        android:src="@drawable/banner_com" />
+    
+    <EditText
+       	android:id="@+id/ccnumber_box"
+        android:layout_width="220dp"
+        android:layout_height="25dp"
+        android:layout_centerInParent="true"
+      	android:layout_below="@+id/imageView1"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="20dp"            
+        android:background="@drawable/edittext_shadow"
+      	android:longClickable="false"
+        android:ems="10"
+        android:hint="Credit Card Number" 
+        android:textSize="13dp" 
+        android:singleLine="true"
+        android:imeOptions="actionNext"/>
+    
+      <EditText
+       	android:id="@+id/expmonth_box"
+        android:layout_width="220dp"
+        android:layout_height="25dp"
+        android:layout_centerInParent="true"
+      	android:layout_below="@+id/ccnumber_box"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="20dp"            
+        android:background="@drawable/edittext_shadow"
+      	android:longClickable="false"
+        android:ems="10"
+        android:hint="Exp. month" 
+        android:textSize="13dp" 
+        android:singleLine="true"
+        android:imeOptions="actionDone"/>
+      
+       <EditText
+       	android:id="@+id/expyear_box"
+        android:layout_width="220dp"
+        android:layout_height="25dp"
+        android:layout_centerInParent="true"
+      	android:layout_below="@+id/expmonth_box"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="20dp"            
+        android:background="@drawable/edittext_shadow"
+      	android:longClickable="false"
+        android:ems="10"
+        android:hint="Exp. year" 
+        android:textSize="13dp" 
+        android:singleLine="true"
+        android:imeOptions="actionDone"/>
+       
+        <EditText
+       	android:id="@+id/cvv_box"
+        android:layout_width="220dp"
+        android:layout_height="25dp"
+        android:layout_centerInParent="true"
+      	android:layout_below="@+id/expyear_box"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="20dp"            
+        android:background="@drawable/edittext_shadow"
+      	android:password="true"
+        android:ems="10"
+        android:hint="CVV" 
+        android:textSize="13dp" 
+        android:singleLine="true"
+        android:imeOptions="actionDone"/>
+        
+        <EditText
+       	android:id="@+id/billingzip_box"
+        android:layout_width="220dp"
+        android:layout_height="25dp"
+        android:layout_centerInParent="true"
+      	android:layout_below="@+id/cvv_box"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="20dp"            
+        android:background="@drawable/edittext_shadow"
+      	android:longClickable="false"
+        android:ems="10"
+        android:hint="Billing zip" 
+        android:textSize="13dp" 
+        android:singleLine="true"
+        android:imeOptions="actionDone"/>
+
+    <Button
+        android:id="@+id/btnAddCard"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/billingzip_box"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:text="Add Card" />
+
+   
+
+</RelativeLayout>

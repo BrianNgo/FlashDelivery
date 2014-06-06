@@ -27,7 +27,9 @@
       	android:longClickable="false"
         android:ems="10"
         android:hint="Username" 
-        android:textSize="13dp" />
+        android:textSize="13dp" 
+        android:singleLine="true"
+        android:imeOptions="actionNext"/>
     
       <EditText
        	android:id="@+id/password_box"
@@ -43,7 +45,9 @@
       	android:password="true"
         android:ems="10"
         android:hint="Password" 
-        android:textSize="13dp" />
+        android:textSize="13dp" 
+        android:singleLine="true"
+        android:imeOptions="actionDone"/>
 
     <Button
         android:id="@+id/btnSignup"
