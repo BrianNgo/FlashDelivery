@@ -49,11 +49,11 @@
             />
 
         <CheckBox
-            android:id="@+id/checkBox2"
+            android:id="@+id/pickup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/checkBox1"
-            android:layout_alignBottom="@+id/checkBox1"
+            android:layout_alignBaseline="@+id/delivery"
+            android:layout_alignBottom="@+id/delivery"
             android:layout_alignRight="@+id/search_box"
       		android:shadowColor="@color/black"
       		android:layout_marginTop="1dp"
@@ -61,10 +61,10 @@
 	        android:shadowDx="1"
 	        android:shadowDy="1"            
             android:typeface="sans"
-            android:text="Delivery" />
+            android:text="Pick up" />
 
         <CheckBox
-            android:id="@+id/checkBox1"
+            android:id="@+id/delivery"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/search_box_zip"
@@ -74,7 +74,8 @@
             android:shadowDx="1"
             android:shadowDy="1"
             android:shadowRadius="2.5"
-            android:text="Pick Up"
+            android:checked="true"
+            android:text="Delivery"
             android:typeface="sans" />
 
         <ImageButton
@@ -93,7 +94,7 @@
             android:id="@+id/search_btn"
             android:layout_width="150dp"
             android:layout_height="25dp"
-            android:layout_above="@+id/checkBox1"
+            android:layout_above="@+id/delivery"
             android:layout_alignRight="@+id/toogle_arrow"
             android:layout_alignTop="@+id/search_box_zip"
             android:background="@drawable/greenbox"
@@ -110,7 +111,7 @@
             android:id="@+id/icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/checkBox2"
+            android:layout_alignBottom="@+id/pickup"
             android:layout_centerHorizontal="true"
             android:src="@drawable/big_icon" 
             android:visibility="gone"/>

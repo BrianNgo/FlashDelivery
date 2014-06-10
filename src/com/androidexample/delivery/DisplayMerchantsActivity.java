@@ -100,7 +100,6 @@ public class DisplayMerchantsActivity extends BaseActivity {
 		mList.setItemsCanFocus(false);
 		mList.setAdapter(adapter);	
 
-
 		// Listview on item click listener
 		mList.setOnItemClickListener(new OnItemClickListener() {
 

@@ -3,7 +3,7 @@
 
     <string name="app_name">Delivery</string>
     <string name="menu_settings">Settings</string>
-    <string name="buildNumber">Build #1.1.8</string>
+    <string name="buildNumber">Build #1.1.9</string>
 
     <!-- Colors -->
     <color name="white">#F2F2F2</color>

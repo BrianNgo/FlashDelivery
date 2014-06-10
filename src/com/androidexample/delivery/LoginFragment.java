@@ -2,16 +2,10 @@ package com.androidexample.delivery;
 
 import com.androidexample.delivery.HomeActivity.Home;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,9 +17,6 @@ public class LoginFragment extends BaseFragment {
     }
 
     public static LoginFragment fragment;
-    private static String username = "";
-    private static String message = "";
-    private static String password = "";
     final static String EXTRA_MESSAGE = "";
 
     // button here

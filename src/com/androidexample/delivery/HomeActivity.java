@@ -56,7 +56,6 @@ public class HomeActivity extends FragmentActivity implements OrderFragment.Home
             }
         });
         
-        
 	    Animation a = AnimationUtils.loadAnimation(this, R.anim.progress_anim);
 	    a.setInterpolator(new Interpolator() {
 	        private final int frameCount = 8;
@@ -156,10 +155,10 @@ public class HomeActivity extends FragmentActivity implements OrderFragment.Home
 		
 		public static void setHomeContext(Context c) {con = c;}
 		public static Context getHomeContext() {return con;}
-		
+
 		public static void setLoginTag(boolean b) {login = b;}
 		public static boolean getLoginTag() {return login;}
-		
+
 		public static void setOrder(boolean s) {order = s;}
 		public static boolean isOrder() {return order;}
 		

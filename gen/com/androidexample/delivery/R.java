@@ -180,12 +180,11 @@ containing a value of this type.
         public static final int c_label=0x7f0a0037;
         public static final int cart=0x7f0a0047;
         public static final int ccnumber_box=0x7f0a0012;
-        public static final int checkBox1=0x7f0a004c;
-        public static final int checkBox2=0x7f0a004b;
         public static final int choice=0x7f0a0058;
         public static final int cuisine=0x7f0a0055;
         public static final int cvv_box=0x7f0a0015;
         public static final int d_label=0x7f0a0038;
+        public static final int delivery=0x7f0a004c;
         public static final int desc=0x7f0a003c;
         public static final int distance=0x7f0a0054;
         public static final int e_label=0x7f0a0039;
@@ -214,6 +213,7 @@ containing a value of this type.
         public static final int pager1=0x7f0a001c;
         public static final int passwd_box=0x7f0a002b;
         public static final int password_box=0x7f0a0033;
+        public static final int pickup=0x7f0a004b;
         public static final int price=0x7f0a003d;
         public static final int progress_view=0x7f0a002d;
         public static final int quantity=0x7f0a0007;

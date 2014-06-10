@@ -1,21 +1,30 @@
 package com.androidexample.delivery;
 
-
 import java.util.ArrayList;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.androidexample.delivery.HomeActivity.Home;
+
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -34,12 +43,10 @@ public class SearchFragment extends BaseFragment {
 	}
 	
 	public static SearchFragment fragment;
-	// Hold the user's input
-    final static String SEARCH_ADDRESS = "1330 1st Ave, 10021";
 	private String address = "";
-	// Search button
     private Button btnSearch;	
     private ImageButton toggle_location;    
+    private boolean gpsTag = false;
     
 
 	@Override
@@ -47,13 +54,51 @@ public class SearchFragment extends BaseFragment {
 		// buttons
 		btnSearch = (Button)view.findViewById(R.id.search_btn);
 		
-		// Set the button the listen the click event
-		final EditText text = (EditText)view.findViewById(R.id.search_box);
+		final EditText addr = (EditText) view.findViewById(R.id.search_box);
+		final EditText zip = (EditText) view.findViewById(R.id.search_box_zip);
+		
+		// checkboxes
+        final CheckBox delivery = (CheckBox) view.findViewById(R.id.delivery);
+        final CheckBox pickup = (CheckBox) view.findViewById(R.id.pickup);
+		
+        delivery.setOnClickListener(new OnClickListener() {
+        	@Override
+        	public void onClick(View v) {
+        		if (((CheckBox) v).isChecked()) {
+        			if (pickup.isChecked())
+        				pickup.setChecked(false);
+        			MerchantData.setOrderType("delivery");
+        		}
+        		else {
+        			if (!pickup.isChecked())
+        				delivery.setChecked(true);
+        			MerchantData.setOrderType("delivery");
+        		}
+        	}
+        });
+        
+        pickup.setOnClickListener(new OnClickListener() {
+        	@Override
+        	public void onClick(View v) {
+        		if (((CheckBox) v).isChecked()) {
+        			if (delivery.isChecked())
+        				delivery.setChecked(false);
+        			MerchantData.setOrderType("pickup");
+        		}
+        		else {
+        			if (!delivery.isChecked())
+        				pickup.setChecked(true);
+        			MerchantData.setOrderType("pickup");
+        		}
+        	}
+        });
+
+		// Set the button the listen the click event		
 		btnSearch.setOnClickListener(new OnClickListener() {
 			// Calling the event
 			@Override
 			public void onClick(View v) {
-				btnSearchPressed(text);
+				btnSearchPressed(addr, zip);
 			}
 		});
 		
@@ -71,90 +116,72 @@ public class SearchFragment extends BaseFragment {
 		
 	}
 	
-    /**
-     * The onCreate method displays the search screen,
-     * sets the search button to listen to the click event
-     * which will then trigger the Async task
-     */
-//	@Override
-//	public void onCreate(Bundle savedInstanceState) {
-//		super.onCreate(savedInstanceState);
-//		setContentView(R.layout.home_activity); 
-//		
-//		// top bar
-//		ActionBar actionbar = getActionBar();
-//	    actionbar.setCustomView(R.layout.actionbar_top_delivery_main_activity);
-//	    actionbar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-//	    
-//	    progressIcon =  (ImageView)findViewById(R.id.icon);
-//	    Animation a = AnimationUtils.loadAnimation(this, R.anim.progress_anim);
-//	    a.setInterpolator(new Interpolator() {
-//	        private final int frameCount = 8;
-//
-//	        @Override
-//	        public float getInterpolation(float input) {
-//	            return (float)Math.floor(input*frameCount)/frameCount;
-//	        }
-//	    });
-//	    a.setDuration(1000);
-//	    
-//	    
-//		
-//	    // share pref to check if app is opened 1st time
-//	    SharedPreferences settings = getSharedPreferences("prefs", 0);
-//	    SharedPreferences.Editor editor = settings.edit();
-//	    editor.putBoolean("firstRun", false);
-//	    editor.commit();
-//
-//	    boolean firstRun = settings.getBoolean("firstRun", true);
-//	    Log.d("TAG1", "firstRun: " + Boolean.valueOf(firstRun).toString());
-//		
-//		// buttons
-//		btnSearch = (Button)findViewById(R.id.search_btn);
-//		
-//		// Set the button the listen the click event
-//		btnSearch.setOnClickListener(new OnClickListener() {
-//			// Calling the event
-//			@Override
-//			public void onClick(View v) {
-//				btnSearchPressed();
-//			}
-//		});
-//		
-//		// toggle location
-//		toggle_location = (ImageButton)findViewById(R.id.toogle_arrow);
-//		toggle_location.setBackground(null);
-//		toggle_location.setOnClickListener(new OnClickListener() {
-//			// Calling the event
-//			@Override
-//			public void onClick(View v) {
-//				viewToggleLocation(v);
-//			}
-//		});
-//		
-//	}
-	
 	// handle toggle location
 	private void viewToggleLocation(View v) {		
 		if (v.isSelected()){
-			v.setSelected(false);			
+			v.setSelected(false);
+			gpsTag = false;
 			//...location off		
-			Toast.makeText(getApplicationContext(), "Turn off location, input manually", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getApplicationContext(), "Turn off GPS, input manually", Toast.LENGTH_SHORT).show();
 		} else {
 			v.setSelected(true);
-			//... location on	
-			Toast.makeText(getApplicationContext(), "Turn on location, address is shown", Toast.LENGTH_SHORT).show();
+			LocationManager locManager = (LocationManager) Home.getHomeContext().getSystemService(Context.LOCATION_SERVICE);
+			boolean enabled = locManager
+			  .isProviderEnabled(LocationManager.GPS_PROVIDER);
+			if (!enabled) {
+				gpsTag = false;
+				v.setSelected(false);
+				AlertDialog.Builder alert = new AlertDialog.Builder(getHomeActivity());
+				alert.setTitle("GPS not enable!");
+				alert.setMessage("Please go to settings and enable GPS or manually enter your address!");
+				alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						dialog.cancel();
+					}      
+				});
+				alert.show();
+			}
+			else {
+				Criteria criteria = new Criteria();
+			    String provider = locManager.getBestProvider(criteria, false); // can change gps only
+			    LocationListener mLocationListener = new LocationListener() {
+			        public void onLocationChanged(Location location) {}
+			        public void onStatusChanged(String provider, int status, Bundle extras) {}
+			        public void onProviderEnabled(String provider) {}
+			        public void onProviderDisabled(String provider) {}
+			    };
+
+				locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 1, mLocationListener);
+				locManager.removeUpdates(mLocationListener);
+			    Location location = locManager.getLastKnownLocation(provider);
+				//... location on
+			    if (location != null) {
+					gpsTag = true;
+			    	ServerInteract.setLat(location.getLatitude());
+			    	ServerInteract.setLong(location.getLongitude());
+			    }
+			    else {
+					gpsTag = false;
+					v.setSelected(false);
+					AlertDialog.Builder alert = new AlertDialog.Builder(getHomeActivity());
+					alert.setTitle("No Location Providers!");
+					alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int id) {
+							dialog.cancel();
+						}      
+					});
+					alert.show();
+			    }
+			}
 		}
 	}
 
-	
 	// handle search button
-	public void btnSearchPressed(EditText text) {	    
+	public void btnSearchPressed(EditText addr, EditText zip) {	    
 		// Calling async task 
-		
-		address = text.getText().toString();
+		address = addr.getText().toString() + zip.getText().toString();
 		Log.i("address = " + address, "**********************************");
-		if (address.equals("")) {
+		if (address.equals("") && !gpsTag) {
 			AlertDialog.Builder alert = new AlertDialog.Builder(getHomeActivity());
 			alert.setTitle("Error");
 			alert.setMessage("Please enter an address!");
@@ -168,6 +195,8 @@ public class SearchFragment extends BaseFragment {
 			new GetContacts().execute();
 		}	
 	}
+	
+	
 	
 	/**
 	 * The MerchantData class holds the search result as a string
@@ -205,6 +234,47 @@ public class SearchFragment extends BaseFragment {
 		public static JSONObject getAddress() {return geoCodedLocation;}
 	}
 	
+    public static ArrayList<Merchant> createMerList(JSONObject result) {
+
+        ArrayList<Merchant> m = new ArrayList<Merchant>();
+        try {
+            JSONObject searchResult = result;
+            JSONArray mArray = searchResult.getJSONArray("merchants");
+
+            // variables that hold info. for a merchant
+            String name, cuisine;
+            boolean status;
+            int id, rating;
+            double distance;
+            // create array of merchants
+            for (int i = 0; i < mArray.length(); i++)
+            {
+                if (mArray.getJSONObject(i).getJSONObject("summary").get("type").equals("R")) {
+                    cuisine = "";
+                    name = mArray.getJSONObject(i).getJSONObject("summary").getString("name");
+                    id = mArray.getJSONObject(i).getInt("id");
+                    rating = mArray.getJSONObject(i).getJSONObject("summary").getInt("overall_rating");
+                    status = mArray.getJSONObject(i).getJSONObject("ordering").getBoolean("is_open");
+                    try {
+                        JSONArray cui = mArray.getJSONObject(i).getJSONObject("summary")
+                                .getJSONArray("cuisines");
+                        int size = cui.length();
+                        for (int j = 0; j < size; j++)
+                            if (j < size - 1)
+                                cuisine = cuisine + cui.getString(j) + ", ";
+                            else
+                                cuisine = cuisine + cui.getString(j);
+                    } catch (JSONException e) {
+                        cuisine = "No tags";
+                    }
+                    distance = mArray.getJSONObject(i).getJSONObject("location").getDouble("distance");
+                    m.add(new Merchant(name, id, rating, status, cuisine, distance));
+                }
+            }
+        } catch (JSONException e) {e.printStackTrace();}
+        return m;
+    }
+	
 	/**
 	 * The viewResult methods call the DisplayRestaurant activity 
 	 * to display the list of merchants in the proper format 
@@ -213,12 +283,11 @@ public class SearchFragment extends BaseFragment {
 	public void viewResult() {
 		JSONObject searchResult = MerchantData.getResult();
 		try {
-			if (searchResult.getJSONArray("merchants").length() != 0) {
+			if (searchResult.getJSONArray("message").length() == 0) {
 				Intent i = new Intent(getApplicationContext(), DisplayMerchantsActivity.class); 
 				startActivity(i);	
 			}
 			else {
-
 				// Display error message
 				String msg = "Unknown Error";
 				try {
@@ -227,7 +296,7 @@ public class SearchFragment extends BaseFragment {
 					// TODO Auto-generated catch block
 					a.printStackTrace();
 				}
-				AlertDialog.Builder alert = new AlertDialog.Builder(getApplicationContext());
+				AlertDialog.Builder alert = new AlertDialog.Builder(Home.getHomeContext());
 				alert.setTitle("Error");
 				alert.setMessage(msg);
 				alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -278,11 +347,23 @@ public class SearchFragment extends BaseFragment {
 		 */
 		@Override
 		protected Void doInBackground(Void... arg0) {
-			
+			String search = "";
 			// SearchMerchants search = new SearchMerchants("input here");
-			MerchantData.setResult(ServerInteract.search(SEARCH_ADDRESS, 0));
-			MerchantData.setMerchantList(ServerInteract.createMerList(MerchantData.getResult()));
-			MerchantData.setAddress();
+			if (gpsTag) {
+				address = "";
+				search = ServerInteract.search(address, 2);
+				MerchantData.setResult(search);
+			}
+			else {
+				search = ServerInteract.search(address, 0);
+				MerchantData.setResult(search);
+			}
+			try {
+				if (MerchantData.getResult().getJSONArray("message").length() == 0 && !search.equals("")) {
+					MerchantData.setMerchantList(createMerList(MerchantData.getResult()));
+					MerchantData.setAddress();
+				}
+			} catch (JSONException e) {e.printStackTrace();}
 			return null;
 		}
 
@@ -293,21 +374,13 @@ public class SearchFragment extends BaseFragment {
 		@Override
 		protected void onPostExecute(Void result) {
 			super.onPostExecute(result);
+			dialog.dismiss();
 			// Showing custom progress view (background not disabled)
 			// hideLoading();
 			
 			// custom dialog
-			dialog.hide();
 			viewResult();
 		}
 
 	}
-	
-//	@Override
-//	public void onBackPressed() {
-//		// back button on device
-//		// empty is disabled
-//		//finish();
-//	}
-
 }
