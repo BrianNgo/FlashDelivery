@@ -41,7 +41,8 @@ public class HomeActivity extends FragmentActivity implements OrderFragment.Home
  
             @Override
             public void onPageSelected(int position) {
-            		setSelectedTab(position);
+            	setSelectedTab(position);
+            	Home.updatePager();
             }
  
             @Override
@@ -85,6 +86,7 @@ public class HomeActivity extends FragmentActivity implements OrderFragment.Home
         int position = Integer.parseInt(view.getTag().toString());
         viewPager.setCurrentItem(position, true);
         setSelectedTab(position);
+        Home.updatePager();
     }
      
     public void setSelectedTab(int position) {
