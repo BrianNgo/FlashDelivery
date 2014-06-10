@@ -101,6 +101,16 @@ public class OrderFragment extends BaseFragment {
     		Home.setOrder(false);
         	new AddToCart().execute();
         }
+        
+        btnClear.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            	EditOrder.setKey(0);
+    			orderList.removeAll(orderList);
+        		instrList.removeAll(instrList);
+            	fragment.new RemoveOrder().execute();
+            }
+        });
 	}
 	
 	@Override
@@ -116,6 +126,7 @@ public class OrderFragment extends BaseFragment {
 		public static String getGuestToken() {return guestToken;}
 		
 		public static int getKey() {return key;}
+		public static void setKey(int k) {key = k;}
 		
 		public static void removeOrder(int position, int k) {
 			orderList.remove(position);
@@ -251,7 +262,10 @@ public class OrderFragment extends BaseFragment {
 			int key = EditOrder.getKey();
 			try {
 				JSONObject temp = new JSONObject(ServerInteract.removeOrder(key, EditOrder.getGuestToken()));
-				totalPrice = temp.getDouble("subtotal");
+				if (key != 0)
+					totalPrice = temp.getDouble("subtotal");
+				else
+					totalPrice = 0;
 			} catch (JSONException e) {e.printStackTrace();}
 			
 			return null;

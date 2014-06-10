@@ -1,5 +1,7 @@
 package com.androidexample.delivery;
 
+import com.androidexample.delivery.HomeActivity.Home;
+
 import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
@@ -17,6 +19,7 @@ public class CheckOutActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_check_out);
+		Home.setOrder(false);
 	}
 
 	@Override

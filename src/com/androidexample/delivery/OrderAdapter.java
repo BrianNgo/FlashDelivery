@@ -10,6 +10,7 @@ import com.androidexample.delivery.OrderFragment.EditOrder;
 
 import android.app.Activity;
 import android.content.Context;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -56,7 +57,7 @@ public class OrderAdapter extends ArrayAdapter<JSONObject> {
 			holder = (OrderHolder) view.getTag();
 		
 		try {
-			holder.itemName.setText(data.get(position).getJSONObject("item").getString("name"));
+			holder.itemName.setText(Html.fromHtml(data.get(position).getJSONObject("item").getString("name")));
 			holder.quantity.setText("Quantity: " + data.get(position).getJSONObject("item").getInt("quantity"));
 			holder.price.setText("Price: $" + data.get(position).getJSONObject("item").getDouble("price"));
 			holder.instr.setText(data.get(position).getString("instruction"));

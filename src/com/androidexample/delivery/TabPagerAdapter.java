@@ -10,12 +10,9 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 
 public class TabPagerAdapter extends FragmentStatePagerAdapter {
-
-	private ArrayList<String> t;
 	
-	public TabPagerAdapter(FragmentManager fm, ArrayList<String> tab) {
+	public TabPagerAdapter(FragmentManager fm) {
 		super(fm);
-		t = tab;
 	}
 
 	@Override
@@ -36,7 +33,7 @@ public class TabPagerAdapter extends FragmentStatePagerAdapter {
 
 	@Override
 	public int getCount() {
-		return t.size();
+		return 3;
 	}
 	
     @Override

@@ -321,7 +321,11 @@ public class ServerInteract {
     	String url = host + CUSTOMER_CART_URL + "/" + MenuData.getMerchantId();
 
     	// require for guest token
-    	String temp = "?client_id="	+ CLIENT_ID + "&cart_index=" + key;
+    	String temp = "";
+    	if (key == 0)
+    		temp = "?clSient_id="	+ CLIENT_ID;
+    	else
+    		temp = "?clSient_id="	+ CLIENT_ID + "&cart_index=" + key;
     	url += temp;
     	
 		DefaultHttpClient client = new DefaultHttpClient();

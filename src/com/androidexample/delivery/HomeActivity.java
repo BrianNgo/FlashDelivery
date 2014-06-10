@@ -33,10 +33,7 @@ public class HomeActivity extends FragmentActivity implements OrderFragment.Home
         
         Home.setHomeContext(c);
         
-        tabName.add("Home");
-        tabName.add("Order");
-        tabName.add("Account");
-        tabAdapter = new TabPagerAdapter(getSupportFragmentManager(), tabName);
+        tabAdapter = new TabPagerAdapter(getSupportFragmentManager());
 	    viewPager = (ViewPager) findViewById(R.id.pager);
 	    Home.setPager(viewPager);
         viewPager.setAdapter(tabAdapter);
@@ -81,7 +78,10 @@ public class HomeActivity extends FragmentActivity implements OrderFragment.Home
         setSelectedTab(0);   
     }
     
-    public void changeTab(View view) {  	
+    public void changeTab(View view) {  
+//    	BaseFragment fragment = (BaseFragment) getTabFragment(viewPager.getCurrentItem());
+//    	fragment.onHideFragment();
+    	
         int position = Integer.parseInt(view.getTag().toString());
         viewPager.setCurrentItem(position, true);
         setSelectedTab(position);
