@@ -47,6 +47,7 @@ public class SearchFragment extends BaseFragment {
     private Button btnSearch;	
     private ImageButton toggle_location;    
     private boolean gpsTag = false;
+    private EditText addr;
     
 
 	@Override
@@ -54,7 +55,7 @@ public class SearchFragment extends BaseFragment {
 		// buttons
 		btnSearch = (Button)view.findViewById(R.id.search_btn);
 		
-		final EditText addr = (EditText) view.findViewById(R.id.search_box);
+		addr = (EditText) view.findViewById(R.id.search_box);
 		final EditText zip = (EditText) view.findViewById(R.id.search_box_zip);
 		
 		// checkboxes
@@ -120,6 +121,7 @@ public class SearchFragment extends BaseFragment {
 	private void viewToggleLocation(View v) {		
 		if (v.isSelected()){
 			v.setSelected(false);
+			addr.setText("");
 			gpsTag = false;
 			//...location off		
 			Toast.makeText(getApplicationContext(), "Turn off GPS, input manually", Toast.LENGTH_SHORT).show();
@@ -156,6 +158,7 @@ public class SearchFragment extends BaseFragment {
 			    Location location = locManager.getLastKnownLocation(provider);
 				//... location on
 			    if (location != null) {
+			    	addr.setText("Estimated Location...");
 					gpsTag = true;
 			    	ServerInteract.setLat(location.getLatitude());
 			    	ServerInteract.setLong(location.getLongitude());

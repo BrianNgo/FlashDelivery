@@ -22,7 +22,7 @@
 			android:layout_toRightOf="@+id/progress_view"
 			android:layout_marginLeft="10dp"
 			android:layout_centerVertical="true"
-	        android:text="Searching for restaurants..."
+	        android:text="Please wait..."
 	        android:textColor="@color/black" />
     
 
