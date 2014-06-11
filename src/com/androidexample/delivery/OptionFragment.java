@@ -161,8 +161,7 @@ public class OptionFragment extends Fragment {
                         for (int i = 0; i < oList.length(); i++) {
                         	double price = oList.getJSONObject(i).getDouble("price");
                             option.add(oList.getJSONObject(i).getString("name")
-                                    + ((price==0)?"":(" - Price: $" + price ))
-                                    + oList.getJSONObject(i).getString("id"));
+                                    + ((price==0)?"":(" - Price: $" + price )));
                             optionId.add(oList.getJSONObject(i).getString("id"));
                         }
 

@@ -104,15 +104,8 @@ public class HomeActivity extends FragmentActivity implements OrderFragment.Home
     protected void onResume() {
         super.onResume();
         try {
-        	Intent in = getIntent();
-        	int order = Integer.parseInt(in.getStringExtra("order"));
-        	if (order == 1) {
-        		Home.setOrder(true);
-        		viewPager.setCurrentItem(1, true);
-        	}
-        	else
-        		Home.setOrder(false);
-        		
+        	if (Home.isOrder())
+        		viewPager.setCurrentItem(1, true);        		
         } catch (NumberFormatException e) {}
     }
     

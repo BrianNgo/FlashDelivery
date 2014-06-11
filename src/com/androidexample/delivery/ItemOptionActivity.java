@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 import org.json.JSONArray;
 
+import com.androidexample.delivery.HomeActivity.Home;
+
 import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
@@ -71,7 +73,7 @@ public class ItemOptionActivity extends FragmentActivity {
                 Intent callIntent = new Intent(Intent.ACTION_CALL); 
                 callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 callIntent.setClass(c, HomeActivity.class);
-                callIntent.putExtra("order", "1");
+                Home.setOrder(true);
                 startActivity(callIntent);
             }
         });
