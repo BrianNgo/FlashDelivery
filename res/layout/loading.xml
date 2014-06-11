@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res/com.androidexample.delivery"
+    xmlns:app="http://schemas.android.com/apk/res/com.challengepost.flashdelivery"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@drawable/round_rect_dark"
     android:gravity="center"
     android:orientation="vertical" >
 
-	<com.androidexample.delivery.ProgressView
+	<com.challengepost.flashdelivery.ProgressView
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:src="@drawable/big_icon" 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.androidexample.delivery"
+    package="com.challengepost.flashdelivery"
     android:versionCode="1"
     android:versionName="2.0" >
 
@@ -21,7 +21,7 @@
         android:label="@string/app_name"
         android:theme="@style/MyTheme" >
         <activity
-            android:name="com.androidexample.delivery.SplashActivity"
+            android:name="com.challengepost.flashdelivery.SplashActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,14 +30,14 @@
             </intent-filter>
         </activity>
         <activity 
-            android:name="com.androidexample.delivery.HomeActivity" 
+            android:name="com.challengepost.flashdelivery.HomeActivity" 
             android:windowSoftInputMode="adjustPan">
         </activity>
         FirstScreen
         <activity
-            android:name="com.androidexample.delivery.DisplayMerchantsActivity"
+            android:name="com.challengepost.flashdelivery.DisplayMerchantsActivity"
             android:label="@string/title_activity_display_merchants"
-            android:parentActivityName="com.androidexample.delivery.SearchFragment"
+            android:parentActivityName="com.challengepost.flashdelivery.SearchFragment"
             android:uiOptions="splitActionBarWhenNarrow" >
             <meta-data
                 android:name="android.support.UI_OPTIONS"
@@ -47,7 +47,7 @@
                 android:value="com.androidexample.delivery.FirstScreen" />
         </activity>
         <activity
-            android:name="com.androidexample.delivery.SingleMerchantActivity"
+            android:name="com.challengepost.flashdelivery.SingleMerchantActivity"
             android:label="@string/title_activity_single_merchant"
             android:uiOptions="splitActionBarWhenNarrow" >
             <meta-data
@@ -55,9 +55,9 @@
                 android:value="splitActionBarWhenNarrow" />
         </activity>
         <activity
-            android:name="com.androidexample.delivery.DisplayMenuActivity"
+            android:name="com.challengepost.flashdelivery.DisplayMenuActivity"
             android:label="@string/title_activity_display_menu"
-            android:parentActivityName="com.androidexample.delivery.DisplayMerchantsActivity"
+            android:parentActivityName="com.challengepost.flashdelivery.DisplayMerchantsActivity"
             android:uiOptions="splitActionBarWhenNarrow" >
             <meta-data
                 android:name="android.support.UI_OPTIONS"
@@ -67,9 +67,9 @@
                 android:value="com.androidexample.delivery.DisplayMerchantsActivity" />
         </activity>
         <activity
-            android:name="com.androidexample.delivery.SortMerchantsActivity"
+            android:name="com.challengepost.flashdelivery.SortMerchantsActivity"
             android:label="@string/title_activity_sort_merchants"
-            android:parentActivityName="com.androidexample.delivery.DisplayMerchantsActivity"
+            android:parentActivityName="com.challengepost.flashdelivery.DisplayMerchantsActivity"
             android:uiOptions="splitActionBarWhenNarrow" >
             <meta-data
                 android:name="android.support.UI_OPTIONS"
@@ -79,29 +79,29 @@
                 android:value="com.androidexample.delivery.DisplayMerchantsActivity" />
         </activity>
         <activity
-            android:name="com.androidexample.delivery.SubMenuActivity"
+            android:name="com.challengepost.flashdelivery.SubMenuActivity"
             android:label="@string/title_activity_single_menu"
-            android:parentActivityName="com.androidexample.delivery.DisplayMenuActivity"
+            android:parentActivityName="com.challengepost.flashdelivery.DisplayMenuActivity"
             android:uiOptions="splitActionBarWhenNarrow" >
             <meta-data
                 android:name="android.support.UI_OPTIONS"
                 android:value="splitActionBarWhenNarrow" />
         </activity>
         <activity
-            android:name="com.androidexample.delivery.ItemOptionActivity"
+            android:name="com.challengepost.flashdelivery.ItemOptionActivity"
             android:label="@string/title_activity_item_option"
-            android:parentActivityName="com.androidexample.delivery.SubMenuActivity" >
+            android:parentActivityName="com.challengepost.flashdelivery.SubMenuActivity" >
         </activity>
         <activity
-            android:name="com.androidexample.delivery.CheckOutActivity"
+            android:name="com.challengepost.flashdelivery.CheckOutActivity"
             android:label="@string/title_activity_check_out" >
         </activity>
         <activity
-            android:name="com.androidexample.delivery.DisplayLoginActivity"
+            android:name="com.challengepost.flashdelivery.DisplayLoginActivity"
             android:label="@string/title_activity_display_login" >
         </activity>
         <activity
-            android:name="com.androidexample.delivery.SignupActivity"
+            android:name="com.challengepost.flashdelivery.SignupActivity"
             android:label="@string/title_activity_signup" >
         </activity>
     </application>
