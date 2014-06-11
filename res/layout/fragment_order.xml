@@ -39,7 +39,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_marginBottom="78dp"
-        android:src="@drawable/banner_com" />
+        android:src="@drawable/banner" />
 
     <TextView
         android:id="@+id/cart"

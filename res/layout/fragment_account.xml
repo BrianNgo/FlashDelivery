@@ -13,7 +13,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:layout_marginTop="43dp"
-        android:src="@drawable/banner_com" />
+        android:src="@drawable/banner" />
     
     <EditText
        	android:id="@+id/username_box"
