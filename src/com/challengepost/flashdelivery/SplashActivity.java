@@ -29,7 +29,7 @@ public class SplashActivity extends BaseActivity {
 		setContentView(R.layout.main_splash_screen);
 		
 		// ignore top bar for splash 
-		getActionBar().hide();
+		//getActionBar().hide();
 		
 		// build# currently not used
 		versionNumber = (TextView)findViewById(R.id.app_version);
